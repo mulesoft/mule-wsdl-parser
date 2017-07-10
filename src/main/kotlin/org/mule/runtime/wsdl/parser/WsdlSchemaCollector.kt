@@ -2,6 +2,8 @@ package org.mule.runtime.wsdl.parser
 
 import org.mule.metadata.xml.SchemaCollector
 import org.mule.service.soap.util.XmlTransformationException
+import org.w3c.dom.Node
+import java.io.StringWriter
 import java.util.*
 import javax.wsdl.Definition
 import javax.wsdl.Import
@@ -9,6 +11,18 @@ import javax.wsdl.Types
 import javax.wsdl.extensions.schema.Schema
 import javax.wsdl.extensions.schema.SchemaImport
 import javax.wsdl.extensions.schema.SchemaReference
+import javax.xml.transform.dom.DOMSource
+import javax.xml.transform.stream.StreamResult
+import javax.xml.transform.TransformerException
+import com.sun.xml.internal.ws.addressing.EndpointReferenceUtil.transform
+import javax.xml.transform.OutputKeys
+import javax.xml.transform.TransformerFactory
+import javax.xml.transform.Transformer
+import javax.xml.xpath.XPathExpressionException
+import javax.xml.xpath.XPathConstants
+import org.w3c.dom.NodeList
+import javax.xml.xpath.XPathFactory
+
 
 internal class WsdlSchemaCollector(private val definition: Definition) {
 
@@ -19,7 +33,7 @@ internal class WsdlSchemaCollector(private val definition: Definition) {
     collectSchemas(definition)
     schemas.forEach({ uri, schema ->
       try {
-//        collector.addSchema(uri, nodeToString(schema.getElement()))
+        collector.addSchema(uri, nodeToString(schema.getElement()))
       } catch (e: XmlTransformationException) {
         val message = if (uri.endsWith(".wsdl")) "Schema embedded in wsdl $uri" else "Schema $uri"
         throw RuntimeException("$message could not be parsed", e)
@@ -30,19 +44,11 @@ internal class WsdlSchemaCollector(private val definition: Definition) {
 
   private fun collectSchemas(definition: Definition) {
     collectFromTypes(definition.types)
-    definition.imports.values.forEach { wsdlImport ->
-      if (wsdlImport is Import) {
-        collectSchemas(wsdlImport.definition)
-      }
-    }
+    definition.imports.values.forEach { wsdlImport -> if (wsdlImport is Import) collectSchemas(wsdlImport.definition) }
   }
 
   private fun collectFromTypes(types: Types?) {
-    types?.extensibilityElements?.forEach { element ->
-      if (element is Schema) {
-        addSchema(element)
-      }
-    }
+    types?.extensibilityElements?.forEach { element -> if (element is Schema) addSchema(element) }
   }
 
   private fun addSchema(schema: Schema) {
@@ -55,22 +61,34 @@ internal class WsdlSchemaCollector(private val definition: Definition) {
   }
 
   private fun addImportedSchemas(schema: Schema) {
-    val imports = schema.imports.values
-    imports.forEach { vector ->
-      (vector as Vector<*>).forEach { element ->
-        if (element is SchemaImport) {
-          val importedSchema = element.referencedSchema
-          addSchema(importedSchema)
-        }
-      }
-    }
+    schema.imports.values.forEach { v -> (v as Vector<*>).forEach { e -> if (e is SchemaImport) addSchema(e.referencedSchema) } }
   }
 
   private fun addIncludedSchemas(schema: Schema) {
-    schema.includes.forEach { include ->
-      if (include is SchemaReference) {
-        addSchema(include.referencedSchema)
-      }
+    schema.includes.forEach { include -> if (include is SchemaReference) addSchema(include.referencedSchema) }
+  }
+
+  private fun nodeToString(node: Node): String {
+    try {
+      // Remove unwanted whitespaces
+      node.normalize()
+      val xpath = XPathFactory.newInstance().newXPath()
+      val expr = xpath.compile("//text()[normalize-space()='']")
+      val nodeList = expr.evaluate(node, XPathConstants.NODESET) as NodeList
+
+      (0..nodeList.length - 1).map { nodeList.item(it) }.forEach { it.parentNode.removeChild(it) }
+
+      // Create and setup transformer
+      val transformer = TransformerFactory.newInstance().newTransformer()
+      transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8")
+      transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes")
+
+      // Turn the node into a string
+      val writer = StringWriter()
+      transformer.transform(DOMSource(node), StreamResult(writer))
+      return writer.toString()
+    } catch (e: Exception) {
+      throw RuntimeException(e)
     }
   }
 }

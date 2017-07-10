@@ -5,6 +5,8 @@ import org.mule.runtime.wsdl.parser.model.OperationModel
 import org.mule.runtime.wsdl.parser.model.PortModel
 import org.mule.runtime.wsdl.parser.model.ServiceModel
 import org.mule.runtime.wsdl.parser.model.WsdlModel
+import org.mule.runtime.wsdl.parser.type.InputTypeParser
+import org.mule.runtime.wsdl.parser.type.OutputTypeParser
 import java.util.*
 import javax.wsdl.*
 import javax.wsdl.extensions.ExtensionRegistry
@@ -17,7 +19,11 @@ import javax.xml.namespace.QName
 
 class WsdlParser internal constructor(wsdlLocation: String) {
 
-  val wsdl = WsdlModel(wsdlLocation, parseServices(parseWsdl(wsdlLocation)))
+  private val definition = parseWsdl(wsdlLocation)
+  private val inputTypeParser = InputTypeParser(definition)
+  private val outputTypeParser = OutputTypeParser(definition)
+
+  val wsdl = WsdlModel(wsdlLocation, parseServices(definition))
 
   private fun parseServices(definition: Definition) = definition.services
       .map { (_, v) -> v as Service }
@@ -29,7 +35,7 @@ class WsdlParser internal constructor(wsdlLocation: String) {
 
   private fun parseOperations(port: Port): List<OperationModel> = port.binding.bindingOperations
       .map { v -> v as BindingOperation }
-      .map { bop -> OperationModel(bop.name, null!!, null!!) }
+      .map { bop -> OperationModel(bop.name, inputTypeParser.getParts(bop), outputTypeParser.getParts(bop)) }
 
   private fun parseWsdl(location: String): Definition {
     try {
@@ -57,7 +63,7 @@ class WsdlParser internal constructor(wsdlLocation: String) {
   }
 
   private fun findSoapAddress(port: Port): String? {
-    for (element in port.getExtensibilityElements()) {
+    for (element in port.extensibilityElements) {
       if (element is SOAPAddress) {
         return element.locationURI
       } else if (element is SOAP12Address) {
