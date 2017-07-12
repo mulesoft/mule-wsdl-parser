@@ -15,10 +15,10 @@ class SimpleWsdlSpec : Spek({
 
   val PORT = "TestPort"
   val SERVICE = "TestService"
-  val OPERATIONS = listOf("echo", "echoWithHeaders", "noParam", "noParamWithHeaders", "")
+  val OPERATIONS = listOf("echo", "echoWithHeaders", "noParam", "noParamWithHeaders", "fail", "echoAccount")
 
   val wsdl = currentThread().contextClassLoader.getResource("wsdl/simple.wsdl")
-  val parsed = WsdlParser(wsdl.file).wsdl
+  val parsed = WsdlParser.parse(wsdl.file)
 
   given("a wsdl file") {
     it("should have a single service") {
@@ -33,9 +33,9 @@ class SimpleWsdlSpec : Spek({
       assert.that(ports[0].name, equalTo(PORT))
     }
 
-    it("should have ports with 5 operations") {
+    it("should have ports with 6 operations") {
       val operations = parsed.services[0].ports[0].operations
-      assert.that(operations, hasSize(equalTo(5)))
+      assert.that(operations, hasSize(equalTo(6)))
       assert.that(operations.map { it.name }, anyElement(OPERATIONS::contains))
     }
   }

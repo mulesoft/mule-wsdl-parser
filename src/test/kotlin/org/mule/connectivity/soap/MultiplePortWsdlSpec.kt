@@ -22,7 +22,7 @@ class MultiplePortWsdlSpec : Spek({
   val GET_CITIES = "GetCitiesByCountry"
 
   val wsdl = currentThread().contextClassLoader.getResource("wsdl/weather.wsdl")
-  val parsed = WsdlParser(wsdl.file).wsdl
+  val parsed = WsdlParser.parse(wsdl.file)
   given("a wsdl file") {
     it("should have a single service") {
       assert.that(parsed.services, hasSize(equalTo(1)))

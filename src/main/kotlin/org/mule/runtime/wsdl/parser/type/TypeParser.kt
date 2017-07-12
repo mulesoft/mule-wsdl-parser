@@ -22,17 +22,7 @@ abstract class TypeParser(private val definition: Definition) {
 
   val loader: TypeLoader = XmlTypeLoader(WsdlSchemaCollector(definition).collect())
   fun getParts(bop: BindingOperation): List<MessagePartModel> {
-    val parts = mutableListOf<MessagePartModel>()
     return getMessage(bop)?.parts?.map { (_, p) -> toMessagePartModel(p as Part, getPartType(bop, p)) } ?: emptyList()
-
-//    getExtensibilityElements(bop).forEach({ e ->
-//      when(e) {
-//        is SOAPBody -> parts.addAll(toMessagePartModels(bop, e.parts))
-//        is SOAP12Body -> parts.addAll(toMessagePartModels(bop, e.parts))
-//        is SOAPHeader -> parts.add(toMessagePartModel(e.part as Part, PartType.HEADER))
-//        is SOAP12Header -> parts.add(toMessagePartModel(e.part as Part, PartType.HEADER))
-//      }
-//    })
   }
 
   private fun getPartType(bop: BindingOperation, part:Part): PartType {
@@ -45,10 +35,6 @@ abstract class TypeParser(private val definition: Definition) {
     })
     return if (parts.contains(part.name)) PartType.HEADER else PartType.BODY
   }
-
-//  private fun toMessagePartModels(bop: BindingOperation, parts: List<Any?>?): List<MessagePartModel> {
-//    return parts?.filterIsInstance(Part::class.java)?.map { p -> toMessagePartModel(p, PartType.BODY) } ?: listOf()
-//  }
 
   private fun toMessagePartModel(part: Part, partType: PartType): MessagePartModel {
     if (part.elementName != null) {

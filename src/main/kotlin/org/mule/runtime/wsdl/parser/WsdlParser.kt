@@ -17,13 +17,12 @@ import javax.wsdl.extensions.soap12.SOAP12Address
 import javax.wsdl.factory.WSDLFactory
 import javax.xml.namespace.QName
 
-class WsdlParser internal constructor(wsdlLocation: String) {
+class WsdlParser private constructor(wsdlLocation: String) {
 
   private val definition = parseWsdl(wsdlLocation)
   private val inputTypeParser = InputTypeParser(definition)
   private val outputTypeParser = OutputTypeParser(definition)
-
-  val wsdl = WsdlModel(wsdlLocation, parseServices(definition))
+  internal val wsdl = WsdlModel(wsdlLocation, parseServices(definition))
 
   private fun parseServices(definition: Definition) = definition.services
       .map { (_, v) -> v as Service }
@@ -73,5 +72,10 @@ class WsdlParser internal constructor(wsdlLocation: String) {
       }
     }
     return null
+  }
+
+  companion object {
+
+    fun parse(wsdlLocation: String): WsdlModel = WsdlParser(wsdlLocation).wsdl
   }
 }

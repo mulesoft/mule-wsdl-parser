@@ -1,7 +1,6 @@
 package org.mule.runtime.wsdl.parser
 
 import org.mule.metadata.xml.SchemaCollector
-import org.mule.service.soap.util.XmlTransformationException
 import org.w3c.dom.Node
 import java.io.StringWriter
 import java.util.*
@@ -13,12 +12,8 @@ import javax.wsdl.extensions.schema.SchemaImport
 import javax.wsdl.extensions.schema.SchemaReference
 import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
-import javax.xml.transform.TransformerException
-import com.sun.xml.internal.ws.addressing.EndpointReferenceUtil.transform
 import javax.xml.transform.OutputKeys
 import javax.xml.transform.TransformerFactory
-import javax.xml.transform.Transformer
-import javax.xml.xpath.XPathExpressionException
 import javax.xml.xpath.XPathConstants
 import org.w3c.dom.NodeList
 import javax.xml.xpath.XPathFactory
@@ -34,8 +29,8 @@ internal class WsdlSchemaCollector(private val definition: Definition) {
     schemas.forEach({ uri, schema ->
       try {
         collector.addSchema(uri, nodeToString(schema.getElement()))
-      } catch (e: XmlTransformationException) {
-        val message = if (uri.endsWith(".wsdl")) "Schema embedded in wsdl $uri" else "Schema $uri"
+      } catch (e: Exception) {
+        val message = if (uri.endsWith(".wsdl")) "Schema embedded in wsdl [$uri]" else "Schema [$uri]"
         throw RuntimeException("$message could not be parsed", e)
       }
     })

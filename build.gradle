@@ -27,15 +27,8 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
-
     compile group: 'wsdl4j', name: 'wsdl4j', version: '1.6.3'
-
-    compile 'org.mule.services:mule-service-soap:1.0.0-SNAPSHOT'
-
     compile group: 'org.mule.runtime', name: 'mule-metadata-model-xml', version: '1.0.0-SNAPSHOT'
-    compile group: 'org.mule.runtime', name: 'mule-metadata-model-xml', version: '1.0.0-SNAPSHOT'
-
-    // Util
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
 
     testCompile "org.jetbrains.spek:spek-api:1.1.2"
