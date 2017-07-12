@@ -21,7 +21,7 @@ import javax.xml.xpath.XPathFactory
 
 internal class WsdlSchemaCollector(private val definition: Definition) {
 
-  private val schemas: MutableMap<String, Schema> = hashMapOf()
+  val schemas: MutableMap<String, Schema> = hashMapOf()
 
   fun collect(): SchemaCollector {
     val collector = SchemaCollector.getInstance()
