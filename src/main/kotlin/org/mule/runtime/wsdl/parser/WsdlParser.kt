@@ -7,7 +7,6 @@ import org.mule.runtime.wsdl.parser.model.ServiceModel
 import org.mule.runtime.wsdl.parser.model.WsdlModel
 import org.mule.runtime.wsdl.parser.type.InputTypeParser
 import org.mule.runtime.wsdl.parser.type.OutputTypeParser
-import java.util.*
 import javax.wsdl.*
 import javax.wsdl.extensions.ExtensionRegistry
 import javax.wsdl.extensions.http.HTTPAddress
@@ -20,9 +19,10 @@ import javax.xml.namespace.QName
 class WsdlParser private constructor(wsdlLocation: String) {
 
   private val definition = parseWsdl(wsdlLocation)
-  private val inputTypeParser = InputTypeParser(definition)
-  private val outputTypeParser = OutputTypeParser(definition)
-  internal val wsdl = WsdlModel(wsdlLocation, parseServices(definition))
+  private val schemaCollector = WsdlSchemaCollector(definition)
+  private val inputTypeParser = InputTypeParser(definition, schemaCollector.getCollector())
+  private val outputTypeParser = OutputTypeParser(definition, schemaCollector.getCollector())
+  internal val wsdl = WsdlModel(wsdlLocation, parseServices(definition), schemaCollector.parsedSchemas)
 
   private fun parseServices(definition: Definition) = definition.services
       .map { (_, v) -> v as Service }
@@ -75,7 +75,6 @@ class WsdlParser private constructor(wsdlLocation: String) {
   }
 
   companion object {
-
     fun parse(wsdlLocation: String): WsdlModel = WsdlParser(wsdlLocation).wsdl
   }
 }

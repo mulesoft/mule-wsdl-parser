@@ -16,25 +16,37 @@ import javax.xml.transform.OutputKeys
 import javax.xml.transform.TransformerFactory
 import javax.xml.xpath.XPathConstants
 import org.w3c.dom.NodeList
+import java.io.ByteArrayInputStream
+import java.io.InputStream
 import javax.xml.xpath.XPathFactory
 
+internal class WsdlSchemaCollector(definition: Definition) {
 
-internal class WsdlSchemaCollector(private val definition: Definition) {
+  private val schemas: MutableMap<String, Schema> = hashMapOf()
+  val parsedSchemas: Map<String, String>
 
-  val schemas: MutableMap<String, Schema> = hashMapOf()
-
-  fun collect(): SchemaCollector {
-    val collector = SchemaCollector.getInstance()
+  init {
     collectSchemas(definition)
+    parsedSchemas = parseSchemas()
+  }
+
+  fun getCollector(): SchemaCollector {
+    val collector = SchemaCollector.getInstance()
+    parsedSchemas.forEach({ uri, schema -> collector.addSchema(uri, schema) })
+    return collector
+  }
+
+  private fun parseSchemas(): Map<String, String> {
+    val schemaStreams = mutableMapOf<String, String>()
     schemas.forEach({ uri, schema ->
       try {
-        collector.addSchema(uri, nodeToString(schema.getElement()))
+        schemaStreams.put(uri, nodeToString(schema.element))
       } catch (e: Exception) {
         val message = if (uri.endsWith(".wsdl")) "Schema embedded in wsdl [$uri]" else "Schema [$uri]"
         throw RuntimeException("$message could not be parsed", e)
       }
     })
-    return collector
+    return schemaStreams.toMap()
   }
 
   private fun collectSchemas(definition: Definition) {

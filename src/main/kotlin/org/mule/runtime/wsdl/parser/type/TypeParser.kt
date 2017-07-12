@@ -3,8 +3,8 @@ package org.mule.runtime.wsdl.parser.type
 import org.mule.metadata.api.TypeLoader
 import org.mule.metadata.api.builder.BaseTypeBuilder
 import org.mule.metadata.api.model.MetadataFormat
+import org.mule.metadata.xml.SchemaCollector
 import org.mule.metadata.xml.XmlTypeLoader
-import org.mule.runtime.wsdl.parser.WsdlSchemaCollector
 import org.mule.runtime.wsdl.parser.model.MessagePartModel
 import org.mule.runtime.wsdl.parser.model.MessagePartModel.PartType
 import javax.wsdl.BindingOperation
@@ -14,13 +14,14 @@ import javax.wsdl.Part
 import javax.wsdl.extensions.soap.SOAPHeader
 import javax.wsdl.extensions.soap12.SOAP12Header
 import javax.xml.namespace.QName
-abstract class TypeParser(private val definition: Definition) {
+abstract class TypeParser(private val definition: Definition, collector: SchemaCollector) {
 
   companion object {
     private val STRING_TYPE = BaseTypeBuilder.create(MetadataFormat.XML).stringType().build()
   }
 
-  val loader: TypeLoader = XmlTypeLoader(WsdlSchemaCollector(definition).collect())
+  val loader: TypeLoader = XmlTypeLoader(collector)
+
   fun getParts(bop: BindingOperation): List<MessagePartModel> {
     return getMessage(bop)?.parts?.map { (_, p) -> toMessagePartModel(p as Part, getPartType(bop, p)) } ?: emptyList()
   }
