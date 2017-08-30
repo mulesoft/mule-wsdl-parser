@@ -1,10 +1,6 @@
 group 'org.mule.wsdl'
 version '0.0.1'
 
-repositories {
-    mavenCentral()
-}
-
 buildscript {
     ext.kotlin_version = '1.1.2'
 
@@ -80,4 +76,13 @@ dependencies {
     testRuntime "org.jetbrains.spek:spek-junit-platform-engine:1.1.2"
     testCompile "com.natpryce:hamkrest:1.4.1.0"
     testRuntime "org.junit.platform:junit-platform-console:1.0.0-M4"
+}
+
+publishing {
+    repositories {
+        maven {
+            name "mule-releases"
+            url "https://repository-master.mulesoft.org/nexus/content/repositories/${project.version.endsWith('-SNAPSHOT') ? 'snapshots/' : 'releases/'}"
+        }
+    }
 }
