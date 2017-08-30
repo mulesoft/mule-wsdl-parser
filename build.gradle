@@ -3,7 +3,6 @@ version '0.0.1'
 
 repositories {
     mavenCentral()
-    mavenLocal()
 }
 
 buildscript {
@@ -11,8 +10,23 @@ buildscript {
 
     repositories {
         mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+        maven {
+            name "mule-ee-releases"
+            url "https://repository.mulesoft.org/nexus/content/repositories/ci-releases/"
+        }
+        maven {
+            name "mule-ee-snapshots"
+            url "https://repository.mulesoft.org/nexus/content/repositories/ci-snapshots/"
+        }
+        maven {
+            name "mule-snapshots"
+            url "http://repository.mulesoft.org/nexus/content/repositories/snapshots/"
+        }
     }
-
+    
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
@@ -24,6 +38,36 @@ apply plugin: 'maven-publish'
 
 repositories {
     mavenCentral()
+    
+    //Mule repositories
+    maven {
+        name "mule-ee-releases"
+        url "https://repository.mulesoft.org/nexus/content/repositories/ci-releases/"
+    }
+    maven {
+        name "mule-ee-snapshots"
+        url "https://repository.mulesoft.org/nexus/content/repositories/ci-snapshots/"
+    }
+    maven {
+        name "mule-releases"
+        url "http://repository.mulesoft.org/nexus/content/repositories/releases/"
+    }
+    maven {
+        name "mule-snapshots"
+        url "http://repository.mulesoft.org/nexus/content/repositories/snapshots/"
+    }
+    maven {
+        name "mule-ee-private"
+        url "http://repository.mulesoft.org/nexus/content/repositories/private/"
+    }
+    maven {
+        name "mule-ee-dependencies"
+        url "https://repository.mulesoft.org/nexus/content/groups/mule-ee-dependencies/"
+    }
+    maven {
+        name "spring-snapshot"
+        url "http://repo.spring.io/snapshot/"
+    }
 }
 
 dependencies {
