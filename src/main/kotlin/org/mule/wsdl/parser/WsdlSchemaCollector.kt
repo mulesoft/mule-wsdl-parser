@@ -1,4 +1,4 @@
-package org.mule.runtime.wsdl.parser
+package org.mule.wsdl.parser
 
 import org.mule.metadata.xml.SchemaCollector
 import org.w3c.dom.Node
@@ -16,8 +16,6 @@ import javax.xml.transform.OutputKeys
 import javax.xml.transform.TransformerFactory
 import javax.xml.xpath.XPathConstants
 import org.w3c.dom.NodeList
-import java.io.ByteArrayInputStream
-import java.io.InputStream
 import javax.xml.xpath.XPathFactory
 
 internal class WsdlSchemaCollector(definition: Definition) {
