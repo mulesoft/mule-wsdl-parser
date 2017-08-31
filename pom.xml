@@ -13,9 +13,14 @@
         <junit.version>4.12</junit.version>
         <wsdl4j.version>1.6.3</wsdl4j.version>
         <apache.version>3.6</apache.version>
+        <spek.version>1.1.2</spek.version>
+        <hamkrest.version>1.4.1.0</hamkrest.version>
         <mule.metadata.version>1.0.0-SNAPSHOT</mule.metadata.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <name>WSDL Parser</name>
+    <description>A tool that provides functionality to introspect a WSDL</description>
 
     <dependencies>
         <dependency>
@@ -47,25 +52,24 @@
         <dependency>
             <groupId>org.jetbrains.spek</groupId>
             <artifactId>spek-api</artifactId>
-            <version>1.1.2</version>
+            <version>${spek.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.spek</groupId>
             <artifactId>spek-junit-platform-engine</artifactId>
-            <version>1.1.2</version>
+            <version>${spek.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.natpryce</groupId>
             <artifactId>hamkrest</artifactId>
-            <version>1.4.1.0</version>
+            <version>${hamkrest.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
 
     <distributionManagement>
-        <downloadUrl>http://www.mulesoft.org/display/MULE/Download</downloadUrl>
         <repository>
             <id>mule-releases</id>
             <name>Mule Release Repository</name>
@@ -91,14 +95,6 @@
             <url>http://repo.spring.io/snapshot/</url>
         </repository>
     </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>mule-plugin</id>
-            <name>Mule Repository</name>
-            <url>https://repository.mulesoft.org/nexus/content/repositories/public/</url>
-        </pluginRepository>
-    </pluginRepositories>
     
     <build>
         <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
