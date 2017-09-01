@@ -1,12 +1,12 @@
-package org.mule.runtime.wsdl.parser
+package org.mule.wsdl.parser
 
 import com.ibm.wsdl.extensions.schema.SchemaSerializer
-import org.mule.runtime.wsdl.parser.model.OperationModel
-import org.mule.runtime.wsdl.parser.model.PortModel
-import org.mule.runtime.wsdl.parser.model.ServiceModel
-import org.mule.runtime.wsdl.parser.model.WsdlModel
-import org.mule.runtime.wsdl.parser.type.InputTypeParser
-import org.mule.runtime.wsdl.parser.type.OutputTypeParser
+import org.mule.wsdl.parser.model.OperationModel
+import org.mule.wsdl.parser.model.PortModel
+import org.mule.wsdl.parser.model.ServiceModel
+import org.mule.wsdl.parser.model.WsdlModel
+import org.mule.wsdl.parser.type.InputTypeParser
+import org.mule.wsdl.parser.type.OutputTypeParser
 import javax.wsdl.*
 import javax.wsdl.extensions.ExtensionRegistry
 import javax.wsdl.extensions.http.HTTPAddress
@@ -45,8 +45,8 @@ class WsdlParser private constructor(wsdlLocation: String) {
       wsdlReader.setFeature("javax.wsdl.verbose", false)
       wsdlReader.setFeature("javax.wsdl.importDocuments", true)
       return wsdlReader.readWSDL(location)
-    } catch (var5: WSDLException) {
-      throw RuntimeException("")
+    } catch (exception: WSDLException) {
+      throw RuntimeException("Could not parse wsdl: $location", exception)
     }
   }
 

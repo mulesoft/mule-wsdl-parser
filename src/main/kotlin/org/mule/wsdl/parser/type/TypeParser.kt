@@ -1,12 +1,12 @@
-package org.mule.runtime.wsdl.parser.type
+package org.mule.wsdl.parser.type
 
 import org.mule.metadata.api.TypeLoader
 import org.mule.metadata.api.builder.BaseTypeBuilder
 import org.mule.metadata.api.model.MetadataFormat
 import org.mule.metadata.xml.SchemaCollector
 import org.mule.metadata.xml.XmlTypeLoader
-import org.mule.runtime.wsdl.parser.model.MessagePartModel
-import org.mule.runtime.wsdl.parser.model.MessagePartModel.PartType
+import org.mule.wsdl.parser.model.MessagePartModel
+import org.mule.wsdl.parser.model.MessagePartModel.PartType
 import javax.wsdl.BindingOperation
 import javax.wsdl.Definition
 import javax.wsdl.Message
@@ -26,7 +26,7 @@ abstract class TypeParser(private val definition: Definition, collector: SchemaC
     return getMessage(bop)?.parts?.map { (_, p) -> toMessagePartModel(p as Part, getPartType(bop, p)) } ?: emptyList()
   }
 
-  private fun getPartType(bop: BindingOperation, part:Part): PartType {
+  private fun getPartType(bop: BindingOperation, part: Part): PartType {
     val parts = mutableListOf<String>()
     getExtensibilityElements(bop).forEach({ e ->
       when(e) {

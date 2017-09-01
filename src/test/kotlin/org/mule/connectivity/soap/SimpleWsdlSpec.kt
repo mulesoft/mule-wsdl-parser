@@ -1,12 +1,14 @@
 package org.mule.connectivity.soap
 
-import com.natpryce.hamkrest.*
+import com.natpryce.hamkrest.anyElement
 import com.natpryce.hamkrest.assertion.assert
+import com.natpryce.hamkrest.equalTo
+import com.natpryce.hamkrest.hasSize
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
-import org.mule.runtime.wsdl.parser.WsdlParser
-import java.lang.Thread.*
+import org.mule.wsdl.parser.WsdlParser
+import java.lang.Thread.currentThread
 
 class SimpleWsdlSpec : Spek({
 

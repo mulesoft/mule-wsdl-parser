@@ -1,4 +1,4 @@
-package org.mule.runtime.wsdl.parser.model
+package org.mule.wsdl.parser.model
 
 enum class Version(val versionName: String) {
   V1_1("1.1"),

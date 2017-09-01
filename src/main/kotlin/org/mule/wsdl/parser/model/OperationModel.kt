@@ -1,4 +1,4 @@
-package org.mule.runtime.wsdl.parser.model
+package org.mule.wsdl.parser.model
 
 import org.mule.metadata.api.builder.BaseTypeBuilder
 import org.mule.metadata.api.model.BinaryType
@@ -6,7 +6,7 @@ import org.mule.metadata.api.model.MetadataFormat.XML
 import org.mule.metadata.api.model.MetadataType
 import org.mule.metadata.api.model.ObjectFieldType
 import org.mule.metadata.api.model.ObjectType
-import org.mule.runtime.wsdl.parser.model.MessagePartModel.PartType.*
+import org.mule.wsdl.parser.model.MessagePartModel.PartType.*
 
 class OperationModel(override val name: String,
                      inputParts: List<MessagePartModel>,
