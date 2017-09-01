@@ -45,8 +45,8 @@ class WsdlParser private constructor(wsdlLocation: String) {
       wsdlReader.setFeature("javax.wsdl.verbose", false)
       wsdlReader.setFeature("javax.wsdl.importDocuments", true)
       return wsdlReader.readWSDL(location)
-    } catch (var5: WSDLException) {
-      throw RuntimeException("")
+    } catch (exception: WSDLException) {
+      throw RuntimeException("Could not parse wsdl: $location", exception)
     }
   }
 
