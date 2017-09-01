@@ -6,7 +6,7 @@
 
     <groupId>org.mule.wsdl</groupId>
     <artifactId>mule-wsdl-parser</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.1-SNAPSHOT</version>
 
     <properties>
         <kotlin.version>1.1.2</kotlin.version>
