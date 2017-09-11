@@ -1,6 +1,6 @@
 package org.mule.wsdl.parser.type
 
-import org.mule.metadata.xml.SchemaCollector
+import org.mule.metadata.xml.api.SchemaCollector
 import javax.wsdl.BindingOperation
 import javax.wsdl.Definition
 

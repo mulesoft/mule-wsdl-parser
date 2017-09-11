@@ -1,6 +1,6 @@
 package org.mule.wsdl.parser
 
-import org.mule.metadata.xml.SchemaCollector
+import org.mule.metadata.xml.api.SchemaCollector
 import org.w3c.dom.Node
 import java.io.StringWriter
 import java.util.*
