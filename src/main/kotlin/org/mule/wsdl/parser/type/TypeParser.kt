@@ -3,8 +3,8 @@ package org.mule.wsdl.parser.type
 import org.mule.metadata.api.TypeLoader
 import org.mule.metadata.api.builder.BaseTypeBuilder
 import org.mule.metadata.api.model.MetadataFormat
-import org.mule.metadata.xml.SchemaCollector
-import org.mule.metadata.xml.XmlTypeLoader
+import org.mule.metadata.xml.api.SchemaCollector
+import org.mule.metadata.xml.api.XmlTypeLoader
 import org.mule.wsdl.parser.model.MessagePartModel
 import org.mule.wsdl.parser.model.MessagePartModel.PartType
 import javax.wsdl.BindingOperation
