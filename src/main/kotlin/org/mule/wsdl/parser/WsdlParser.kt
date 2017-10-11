@@ -1,11 +1,11 @@
 package org.mule.wsdl.parser
 
 import com.ibm.wsdl.extensions.schema.SchemaSerializer
+import org.mule.metadata.xml.api.XmlTypeLoader
 import org.mule.wsdl.parser.locator.NullResourceLocator
 import org.mule.wsdl.parser.locator.ResourceLocator
 import org.mule.wsdl.parser.model.*
 import org.mule.wsdl.parser.model.operation.OperationModel
-import java.io.InputStream
 import javax.wsdl.*
 import javax.wsdl.extensions.ExtensionRegistry
 import javax.wsdl.extensions.http.HTTPAddress
@@ -22,8 +22,10 @@ import javax.xml.namespace.QName
 class WsdlParser private constructor(wsdlLocator: WSDLLocator) {
 
   private val definition = parseWsdl(wsdlLocator)
-  private val schemaCollector = WsdlSchemaCollector(definition)
-  internal val wsdl = WsdlModel(wsdlLocator.baseURI, parseServices(definition), schemaCollector.parsedSchemas)
+  private val wsdl = WsdlModel(wsdlLocator.baseURI,
+      parseServices(definition),
+      XmlTypeLoader(WsdlSchemasCollector(definition).collect()),
+      definition)
 
   private fun parseServices(definition: Definition) = definition.services
       .map { (_, v) -> v as Service }

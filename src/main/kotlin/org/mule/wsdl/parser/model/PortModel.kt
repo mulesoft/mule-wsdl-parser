@@ -12,5 +12,9 @@ class PortModel(override val name: String,
 
   fun getOperation(name: String): OperationModel? = operations.find { ope -> ope.name == name }
 
+  fun getOperationsMap(): Map<String, OperationModel> {
+    return operations.map{ it.name to it }.toMap()
+  }
+
   private fun parseAddress(address: String?): URL? = try { URL(address) } catch(e: Exception) { null }
 }

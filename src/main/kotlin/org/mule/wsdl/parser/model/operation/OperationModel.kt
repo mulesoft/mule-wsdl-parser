@@ -39,6 +39,14 @@ class OperationModel(override val name: String, private val bop: BindingOperatio
     return getBodyPart(getInputMessage(), bop.bindingInput)
   }
 
+  fun getInputParts(): List<String> {
+    return getPartNames(bop.bindingInput)
+  }
+
+  fun getOutputParts(): List<String> {
+    return getPartNames(bop.bindingOutput)
+  }
+
   fun getOutputBodyPart(): Optional<Part> {
     return getBodyPart(getOutputMessage(), bop.bindingOutput)
   }
@@ -83,17 +91,20 @@ class OperationModel(override val name: String, private val bop: BindingOperatio
   private fun getBodyPartName(bindingType: ElementExtensible): Optional<String> {
     val elements = bindingType.extensibilityElements
     if (elements != null) {
-      val bodyParts = elements
-          .filter { e -> e is SOAPBody || e is SOAP12Body }
-          .map { e -> if (e is SOAPBody) e.parts else (e as SOAP12Body).parts }
-          .map { parts -> parts ?: emptyList<Part>() }
-          .first()
-
+      val bodyParts = getPartNames(bindingType)
       if (!bodyParts.isEmpty()) {
-        return Optional.ofNullable(bodyParts[0] as String)
+        return Optional.ofNullable(bodyParts[0])
       }
     }
     return Optional.empty()
+  }
+
+  private fun getPartNames(elementExtensible: ElementExtensible): List<String> {
+    val elements = elementExtensible.extensibilityElements
+    return elements
+        .filter { e -> e is SOAPBody || e is SOAP12Body }
+        .map { e -> if (e is SOAPBody) e.parts else (e as SOAP12Body).parts }
+        .flatMap { parts -> parts ?: emptyList<String>() } as List<String>
   }
 
   private fun getHeaderParts(bindingType: ElementExtensible): List<SoapHeader> {
