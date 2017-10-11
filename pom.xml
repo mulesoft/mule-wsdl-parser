@@ -13,6 +13,7 @@
         <junit.version>4.12</junit.version>
         <wsdl4j.version>1.6.3</wsdl4j.version>
         <apache.version>3.6</apache.version>
+        <cxfRtWsdlVersion>3.0.13</cxfRtWsdlVersion>
         <spek.version>1.1.2</spek.version>
         <hamkrest.version>1.4.1.0</hamkrest.version>
         <mule.metadata.version>1.0.0-SNAPSHOT</mule.metadata.version>
@@ -66,6 +67,11 @@
             <artifactId>hamkrest</artifactId>
             <version>${hamkrest.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-wsdl</artifactId>
+            <version>${cxfRtWsdlVersion}</version>
         </dependency>
     </dependencies>
 

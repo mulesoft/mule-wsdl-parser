@@ -1,28 +1,29 @@
 package org.mule.wsdl.parser
 
 import com.ibm.wsdl.extensions.schema.SchemaSerializer
-import org.mule.wsdl.parser.model.OperationModel
-import org.mule.wsdl.parser.model.PortModel
-import org.mule.wsdl.parser.model.ServiceModel
-import org.mule.wsdl.parser.model.WsdlModel
-import org.mule.wsdl.parser.type.InputTypeParser
-import org.mule.wsdl.parser.type.OutputTypeParser
+import org.mule.wsdl.parser.locator.NullResourceLocator
+import org.mule.wsdl.parser.locator.ResourceLocator
+import org.mule.wsdl.parser.model.*
+import org.mule.wsdl.parser.model.operation.OperationModel
+import java.io.InputStream
 import javax.wsdl.*
 import javax.wsdl.extensions.ExtensionRegistry
 import javax.wsdl.extensions.http.HTTPAddress
 import javax.wsdl.extensions.mime.MIMEPart
 import javax.wsdl.extensions.soap.SOAPAddress
+import javax.wsdl.extensions.soap.SOAPBinding
 import javax.wsdl.extensions.soap12.SOAP12Address
+import javax.wsdl.extensions.soap12.SOAP12Binding
 import javax.wsdl.factory.WSDLFactory
+import javax.wsdl.xml.WSDLLocator
 import javax.xml.namespace.QName
 
-class WsdlParser private constructor(wsdlLocation: String) {
 
-  private val definition = parseWsdl(wsdlLocation)
+class WsdlParser private constructor(wsdlLocator: WSDLLocator) {
+
+  private val definition = parseWsdl(wsdlLocator)
   private val schemaCollector = WsdlSchemaCollector(definition)
-  private val inputTypeParser = InputTypeParser(definition, schemaCollector.getCollector())
-  private val outputTypeParser = OutputTypeParser(definition, schemaCollector.getCollector())
-  internal val wsdl = WsdlModel(wsdlLocation, parseServices(definition), schemaCollector.parsedSchemas)
+  internal val wsdl = WsdlModel(wsdlLocator.baseURI, parseServices(definition), schemaCollector.parsedSchemas)
 
   private fun parseServices(definition: Definition) = definition.services
       .map { (_, v) -> v as Service }
@@ -30,23 +31,23 @@ class WsdlParser private constructor(wsdlLocation: String) {
 
   private fun parsePorts(service: Service): List<PortModel> = service.ports
       .map { (_, v) -> v as Port }
-      .map { p -> PortModel(p.name, parseOperations(p), findSoapAddress(p)) }
+      .map { p -> PortModel(p.name, parseOperations(p), findSoapAddress(p), findPortBinding(p)) }
 
   private fun parseOperations(port: Port): List<OperationModel> = port.binding.bindingOperations
       .map { v -> v as BindingOperation }
-      .map { bop -> OperationModel(bop.name, inputTypeParser.getParts(bop), outputTypeParser.getParts(bop)) }
+      .map { bop -> OperationModel(bop.name, bop) }
 
-  private fun parseWsdl(location: String): Definition {
+  private fun parseWsdl(wsdlLocator: WSDLLocator): Definition {
     try {
       val factory = WSDLFactory.newInstance()
       val registry = initExtensionRegistry(factory)
       val wsdlReader = factory.newWSDLReader()
-      wsdlReader.extensionRegistry = registry
       wsdlReader.setFeature("javax.wsdl.verbose", false)
       wsdlReader.setFeature("javax.wsdl.importDocuments", true)
-      return wsdlReader.readWSDL(location)
-    } catch (exception: WSDLException) {
-      throw RuntimeException("Could not parse wsdl: $location", exception)
+      wsdlReader.extensionRegistry = registry
+      return wsdlReader.readWSDL(wsdlLocator)
+    } catch (e: WSDLException) {
+      throw RuntimeException("Error processing WSDL file [${wsdlLocator.baseURI}]: ${e.message}", e)
     }
   }
 
@@ -74,7 +75,20 @@ class WsdlParser private constructor(wsdlLocation: String) {
     return null
   }
 
+  private fun findPortBinding(p: Port): SoapBinding? {
+    return p.binding.extensibilityElements
+        .filter { e -> e is SOAP12Binding || e is SOAPBinding }
+        .map { e ->
+          if (e is SOAP12Binding)
+            SoapBinding(WsdlStyleFinder.find(e.style), e.transportURI)
+          else
+            SoapBinding(WsdlStyleFinder.find((e as SOAPBinding).style ), e.transportURI)
+        }
+        .firstOrNull()
+  }
+
   companion object {
-    fun parse(wsdlLocation: String): WsdlModel = WsdlParser(wsdlLocation).wsdl
+    fun parse(wsdlLocation: String): WsdlModel = WsdlParser(WsdlLocator(wsdlLocation, NullResourceLocator())).wsdl
+    fun parse(wsdlLocation: String, locator: ResourceLocator): WsdlModel = WsdlParser(WsdlLocator(wsdlLocation, locator)).wsdl
   }
 }
