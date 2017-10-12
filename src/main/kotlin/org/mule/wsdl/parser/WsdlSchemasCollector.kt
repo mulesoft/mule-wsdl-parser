@@ -1,7 +1,6 @@
 package org.mule.wsdl.parser
 
 import org.mule.metadata.xml.api.SchemaCollector
-import org.w3c.dom.Element
 import org.w3c.dom.Node
 import org.w3c.dom.NodeList
 import java.io.StringWriter
@@ -31,13 +30,13 @@ import kotlin.collections.HashMap
 @SuppressWarnings("unchecked")
 class WsdlSchemasCollector(private val definition: Definition) {
 
-  val schemas = HashMap<String, Schema>()
+  private val schemas = HashMap<String, Schema>()
 
   companion object {
     val TARGET_NS = "targetNamespace"
   }
 
-  fun collect() : SchemaCollector {
+  fun collector() : SchemaCollector {
     val collector = SchemaCollector.getInstance()
     collectSchemas(definition)
     schemas.forEach { (uri, schema) ->

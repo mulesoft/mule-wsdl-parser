@@ -1,21 +1,25 @@
 package org.mule.wsdl.parser.model
 
-import org.mule.metadata.api.TypeLoader
+import org.mule.metadata.xml.api.XmlTypeLoader
+import org.mule.wsdl.parser.WsdlSchemasCollector
 import javax.wsdl.Definition
 import javax.xml.namespace.QName
 
 class WsdlModel(val location: String,
                 val services: List<ServiceModel>,
-                val loader: TypeLoader,
+                private val schemaCollector: WsdlSchemasCollector,
                 private val definition: Definition) {
 
   val style = findStyle()
+  val loader = XmlTypeLoader(schemaCollector.collector())
+
+  fun collectSchemas() = schemaCollector.collector().collect();
 
   fun getService(name: String): ServiceModel? = services.find { service -> service.name == name }
 
   fun isWsdlStyle(style: WsdlStyle) = style == this.style
 
- fun getMessage(qname: QName) = definition.getMessage(qname)
+  fun getMessage(qname: QName) = definition.getMessage(qname)
 
   private fun findStyle(): WsdlStyle {
     val ports = services.flatMap { it.ports }

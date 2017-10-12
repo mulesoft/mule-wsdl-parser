@@ -1,0 +1,7 @@
+<xsd:schema targetNamespace="RecursiveService.WebService.DataIntegration/Imports" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:import schemaLocation="dir1/import0.xsd" namespace="RecursiveService.WebService.DataIntegration" />
+    <xsd:import schemaLocation="dir1/dir2/import1.xsd" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+    <xsd:import schemaLocation="import2.xsd" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+    <xsd:import schemaLocation="import3.xsd" namespace="http://schemas.datacontract.org/2004/07/RecursiveService.Contracts" />
+    <xsd:import schemaLocation="import4.xsd" namespace="http://schemas.datacontract.org/2004/07/RecursiveService.WebService.DataIntegration.Contracts.GetProtocolInfo" />
+</xsd:schema>

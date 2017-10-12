@@ -1,0 +1,33 @@
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/OrderService" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/OrderService">
+    <xs:complexType name="Order">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="Id" type="xs:int"/>
+            <xs:element minOccurs="0" name="Items" nillable="true" type="tns:ArrayOfOrderItem"/>
+            <xs:element minOccurs="0" name="Status" nillable="true" type="xs:string"/>
+            <xs:element minOccurs="0" name="TotalPrice" type="xs:float"/>
+            <xs:element minOccurs="0" name="TrackingNumber" nillable="true" type="xs:string"/>
+            <xs:element minOccurs="0" name="UserId" nillable="true" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Order" nillable="true" type="tns:Order"/>
+    <xs:complexType name="ArrayOfOrderItem">
+        <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="OrderItem" nillable="true" type="tns:OrderItem"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="ArrayOfOrderItem" nillable="true" type="tns:ArrayOfOrderItem"/>
+    <xs:complexType name="OrderItem">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="Id" type="xs:int"/>
+            <xs:element minOccurs="0" name="ProductId" type="xs:int"/>
+            <xs:element minOccurs="0" name="Quantity" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="OrderItem" nillable="true" type="tns:OrderItem"/>
+    <xs:complexType name="ArrayOfOrder">
+        <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="Order" nillable="true" type="tns:Order"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="ArrayOfOrder" nillable="true" type="tns:ArrayOfOrder"/>
+</xs:schema>

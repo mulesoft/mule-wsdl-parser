@@ -1,7 +1,6 @@
 package org.mule.wsdl.parser
 
 import com.ibm.wsdl.extensions.schema.SchemaSerializer
-import org.mule.metadata.xml.api.XmlTypeLoader
 import org.mule.wsdl.parser.locator.NullResourceLocator
 import org.mule.wsdl.parser.locator.ResourceLocator
 import org.mule.wsdl.parser.model.*
@@ -22,10 +21,7 @@ import javax.xml.namespace.QName
 class WsdlParser private constructor(wsdlLocator: WSDLLocator) {
 
   private val definition = parseWsdl(wsdlLocator)
-  private val wsdl = WsdlModel(wsdlLocator.baseURI,
-      parseServices(definition),
-      XmlTypeLoader(WsdlSchemasCollector(definition).collect()),
-      definition)
+  private val wsdl = WsdlModel(wsdlLocator.baseURI, parseServices(definition), WsdlSchemasCollector(definition), definition)
 
   private fun parseServices(definition: Definition) = definition.services
       .map { (_, v) -> v as Service }
@@ -81,10 +77,14 @@ class WsdlParser private constructor(wsdlLocator: WSDLLocator) {
     return p.binding.extensibilityElements
         .filter { e -> e is SOAP12Binding || e is SOAPBinding }
         .map { e ->
-          if (e is SOAP12Binding)
-            SoapBinding(WsdlStyleFinder.find(e.style), e.transportURI)
-          else
-            SoapBinding(WsdlStyleFinder.find((e as SOAPBinding).style ), e.transportURI)
+          if (e is SOAP12Binding) {
+            val style = e.style
+            if (style != null) SoapBinding(WsdlStyleFinder.find(style), e.transportURI) else null
+          }
+          else {
+            val style = (e as SOAPBinding).style
+            if (style != null) SoapBinding(WsdlStyleFinder.find(style), e.transportURI) else null
+          }
         }
         .firstOrNull()
   }
