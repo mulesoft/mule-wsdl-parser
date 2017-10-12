@@ -1,6 +1,7 @@
 package org.mule.wsdl.parser
 
 import com.ibm.wsdl.extensions.schema.SchemaSerializer
+import org.mule.wsdl.parser.exception.WsdlParsingException
 import org.mule.wsdl.parser.locator.NullResourceLocator
 import org.mule.wsdl.parser.locator.ResourceLocator
 import org.mule.wsdl.parser.model.*
@@ -45,7 +46,8 @@ class WsdlParser private constructor(wsdlLocator: WSDLLocator) {
       wsdlReader.extensionRegistry = registry
       return wsdlReader.readWSDL(wsdlLocator)
     } catch (e: WSDLException) {
-      throw RuntimeException("Error processing WSDL file [${wsdlLocator.baseURI}]: ${e.message}", e)
+      val msg = e.message?.replace("WSDLException:", "")?.replace("faultCode=OTHER_ERROR:", "")?.trim() ?: "UNKNOWN"
+      throw WsdlParsingException("Error processing WSDL file [${wsdlLocator.baseURI}]: $msg", e)
     }
   }
 

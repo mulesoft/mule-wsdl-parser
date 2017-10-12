@@ -5,6 +5,10 @@ import org.custommonkey.xmlunit.XMLUnit
 import org.custommonkey.xmlunit.XMLUnit.compareXML
 import org.hamcrest.MatcherAssert
 import org.hamcrest.core.Is
+import org.mockserver.client.server.MockServerClient
+import org.mockserver.integration.ClientAndServer
+import org.mockserver.model.HttpRequest
+import org.mule.wsdl.parser.locator.ResourceLocator
 import org.xml.sax.InputSource
 import java.io.InputStream
 import java.io.StringReader
@@ -14,6 +18,10 @@ import javax.xml.transform.OutputKeys
 import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
+import com.turbomanage.httpclient.ParameterMap
+import com.turbomanage.httpclient.BasicHttpClient
+
+
 
 object TestUtils {
 
@@ -50,4 +58,17 @@ object TestUtils {
     transformer.transform(source, result)
     return result.writer.toString()
   }
+
+  class TestResourceLocator: ResourceLocator {
+
+    override fun handles(url: String): Boolean = url.startsWith("http")
+
+    override fun getResource(url: String): InputStream {
+      val httpClient = BasicHttpClient(url)
+      httpClient.addHeader("Auth", "yay")
+      httpClient.setConnectionTimeout(2000)
+      return httpClient.get("", httpClient.newParams()).bodyAsString.byteInputStream()
+    }
+  }
 }
+

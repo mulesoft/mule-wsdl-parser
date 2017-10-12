@@ -1,20 +1,26 @@
 package org.mule.connectivity.soap
 
-import com.sun.xml.internal.ws.api.server.ServiceDefinition
-import org.hamcrest.MatcherAssert
+import org.apache.commons.io.IOUtils
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers
+import org.mockserver.model.HttpRequest.request
+import org.mockserver.model.HttpResponse.response
 import org.hamcrest.Matchers.*
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.describe
 import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.on
+import org.mockserver.integration.ClientAndServer
 import org.mule.wsdl.parser.WsdlParser
+import org.mule.wsdl.parser.exception.WsdlParsingException
 import org.mule.wsdl.parser.model.WsdlStyle
-import java.io.File
-import java.lang.Thread.currentThread
-import java.net.URISyntaxException
+import org.mockserver.matchers.Times
+import org.mockserver.model.Header
+import org.mockserver.socket.PortFactory
+import java.io.FileInputStream
+import org.amshove.kluent.*
+
 
 class WsdlParserSpec : Spek({
 
@@ -22,17 +28,17 @@ class WsdlParserSpec : Spek({
     describe("it's style") {
       it("should be of doc literal defined by the operations") {
         val wsdl = WsdlParser.parse(TestUtils.getResourcePath("wsdl/document.wsdl"))
-        assertThat(wsdl.style, `is`(WsdlStyle.DOC_LITERAL))
+        wsdl.style shouldBe WsdlStyle.DOC_LITERAL
       }
 
       it("should be of doc literal style because there is no style specification") {
         val wsdl = WsdlParser.parse(TestUtils.getResourcePath("wsdl/no-style-defined.wsdl"))
-        assertThat(wsdl.style, `is`(WsdlStyle.DOC_LITERAL))
+        wsdl.style shouldBe WsdlStyle.DOC_LITERAL
       }
 
       it("should be of doc literal style defined in the binding") {
         val wsdl = WsdlParser.parse(TestUtils.getResourcePath("wsdl/rpc.wsdl"))
-        assertThat(wsdl.style, `is`(WsdlStyle.RPC))
+        wsdl.style shouldBe WsdlStyle.RPC
       }
     }
 
@@ -54,36 +60,55 @@ class WsdlParserSpec : Spek({
         }
       }
 
-      on("a http protected wsdl") {
-        it("should fail to access the protected wsdl") {
-          //    expectedException.expect(InvalidWsdlException::class.java)
-          //    expectedException.expectMessage("faultCode=OTHER_ERROR: Unable to locate document at")
-          //    val server = BasicAuthHttpServer(port.getNumber(), null, null, Soap11Service())
-          //    val resourceLocation = server.getDefaultAddress() + "?wsdl"
-          //    ServiceDefinition(resourceLocation, "TestService", "TestPort")
-          //    server.stop()
+      describe("a http protected wsdl") {
+
+        val freePort = PortFactory.findFreePort()
+        val wsdlContent = IOUtils.toString(FileInputStream(TestUtils.getResourcePath("wsdl/document.wsdl")))
+
+        fun createServer(): ClientAndServer? {
+          val server = ClientAndServer.startClientAndServer(freePort)
+          server.`when`(request()
+              .withMethod("GET")
+              .withPath("/test")
+              .withQueryStringParameter("wsdl"),
+              Times.once())
+              .callback({ req ->
+                if (req.containsHeader("Auth")) {
+                  response()
+                      .withStatusCode(200)
+                      .withHeaders(Header("Content-Type", "text/xml; charset=utf-8"))
+                      .withBody(wsdlContent)
+                } else {
+                  response().withStatusCode(401)
+                }
+              })
+          return server
         }
+
+//        it("should fail to access the protected wsdl") {
+//          val server = createServer()
+//          val func = { val wsdl = WsdlParser.parse("http://localhost:$freePort/test?wsdl") }
+//          func.invoke()
+//          server?.stop(true)
+//        }
 
         it("should access the protected wsdl") {
-//          val server = BasicAuthHttpServer(port.getNumber(), null, null, Soap11Service())
-          //    val resourceLocator = HttpBasicAuthResourceLocator()
-          //    resourceLocator.start()
-          //    val resourceLocation = server.getDefaultAddress() + "?wsdl"
-          //    val definition = ServiceDefinition(resourceLocation, "TestService", "TestPort", resourceLocator)
-          //    resourceLocator.stop()
-          //    server.stop()
-          //    assertThat(definition.isDocumentStyle(), `is`(true))
+          val server = createServer()
+          val func = { val wsdl = WsdlParser.parse("http://localhost:$freePort/test?wsdl", TestUtils.TestResourceLocator()) }
+          func.invoke()
+          server?.stop(true)
         }
-      }
 
-      on("an invalid location") {
-        it("should fail gracefully") {
-          val wsdl = WsdlParser.parse("invalid/location")
+        on("an invalid location") {
+          it("should fail gracefully") {
+            val msg = "Error processing WSDL file [invalid/location]: Unable to locate document at 'invalid/location'."
+            { val res = WsdlParser.parse("invalid/location") } shouldThrowTheException WsdlParsingException::class withMessage msg
+          }
         }
       }
     }
-
   }
 })
+
 
 
