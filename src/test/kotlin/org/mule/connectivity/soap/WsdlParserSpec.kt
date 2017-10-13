@@ -1,5 +1,8 @@
 package org.mule.connectivity.soap
 
+import org.amshove.kluent.shouldBe
+import org.amshove.kluent.shouldThrowTheException
+import org.amshove.kluent.withMessage
 import org.apache.commons.io.IOUtils
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers
@@ -17,14 +20,15 @@ import org.mule.wsdl.parser.exception.WsdlParsingException
 import org.mule.wsdl.parser.model.WsdlStyle
 import org.mockserver.matchers.Times
 import org.mockserver.model.Header
+import org.mockserver.model.HttpResponse
 import org.mockserver.socket.PortFactory
 import java.io.FileInputStream
-import org.amshove.kluent.*
 
 
 class WsdlParserSpec : Spek({
 
   given("a wsdl file") {
+
     describe("it's style") {
       it("should be of doc literal defined by the operations") {
         val wsdl = WsdlParser.parse(TestUtils.getResourcePath("wsdl/document.wsdl"))
@@ -61,48 +65,35 @@ class WsdlParserSpec : Spek({
       }
 
       describe("a http protected wsdl") {
-
         val freePort = PortFactory.findFreePort()
-        val wsdlContent = IOUtils.toString(FileInputStream(TestUtils.getResourcePath("wsdl/document.wsdl")))
 
-        fun createServer(): ClientAndServer? {
+        fun mockServer(response: HttpResponse): ClientAndServer {
           val server = ClientAndServer.startClientAndServer(freePort)
-          server.`when`(request()
-              .withMethod("GET")
-              .withPath("/test")
-              .withQueryStringParameter("wsdl"),
-              Times.once())
-              .callback({ req ->
-                if (req.containsHeader("Auth")) {
-                  response()
-                      .withStatusCode(200)
-                      .withHeaders(Header("Content-Type", "text/xml; charset=utf-8"))
-                      .withBody(wsdlContent)
-                } else {
-                  response().withStatusCode(401)
-                }
-              })
+          server.`when`(request().withMethod("GET").withPath("/test").withQueryStringParameter("wsdl"), Times.once()).respond(response)
           return server
         }
 
-//        it("should fail to access the protected wsdl") {
-//          val server = createServer()
-//          val func = { val wsdl = WsdlParser.parse("http://localhost:$freePort/test?wsdl") }
-//          func.invoke()
-//          server?.stop(true)
-//        }
+        it("should fail to access the protected wsdl") {
+          val server = mockServer(response().withStatusCode(401))
+          val func = { val wsdl = WsdlParser.parse("http://localhost:$freePort/test?wsdl") }
+          val msg = "Error processing WSDL file [http://localhost:$freePort/test?wsdl]: Unable to locate document at 'http://localhost:$freePort/test?wsdl'."
+          func shouldThrowTheException WsdlParsingException::class withMessage msg
+          server.stop(true)
+        }
 
         it("should access the protected wsdl") {
-          val server = createServer()
+          val wsdlContent = IOUtils.toString(FileInputStream(TestUtils.getResourcePath("wsdl/document.wsdl")))
+          val server = mockServer(response().withStatusCode(200).withHeaders(Header("Content-Type", "text/xml; charset=utf-8")).withBody(wsdlContent))
           val func = { val wsdl = WsdlParser.parse("http://localhost:$freePort/test?wsdl", TestUtils.TestResourceLocator()) }
           func.invoke()
-          server?.stop(true)
+          server.stop()
         }
 
         on("an invalid location") {
           it("should fail gracefully") {
             val msg = "Error processing WSDL file [invalid/location]: Unable to locate document at 'invalid/location'."
-            { val res = WsdlParser.parse("invalid/location") } shouldThrowTheException WsdlParsingException::class withMessage msg
+            val func = { val res = WsdlParser.parse("invalid/location") }
+            func shouldThrowTheException WsdlParsingException::class withMessage msg
           }
         }
       }

@@ -5,9 +5,6 @@ import org.custommonkey.xmlunit.XMLUnit
 import org.custommonkey.xmlunit.XMLUnit.compareXML
 import org.hamcrest.MatcherAssert
 import org.hamcrest.core.Is
-import org.mockserver.client.server.MockServerClient
-import org.mockserver.integration.ClientAndServer
-import org.mockserver.model.HttpRequest
 import org.mule.wsdl.parser.locator.ResourceLocator
 import org.xml.sax.InputSource
 import java.io.InputStream
@@ -18,9 +15,7 @@ import javax.xml.transform.OutputKeys
 import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
-import com.turbomanage.httpclient.ParameterMap
 import com.turbomanage.httpclient.BasicHttpClient
-
 
 
 object TestUtils {
@@ -51,6 +46,7 @@ object TestUtils {
     val doc = db.parse(`is`)
     val transformer = TransformerFactory.newInstance().newTransformer()
     transformer.setOutputProperty(OutputKeys.INDENT, "yes")
+    transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8")
     transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2")
     // initialize StreamResult with File object to save to file
     val result = StreamResult(StringWriter())
@@ -71,4 +67,3 @@ object TestUtils {
     }
   }
 }
-
