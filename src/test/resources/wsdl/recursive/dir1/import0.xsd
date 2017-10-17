@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema elementFormDefault="qualified" targetNamespace="RecursiveService.WebService.DataIntegration"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="RecursiveService.WebService.DataIntegration">
+    <xs:import schemaLocation="../import2.xsd"
+               namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+    <xs:import schemaLocation="../import3.xsd"
+               namespace="http://schemas.datacontract.org/2004/07/RecursiveService.Contracts"/>
+    <xs:import schemaLocation="../import4.xsd"
+               namespace="http://schemas.datacontract.org/2004/07/RecursiveService.WebService.DataIntegration.Contracts.GetProtocolInfo"/>
+
+    <xs:include schemaLocation="../import4.xsd" id="unodostres"/>
+    <xs:element name="Authenticate">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="username" nillable="true" type="xs:string"/>
+                <xs:element minOccurs="0" name="password" nillable="true" type="xs:string"/>
+                <xs:element minOccurs="0" name="connectionName" nillable="true" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="AuthenticateResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="AuthenticateResult" nillable="true" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
