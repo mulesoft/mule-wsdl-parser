@@ -24,11 +24,10 @@ class WsdlSchemasCollectorSpec : Spek({
       assertThat(schemas.values, hasSize(6))
     }
 
-    // TODO
-//    it("has an schema that does not specify a location") {
-//      val schemas = WsdlParser.parse(TestUtils.getResourcePath("wsdl/no-schema-location/test.wsdl")).collectSchemas()
-//      assertThat(schemas.entries, hasSize(4))
-//    }
+    it("has an schema that does not specify a location") {
+      val schemas = WsdlParser.parse(TestUtils.getResourcePath("wsdl/no-schema-location/test.wsdl")).collectSchemas()
+      assertThat(schemas.entries, hasSize(4))
+    }
 
     it("should collector multiples schemas embedded in the wsdl types tag") {
       val schemas = WsdlParser.parse(TestUtils.getResourcePath("wsdl/types-multiple-schema.wsdl")).collectSchemas()

@@ -11,9 +11,9 @@ class WsdlModel(val location: String,
                 private val definition: Definition) {
 
   val style = findStyle()
-  val loader = XmlTypeLoader(schemaCollector.collector())
+  val loader = lazy({ XmlTypeLoader(schemaCollector.collector()) })
 
-  fun collectSchemas() = schemaCollector.collector().collect();
+  fun collectSchemas() = schemaCollector.collector().collect()
 
   fun getService(name: String): ServiceModel? = services.find { service -> service.name == name }
 
