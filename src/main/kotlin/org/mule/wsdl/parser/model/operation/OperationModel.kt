@@ -1,10 +1,12 @@
 package org.mule.wsdl.parser.model.operation
 
+import org.apache.commons.lang3.StringUtils.isBlank
 import org.mule.wsdl.parser.model.FaultModel
 import org.mule.wsdl.parser.model.NamedModel
 import org.mule.wsdl.parser.model.WsdlStyle
 import org.mule.wsdl.parser.model.WsdlStyleFinder
 import java.util.*
+import java.util.Optional.ofNullable
 import javax.wsdl.*
 import javax.wsdl.extensions.ElementExtensible
 import javax.wsdl.extensions.soap.SOAPBody
@@ -18,14 +20,7 @@ class OperationModel(override val name: String, private val bop: BindingOperatio
 
   val style: WsdlStyle? = findStyle()
   val type: OperationType = findType()
-
-  fun getFault(faultName: String): FaultModel {
-    try {
-      return FaultModel(bop.operation.getFault(faultName))
-    } catch (e: Exception) {
-      throw IllegalArgumentException("Could not retrieve fault [$name]", e)
-    }
-  }
+  val soapAction: Optional<String> = findAction()
 
   fun getInputMessage(): Message {
     return bop.operation.input.message
@@ -59,6 +54,14 @@ class OperationModel(override val name: String, private val bop: BindingOperatio
     return getHeaderParts(bop.bindingOutput)
   }
 
+  fun getFault(faultName: String): FaultModel {
+    try {
+      return FaultModel(bop.operation.getFault(faultName))
+    } catch (e: Exception) {
+      throw IllegalArgumentException("Could not retrieve fault [$name]", e)
+    }
+  }
+
   private fun findType(): OperationType {
     return when(bop.operation.style) {
       javax.wsdl.OperationType.NOTIFICATION -> OperationType.NOTIFICATION
@@ -77,15 +80,24 @@ class OperationModel(override val name: String, private val bop: BindingOperatio
     return if (style != null) WsdlStyleFinder.find(style) else null
   }
 
+  private fun findAction(): Optional<String> {
+    val action = bop.extensibilityElements
+        .filter { e -> e is SOAP12Operation || e is SOAPOperation }
+        .map { e -> if (e is SOAPOperation) e.soapActionURI else (e as SOAP12Operation).soapActionURI }
+        .filter { it != null }
+        .firstOrNull()
+    return if (isBlank(action)) Optional.empty() else ofNullable(action)
+  }
+
   private fun getBodyPart(message: Message, bindingType: ElementExtensible): Optional<Part> {
     val parts = message.parts
     if (parts == null || parts.isEmpty()) {
       return Optional.empty()
     }
     if (parts.size == 1) {
-      return Optional.ofNullable(parts[parts.keys.toTypedArray()[0]] as Part)
+      return ofNullable(parts[parts.keys.toTypedArray()[0]] as Part)
     }
-    return getBodyPartName(bindingType).flatMap<Part> { partName -> Optional.ofNullable(parts[partName] as Part) }
+    return getBodyPartName(bindingType).flatMap<Part> { partName -> ofNullable(parts[partName] as Part) }
   }
 
   private fun getBodyPartName(bindingType: ElementExtensible): Optional<String> {
@@ -93,7 +105,7 @@ class OperationModel(override val name: String, private val bop: BindingOperatio
     if (elements != null) {
       val bodyParts = getPartNames(bindingType)
       if (!bodyParts.isEmpty()) {
-        return Optional.ofNullable(bodyParts[0])
+        return ofNullable(bodyParts[0])
       }
     }
     return Optional.empty()
