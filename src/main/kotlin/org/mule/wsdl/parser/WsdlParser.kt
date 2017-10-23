@@ -46,6 +46,7 @@ class WsdlParser private constructor(wsdlLocator: WSDLLocator) {
       wsdlReader.extensionRegistry = registry
       return wsdlReader.readWSDL(wsdlLocator)
     } catch (e: WSDLException) {
+      // This replacement is made because the WSDLException outputs an ugly message, but we need a part of it.
       val msg = e.message?.replace("WSDLException:", "")?.replace("faultCode=OTHER_ERROR:", "")?.trim() ?: "UNKNOWN"
       throw WsdlParsingException("Error processing WSDL file [${wsdlLocator.baseURI}]: $msg", e)
     }

@@ -1,6 +1,7 @@
 package org.mule.connectivity.soap
 
 import org.amshove.kluent.shouldBe
+import org.amshove.kluent.shouldEqual
 import org.amshove.kluent.shouldThrowTheException
 import org.amshove.kluent.withMessage
 import org.apache.commons.io.IOUtils
@@ -22,6 +23,7 @@ import org.mockserver.matchers.Times
 import org.mockserver.model.Header
 import org.mockserver.model.HttpResponse
 import org.mockserver.socket.PortFactory
+import org.mule.wsdl.parser.model.operation.OperationModel
 import java.io.FileInputStream
 
 
@@ -43,6 +45,21 @@ class WsdlParserSpec : Spek({
       it("should be of doc literal style defined in the binding") {
         val wsdl = WsdlParser.parse(TestUtils.getResourcePath("wsdl/rpc.wsdl"))
         wsdl.style shouldBe WsdlStyle.RPC
+      }
+    }
+
+    describe("a WSDL with an operation that") {
+      it("does not have a soap action defined") {
+        val wsdl = WsdlParser.parse(TestUtils.getResourcePath("wsdl/flights.wsdl"))
+        val soapAction = wsdl.services[0].ports[0].operations[0].soapAction
+        soapAction.isPresent shouldBe false
+      }
+
+      it("has a soap action defined") {
+        val wsdl = WsdlParser.parse(TestUtils.getResourcePath("wsdl/simple-service.wsdl"))
+        val soapAction = wsdl.services[0].ports[0].operations[0].soapAction
+        soapAction.isPresent shouldBe true
+        soapAction.get() shouldEqual "echoOperation"
       }
     }
 
@@ -100,6 +117,5 @@ class WsdlParserSpec : Spek({
     }
   }
 })
-
 
 
