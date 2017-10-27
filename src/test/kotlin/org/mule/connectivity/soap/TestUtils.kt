@@ -16,6 +16,8 @@ import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
 import com.turbomanage.httpclient.BasicHttpClient
+import org.custommonkey.xmlunit.DetailedDiff
+import org.custommonkey.xmlunit.Difference
 
 
 object TestUtils {
@@ -30,6 +32,15 @@ object TestUtils {
     XMLUnit.setIgnoreWhitespace(true)
     val diff = compareXML(result, expected)
     if (!diff.similar()) {
+
+      val detDiff = DetailedDiff(diff)
+      val differences = detDiff.allDifferences
+      val diffLines = StringBuilder()
+      differences.map { it as Difference }.forEach { diffLines.append(it.toString() + '\n') }
+
+      println("Differences: \n")
+      println("$diffLines \n")
+      println("########################################\n\n")
       println("Expected xml is:\n")
       println(prettyPrint(expected))
       println("########################################\n")

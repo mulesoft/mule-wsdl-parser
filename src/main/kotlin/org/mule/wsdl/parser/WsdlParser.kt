@@ -43,6 +43,9 @@ class WsdlParser private constructor(wsdlLocator: WSDLLocator) {
       val wsdlReader = factory.newWSDLReader()
       wsdlReader.setFeature("javax.wsdl.verbose", false)
       wsdlReader.setFeature("javax.wsdl.importDocuments", true)
+//      wsdlReader.setFeature("http://xml.org/sax/features/external-general-entities", false);
+//      wsdlReader.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+//      wsdlReader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd",false);
       wsdlReader.extensionRegistry = registry
       return wsdlReader.readWSDL(wsdlLocator)
     } catch (e: WSDLException) {
