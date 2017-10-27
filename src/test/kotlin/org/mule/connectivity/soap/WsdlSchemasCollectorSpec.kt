@@ -34,6 +34,13 @@ class WsdlSchemasCollectorSpec : Spek({
       assertThat(schemas.values, hasSize(2))
       assertThat(schemas.keys, hasItems("http://www.test.com/schemas/FirstInterface", "http://www.test.com/schemas/SecondInterface"))
     }
+
+    it("should collect the schema embedded in the wsdl types tag and assert the extracted content") {
+      val schemas = WsdlParser.parse(TestUtils.getResourcePath("wsdl/with-complex-embedded-schema.wsdl")).collectSchemas()
+      assertThat(schemas.values, hasSize(1))
+      val expected = IOUtils.toString(FileInputStream(TestUtils.getResourcePath("schemas/complex-embedded-schema.xsd")))
+      TestUtils.assertSimilarXml(expected, schemas.values.iterator().next())
+    }
   }
 })
 

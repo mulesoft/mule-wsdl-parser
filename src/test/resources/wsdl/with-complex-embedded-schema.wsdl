@@ -1,0 +1,403 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wd-wsdl="urn:com.workday/bsvc/Tenant_Data_Translation" xmlns:wd="urn:com.workday/bsvc" xmlns:nyw="urn:com.netyourwork/aod" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapbind="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:httpbind="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mimebind="http://schemas.xmlsoap.org/wsdl/mime/" name="Tenant_Data_Translation" targetNamespace="urn:com.workday/bsvc/Tenant_Data_Translation">
+    <wsdl:documentation>Public Web Service to export and import translatable tenant data</wsdl:documentation>
+    <wsdl:types>
+        <xsd:schema elementFormDefault="qualified" attributeFormDefault="qualified" targetNamespace="urn:com.workday/bsvc">
+            <xsd:element name="Validation_Fault" type="wd:Validation_FaultType"/>
+            <xsd:element name="Processing_Fault" type="wd:Processing_FaultType"/>
+            <xsd:element name="Get_Translatable_Tenant_Data_Public_Request" type="wd:Get_Translatable_Tenant_Data_Public_RequestType"/>
+            <xsd:element name="Get_Translatable_Tenant_Data_Public_Response" type="wd:Get_Translatable_Tenant_Data_Public_ResponseType"/>
+            <xsd:element name="Put_Translatable_Tenant_Data_Public_Request" type="wd:Put_Translatable_Tenant_Data_Public_RequestType"/>
+            <xsd:element name="Put_Translatable_Tenant_Data_Public_Response" type="wd:Put_Translatable_Tenant_Data_Public_ResponseType"/>
+            <xsd:element name="Workday_Common_Header" type="wd:Workday_Common_HeaderType"/>
+            <xsd:attribute name="version" type="xsd:string" wd:fixed="v28.0"/>
+            <xsd:simpleType name="RichText">
+                <xsd:restriction base="xsd:string"/>
+            </xsd:simpleType>
+            <xsd:simpleType name="User_LanguageReferenceEnumeration">
+                <xsd:restriction base="xsd:string">
+                    <xsd:annotation>
+                        <xsd:appinfo>
+                            <wd:enumeration value="WID"/>
+                            <wd:enumeration value="User_Language_ID"/>
+                        </xsd:appinfo>
+                    </xsd:annotation>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:simpleType name="Unique_IdentifierReferenceEnumeration">
+                <xsd:restriction base="xsd:string">
+                    <xsd:annotation>
+                        <xsd:appinfo>
+                            <wd:enumeration value="IID"/>
+                            <wd:enumeration value="WID"/>
+                        </xsd:appinfo>
+                    </xsd:annotation>
+                </xsd:restriction>
+            </xsd:simpleType>
+            <xsd:complexType name="User_LanguageObjectIDType">
+                <xsd:simpleContent>
+                    <xsd:extension base="xsd:string">
+                        <xsd:attribute name="type" type="wd:User_LanguageReferenceEnumeration" use="required">
+                        </xsd:attribute>
+                    </xsd:extension>
+                </xsd:simpleContent>
+            </xsd:complexType>
+            <xsd:complexType name="Unique_IdentifierObjectIDType">
+                <xsd:simpleContent>
+                    <xsd:extension base="xsd:string">
+                        <xsd:attribute name="type" type="wd:Unique_IdentifierReferenceEnumeration" use="required">
+                        </xsd:attribute>
+                    </xsd:extension>
+                </xsd:simpleContent>
+            </xsd:complexType>
+            <xsd:complexType name="User_LanguageObjectType">
+                <xsd:annotation wd:Is_Reference_ID="1"/>
+                <xsd:sequence>
+                    <xsd:element name="ID" type="wd:User_LanguageObjectIDType" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+                <xsd:attribute name="Descriptor" type="xsd:string">
+                </xsd:attribute>
+            </xsd:complexType>
+            <xsd:complexType name="Unique_IdentifierObjectType">
+                <xsd:annotation wd:Is_Reference_ID="1"/>
+                <xsd:sequence>
+                    <xsd:element name="ID" type="wd:Unique_IdentifierObjectIDType" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+                <xsd:attribute name="Descriptor" type="xsd:string">
+                </xsd:attribute>
+            </xsd:complexType>
+            <xsd:complexType name="Validation_FaultType">
+                <xsd:sequence>
+                    <xsd:element name="Validation_Error" type="wd:Validation_ErrorType" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="Processing_FaultType">
+                <xsd:sequence>
+                    <xsd:element name="Detail_Message" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="Validation_ErrorType">
+                <xsd:sequence>
+                    <xsd:element name="Message" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+                    <xsd:element name="Detail_Message" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+                    <xsd:element name="Xpath" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="Translatable_Class_Attribute_DataType">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <wd:Validation>
+                            <wd:Validation_Message>Attribute is not translatable for specified Class.</wd:Validation_Message>
+                        </wd:Validation>
+                        <wd:Validation>
+                            <wd:Validation_Message>Invalid Attribute Reference.</wd:Validation_Message>
+                        </wd:Validation>
+                        <wd:Validation>
+                            <wd:Validation_Message>Invalid Class Name.</wd:Validation_Message>
+                        </wd:Validation>
+                        <wd:Validation>
+                            <wd:Validation_Message>Class is not translatable.</wd:Validation_Message>
+                        </wd:Validation>
+                    </xsd:appinfo>
+                </xsd:annotation>
+                <xsd:sequence>
+                    <xsd:element name="User_Language_Reference" type="wd:User_LanguageObjectType" minOccurs="0">
+                        <xsd:annotation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="Class_Name" type="xsd:string" maxOccurs="1">
+                        <xsd:annotation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="Attribute_Reference" type="wd:Attribute_ReferenceType">
+                        <xsd:annotation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="Translated_Value_for_Instance_Data" type="wd:Translated_Value_for_Instance_DataType" minOccurs="0" maxOccurs="unbounded">
+                        <xsd:annotation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="Translated_Value_for_Instance_DataType">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <wd:Validation>
+                            <wd:Validation_Message>Instance Reference is not valid. Only tenanted instances can be uploaded for translation.</wd:Validation_Message>
+                        </wd:Validation>
+                    </xsd:appinfo>
+                </xsd:annotation>
+                <xsd:sequence>
+                    <xsd:element name="Instance_Reference" type="wd:InstanceObjectType">
+                        <xsd:annotation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="Base_Value" type="xsd:string" minOccurs="0" maxOccurs="1">
+                        <xsd:annotation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="Translated_Value" type="xsd:string" minOccurs="0" maxOccurs="1">
+                        <xsd:annotation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="Rich_Base_Value" type="wd:RichText" minOccurs="0" maxOccurs="1">
+                        <xsd:annotation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="Translated_Rich_Value" type="wd:RichText" minOccurs="0" maxOccurs="1">
+                        <xsd:annotation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="Attribute_ReferenceType">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <wd:Validation>
+                            <wd:Validation_Message>Invalid Namespace URI.</wd:Validation_Message>
+                        </wd:Validation>
+                    </xsd:appinfo>
+                </xsd:annotation>
+                <xsd:sequence>
+                    <xsd:element name="Name" type="xsd:string" maxOccurs="1">
+                        <xsd:annotation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="Namespace_URI" type="xsd:string" minOccurs="0" maxOccurs="1">
+                        <xsd:annotation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="Response_FilterType">
+                <xsd:annotation>
+                    <xsd:appinfo>
+                        <wd:Validation>
+                            <wd:Validation_Message>Page Number cannot be zero.</wd:Validation_Message>
+                        </wd:Validation>
+                    </xsd:appinfo>
+                </xsd:annotation>
+                <xsd:sequence>
+                    <xsd:element name="As_Of_Effective_Date" type="xsd:date" minOccurs="0" maxOccurs="1">
+                        <xsd:annotation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="As_Of_Entry_DateTime" type="xsd:dateTime" minOccurs="0" maxOccurs="1">
+                        <xsd:annotation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="Page" minOccurs="0" maxOccurs="1">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:decimal">
+                                <xsd:totalDigits value="12"/>
+                                <xsd:minInclusive value="0"/>
+                                <xsd:fractionDigits value="0"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element name="Count" minOccurs="0" maxOccurs="1">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:decimal">
+                                <xsd:totalDigits value="3"/>
+                                <xsd:minInclusive value="0"/>
+                                <xsd:fractionDigits value="0"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="Response_ResultsType">
+                <xsd:sequence>
+                    <xsd:element name="Total_Results" minOccurs="0" maxOccurs="1">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:decimal">
+                                <xsd:totalDigits value="12"/>
+                                <xsd:minInclusive value="0"/>
+                                <xsd:fractionDigits value="0"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element name="Total_Pages" minOccurs="0" maxOccurs="1">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:decimal">
+                                <xsd:totalDigits value="12"/>
+                                <xsd:minInclusive value="0"/>
+                                <xsd:fractionDigits value="0"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element name="Page_Results" minOccurs="0" maxOccurs="1">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:decimal">
+                                <xsd:totalDigits value="12"/>
+                                <xsd:minInclusive value="0"/>
+                                <xsd:fractionDigits value="0"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element name="Page" minOccurs="0" maxOccurs="1">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:decimal">
+                                <xsd:totalDigits value="12"/>
+                                <xsd:minInclusive value="0"/>
+                                <xsd:fractionDigits value="0"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="Get_Translatable_Tenant_Data_Public_RequestType">
+                <xsd:sequence>
+                    <xsd:element name="Request_References" type="wd:Translatable_Tenant_Data_Public_Request_ReferencesType" minOccurs="0" maxOccurs="unbounded">
+                    </xsd:element>
+                    <xsd:element name="Request_Criteria" type="wd:Translatable_Tenant_Data_Public_Request_CriteriaType" minOccurs="0" maxOccurs="unbounded"/>
+                    <xsd:element name="Response_Filter" type="wd:Response_FilterType" minOccurs="0">
+                    </xsd:element>
+                </xsd:sequence>
+                <xsd:attribute ref="wd:version"/>
+            </xsd:complexType>
+            <xsd:complexType name="Translatable_Tenant_Data_Public_Request_ReferencesType">
+                <xsd:sequence>
+                    <xsd:element name="Translatable_Class_Reference" type="wd:Unique_IdentifierObjectType">
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="Translatable_Tenant_Data_Public_Request_CriteriaType">
+            </xsd:complexType>
+            <xsd:complexType name="Get_Translatable_Tenant_Data_Public_ResponseType">
+                <xsd:sequence>
+                    <xsd:element name="Request_Criteria" type="wd:Translatable_Tenant_Data_Public_Request_CriteriaType" minOccurs="0"/>
+                    <xsd:element name="Response_Filter" type="wd:Response_FilterType" minOccurs="0"/>
+                    <xsd:element name="Response_Results" type="wd:Response_ResultsType" minOccurs="0"/>
+                    <xsd:element name="Response_Data" type="wd:Translatable_Tenant_Data_Public_Response_DataType" minOccurs="0">
+                    </xsd:element>
+                </xsd:sequence>
+                <xsd:attribute ref="wd:version"/>
+            </xsd:complexType>
+            <xsd:complexType name="Put_Translatable_Tenant_Data_Public_RequestType">
+                <xsd:sequence>
+                    <xsd:element name="Translatable_Tenant_Data_Public_Data" type="wd:Translatable_Class_Attribute_DataType"
+                                 minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+                <xsd:attribute ref="wd:version"/>
+            </xsd:complexType>
+            <xsd:complexType name="Put_Translatable_Tenant_Data_Public_ResponseType">
+                <xsd:sequence>
+                    <xsd:element name="User_Language_Reference" type="wd:User_LanguageObjectType" minOccurs="0">
+                    </xsd:element>
+                </xsd:sequence>
+                <xsd:attribute ref="wd:version"/>
+            </xsd:complexType>
+            <xsd:complexType name="Translatable_Tenant_Data_Public_Response_DataType">
+                <xsd:sequence>
+                    <xsd:element name="Translatable_Tenant_Data_Public" type="wd:Translatable_User_Language_PublicType" minOccurs="0" maxOccurs="unbounded">
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="Translatable_User_Language_PublicType">
+                <xsd:sequence>
+                    <xsd:element name="Translatable_Tenant_Data_Public_Data" type="wd:Translatable_Class_Attribute_DataType" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="Instance_IDType">
+                <xsd:simpleContent>
+                    <xsd:extension base="xsd:string">
+                        <xsd:attribute name="parent_id" type="xsd:string"/>
+                        <xsd:attribute name="parent_type" type="xsd:string"/>
+                        <xsd:attribute name="type" type="xsd:string"/>
+                    </xsd:extension>
+                </xsd:simpleContent>
+            </xsd:complexType>
+            <xsd:complexType name="InstanceObjectType">
+                <xsd:annotation wd:Is_Reference_ID="1"/>
+                <xsd:sequence>
+                    <xsd:element name="ID" type="wd:Instance_IDType" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+                <xsd:attribute name="Descriptor" type="xsd:string"/>
+            </xsd:complexType>
+            <xsd:complexType name="Workday_Common_HeaderType">
+                <xsd:sequence>
+                    <xsd:element name="Include_Reference_Descriptors_In_Response" type="xsd:boolean" minOccurs="0" maxOccurs="1"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="Get_Translatable_Tenant_Data_Public_ResponseOutputMsg">
+        <wsdl:part name="body" element="wd:Get_Translatable_Tenant_Data_Public_Response"/>
+    </wsdl:message>
+    <wsdl:message name="Put_Translatable_Tenant_Data_Public_ResponseOutputMsg">
+        <wsdl:part name="body" element="wd:Put_Translatable_Tenant_Data_Public_Response"/>
+    </wsdl:message>
+    <wsdl:message name="Validation_FaultMsg">
+        <wsdl:part name="body" element="wd:Validation_Fault"/>
+    </wsdl:message>
+    <wsdl:message name="Processing_FaultMsg">
+        <wsdl:part name="body" element="wd:Processing_Fault"/>
+    </wsdl:message>
+    <wsdl:message name="Workday_Common_HeaderMsg">
+        <wsdl:part name="header" element="wd:Workday_Common_Header"/>
+    </wsdl:message>
+    <wsdl:message name="Get_Translatable_Tenant_Data_Public_RequestInputMsg">
+        <wsdl:part name="body" element="wd:Get_Translatable_Tenant_Data_Public_Request"/>
+    </wsdl:message>
+    <wsdl:message name="Put_Translatable_Tenant_Data_Public_RequestInputMsg">
+        <wsdl:part name="body" element="wd:Put_Translatable_Tenant_Data_Public_Request"/>
+    </wsdl:message>
+    <wsdl:portType name="Tenant_Data_TranslationPort">
+        <wsdl:documentation>Public Web Service to export and import translatable tenant data</wsdl:documentation>
+        <wsdl:operation name="Get_Translatable_Tenant_Data_Public">
+            <wsdl:documentation>Public Web Service Task to export translatable tenant data</wsdl:documentation>
+            <wsdl:input name="Get_Translatable_Tenant_Data_PublicInput" message="wd-wsdl:Get_Translatable_Tenant_Data_Public_RequestInputMsg"/>
+            <wsdl:output name="Get_Translatable_Tenant_Data_PublicOutput" message="wd-wsdl:Get_Translatable_Tenant_Data_Public_ResponseOutputMsg"/>
+            <wsdl:fault name="Validation_Fault" message="wd-wsdl:Validation_FaultMsg"/>
+            <wsdl:fault name="Processing_Fault" message="wd-wsdl:Processing_FaultMsg"/>
+        </wsdl:operation>
+        <wsdl:operation name="Put_Translatable_Tenant_Data_Public">
+            <wsdl:documentation>Public Web Service Task to import translatable tenant data</wsdl:documentation>
+            <wsdl:input name="Put_Translatable_Tenant_Data_PublicInput" message="wd-wsdl:Put_Translatable_Tenant_Data_Public_RequestInputMsg"/>
+            <wsdl:output name="Put_Translatable_Tenant_Data_PublicOutput" message="wd-wsdl:Put_Translatable_Tenant_Data_Public_ResponseOutputMsg"/>
+            <wsdl:fault name="Validation_Fault" message="wd-wsdl:Validation_FaultMsg"/>
+            <wsdl:fault name="Processing_Fault" message="wd-wsdl:Processing_FaultMsg"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="Tenant_Data_TranslationBinding" type="wd-wsdl:Tenant_Data_TranslationPort">
+        <soapbind:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="Get_Translatable_Tenant_Data_Public">
+            <soapbind:operation style="document"/>
+            <wsdl:input name="Get_Translatable_Tenant_Data_PublicInput">
+                <soapbind:body use="literal"/>
+                <soapbind:header message="wd-wsdl:Workday_Common_HeaderMsg" part="header" use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="Get_Translatable_Tenant_Data_PublicOutput">
+                <soapbind:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="Processing_Fault">
+                <soapbind:fault name="Processing_Fault" use="literal"/>
+            </wsdl:fault>
+            <wsdl:fault name="Validation_Fault">
+                <soapbind:fault name="Validation_Fault" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="Put_Translatable_Tenant_Data_Public">
+            <soapbind:operation style="document"/>
+            <wsdl:input name="Put_Translatable_Tenant_Data_PublicInput">
+                <soapbind:body use="literal"/>
+                <soapbind:header message="wd-wsdl:Workday_Common_HeaderMsg" part="header" use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="Put_Translatable_Tenant_Data_PublicOutput">
+                <soapbind:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="Processing_Fault">
+                <soapbind:fault name="Processing_Fault" use="literal"/>
+            </wsdl:fault>
+            <wsdl:fault name="Validation_Fault">
+                <soapbind:fault name="Validation_Fault" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="Tenant_Data_TranslationService">
+        <wsdl:port name="Tenant_Data_Translation" binding="wd-wsdl:Tenant_Data_TranslationBinding">
+            <soapbind:address location="https://wd2-impl-services1.workday.com/ccx/service/mulesoft_dpt2/Tenant_Data_Translation/v28.0"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

@@ -1,5 +1,6 @@
 package org.mule.wsdl.parser
 
+import net.sf.saxon.jaxp.SaxonTransformerFactory
 import org.mule.metadata.xml.api.SchemaCollector
 import org.w3c.dom.Node
 import org.w3c.dom.NodeList
@@ -12,6 +13,7 @@ import javax.wsdl.extensions.schema.Schema
 import javax.wsdl.extensions.schema.SchemaImport
 import javax.wsdl.extensions.schema.SchemaReference
 import javax.xml.transform.OutputKeys
+import javax.xml.transform.Transformer
 import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
@@ -100,27 +102,15 @@ class WsdlSchemasCollector(private val definition: Definition) {
 
   private fun nodeToString(node: Node): String {
     try {
-      // Remove unwanted whitespaces
-      node.normalize()
-      val xpath = XPathFactory.newInstance().newXPath()
-      val expr = xpath.compile("//text()[normalize-space()='']")
-      val nodeList = expr.evaluate(node, XPathConstants.NODESET) as NodeList
-
-      (0..nodeList.length - 1)
-          .map { nodeList.item(it) }
-          .forEach { it.parentNode.removeChild(it) }
-
-      // Create and setup transformer
-      val transformer = TransformerFactory.newInstance().newTransformer()
-      transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8")
-      transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes")
-
-      // Turn the node into a string
       val writer = StringWriter()
-      transformer.transform(DOMSource(node), StreamResult(writer))
+      val source = DOMSource(node)
+      val result = StreamResult(writer)
+      val idTransformer = SaxonTransformerFactory.newInstance()
+      val transformer = idTransformer.newTransformer()
+      transformer.transform(source, result)
       return writer.toString()
     } catch (e: Exception) {
-      throw RuntimeException(e)
+      throw RuntimeException("Error transforming node to String", e)
     }
   }
 }
