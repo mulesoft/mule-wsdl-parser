@@ -1,5 +1,6 @@
 package org.mule.wsdl.parser
 
+import net.sf.saxon.jaxp.IdentityTransformer
 import net.sf.saxon.jaxp.SaxonTransformerFactory
 import org.mule.metadata.xml.api.SchemaCollector
 import org.w3c.dom.Node
@@ -105,8 +106,8 @@ class WsdlSchemasCollector(private val definition: Definition) {
       val writer = StringWriter()
       val source = DOMSource(node)
       val result = StreamResult(writer)
-      val idTransformer = SaxonTransformerFactory.newInstance()
-      val transformer = idTransformer.newTransformer()
+      val factory = SaxonTransformerFactory()
+      val transformer = factory.newTransformer()
       transformer.transform(source, result)
       return writer.toString()
     } catch (e: Exception) {
