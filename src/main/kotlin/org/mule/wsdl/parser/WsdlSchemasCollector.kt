@@ -114,6 +114,4 @@ class WsdlSchemasCollector(private val definition: Definition) {
       throw RuntimeException("Error transforming node to String", e)
     }
   }
-
-
 }
