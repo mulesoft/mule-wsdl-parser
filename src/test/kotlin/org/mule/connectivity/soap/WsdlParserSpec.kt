@@ -79,6 +79,13 @@ class WsdlParserSpec : Spek({
           assertThat(ops, hasSize(6))
           assertThat(ops.map { it.name }, hasItems("echo", "noParams", "echoAccount", "echoWithHeaders", "noParamsWithHeader", "fail"))
         }
+
+        it("should have fail operation with 1 fault") {
+          val failOp = wsdl.services[0].ports[0].getOperation("fail")
+          failOp.name shouldEqual "fail"
+          assertThat(failOp.getFaults(), hasSize(1))
+          assertThat(failOp.getFault("EchoException").getName(), `is`("EchoException"))
+        }
       }
 
       describe("a http protected wsdl") {
