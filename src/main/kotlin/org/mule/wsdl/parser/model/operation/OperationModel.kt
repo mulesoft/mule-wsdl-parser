@@ -62,6 +62,8 @@ class OperationModel(override val name: String, private val bop: BindingOperatio
     }
   }
 
+  fun getFaults(): List<FaultModel> = bop.operation.faults.map { (_, v) -> FaultModel(v as Fault) }
+
   private fun findType(): OperationType {
     return when(bop.operation.style) {
       javax.wsdl.OperationType.NOTIFICATION -> OperationType.NOTIFICATION
