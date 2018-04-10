@@ -19,10 +19,10 @@ import javax.wsdl.xml.WSDLLocator
 import javax.xml.namespace.QName
 
 
-class WsdlParser private constructor(wsdlLocator: WSDLLocator) {
+class WsdlParser private constructor(wsdlLocator: WSDLLocator, charset: String = "UTF-8") {
 
   private val definition = parseWsdl(wsdlLocator)
-  private val wsdl = WsdlModel(wsdlLocator.baseURI, parseServices(definition), WsdlSchemasCollector(definition), definition)
+  private val wsdl = WsdlModel(wsdlLocator.baseURI, parseServices(definition), WsdlSchemasCollector(definition, charset), definition)
 
   private fun parseServices(definition: Definition) = definition.services
       .map { (_, v) -> v as Service }
@@ -94,6 +94,8 @@ class WsdlParser private constructor(wsdlLocator: WSDLLocator) {
 
   companion object {
     fun parse(wsdlLocation: String): WsdlModel = WsdlParser(WsdlLocator(wsdlLocation, NullResourceLocator())).wsdl
+    fun parse(wsdlLocation: String, charset: String): WsdlModel = WsdlParser(WsdlLocator(wsdlLocation, NullResourceLocator()), charset).wsdl
     fun parse(wsdlLocation: String, locator: ResourceLocator): WsdlModel = WsdlParser(WsdlLocator(wsdlLocation, locator)).wsdl
+    fun parse(wsdlLocation: String, locator: ResourceLocator, charset: String): WsdlModel = WsdlParser(WsdlLocator(wsdlLocation, locator), charset).wsdl
   }
 }
