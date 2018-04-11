@@ -31,7 +31,7 @@ import kotlin.collections.HashMap
  * @since 1.0
  */
 @SuppressWarnings("unchecked")
-class WsdlSchemasCollector(private val definition: Definition) {
+class WsdlSchemasCollector(private val definition: Definition, private val charset: String = "UTF-8") {
 
   private val schemas = HashMap<String, Schema>()
 
