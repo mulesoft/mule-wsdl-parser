@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:impl="http://namespaces.soaplite.com/perl"
+                  xmlns:tns1="http://namespaces.soaplite.com/perl"
+                  xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  targetNamespace="http://namespaces.soaplite.com/perl">
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://namespaces.soaplite.com/perl">
+            <element name="ArrayOfString" type="tns1:ArrayOfString"/>
+            <element name="oaBase" type="tns1:oaBase"/>
+            <element name="oaAddress" type="tns1:oaAddress"/>
+            <element name="ArrayOfoaBase" type="tns1:ArrayOfoaBase"/>
+            <element name="string" type="xsd:string"/>
+            <complexType name="ArrayOfString">
+                <sequence>
+                    <element maxOccurs="unbounded" minOccurs="0" name="string" type="xsd:string"/>
+                </sequence>
+            </complexType>
+            <complexType name="oaBase">
+                <sequence>
+                </sequence>
+            </complexType>
+            <complexType name="oaAddress">
+                <complexContent>
+                    <extension base="tns1:oaBase">
+                        <sequence>
+                            <element minOccurs="0" name="salutation" nillable="false" type="xsd:string"/>
+                            <element minOccurs="0" name="mobile" nillable="false" type="xsd:string"/>
+                            <element minOccurs="0" name="state" nillable="false" type="xsd:string"/>
+                            <element minOccurs="0" name="email" nillable="false" type="xsd:string"/>
+                            <element minOccurs="0" name="addr2" nillable="false" type="xsd:string"/>
+                            <element minOccurs="0" name="city" nillable="false" type="xsd:string"/>
+                            <element minOccurs="0" name="fax" nillable="false" type="xsd:string"/>
+                            <element minOccurs="0" name="contact_id" nillable="false" type="xsd:string"/>
+                            <element minOccurs="0" name="addr1" nillable="false" type="xsd:string"/>
+                            <element minOccurs="0" name="id" nillable="false" type="xsd:string"/>
+                            <element minOccurs="0" name="middle" nillable="false" type="xsd:string"/>
+                            <element minOccurs="0" name="country" nillable="false" type="xsd:string"/>
+                            <element minOccurs="0" name="first" nillable="false" type="xsd:string"/>
+                            <element minOccurs="0" name="last" nillable="false" type="xsd:string"/>
+                            <element minOccurs="0" name="phone" nillable="false" type="xsd:string"/>
+                            <element minOccurs="0" name="zip" nillable="false" type="xsd:string"/>
+                            <element minOccurs="0" name="addr4" nillable="false" type="xsd:string"/>
+                            <element minOccurs="0" name="addr3" nillable="false" type="xsd:string"/>
+                            <element minOccurs="0" name="attributes" nillable="false" type="tns1:ArrayOfoaBase"/>
+                        </sequence>
+                    </extension>
+                </complexContent>
+            </complexType>
+            <complexType name="ArrayOfoaBase">
+                <sequence>
+                    <element maxOccurs="unbounded" minOccurs="0" name="oaBase" type="tns1:oaBase"/>
+                </sequence>
+            </complexType>
+        </schema>
+    </wsdl:types>
+</wsdl:definitions>
