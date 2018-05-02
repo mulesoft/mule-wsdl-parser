@@ -16,8 +16,9 @@ class WsdlMetadataResolutionSpec : Spek({
         it("should collect the schema embedded in the wsdl types tag and assert the extracted content using namespaces defined in the wsdl") {
             val metaData = WsdlParser.parse(TestUtils.getResourcePath("wsdl/namespaces.wsdl")).loader.value
                     .load(QName("http://namespaces.soaplite.com/perl", "oaAddress"), "oaAddress")
-            assertThat(((((metaData.get() as DefaultObjectType).fields as java.util.ArrayList<*>)[0] as DefaultObjectFieldType)
-                    .value as DefaultObjectType).fields, hasSize(19))
+            val metadataFields = ((((metaData.get() as DefaultObjectType).fields.iterator().next()) as DefaultObjectFieldType)
+                    .value as DefaultObjectType).fields
+            assertThat(metadataFields, hasSize(19))
         }
 
     }
