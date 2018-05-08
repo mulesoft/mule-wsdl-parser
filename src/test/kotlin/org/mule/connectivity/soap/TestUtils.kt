@@ -30,6 +30,7 @@ object TestUtils {
 
   fun assertSimilarXml(expected: String, result: String) {
     XMLUnit.setIgnoreWhitespace(true)
+    XMLUnit.setIgnoreComments(true)
     val diff = compareXML(result, expected)
     if (!diff.similar()) {
 

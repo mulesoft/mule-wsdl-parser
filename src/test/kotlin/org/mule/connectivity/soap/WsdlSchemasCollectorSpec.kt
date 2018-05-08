@@ -41,6 +41,14 @@ class WsdlSchemasCollectorSpec : Spek({
       val expected = IOUtils.toString(FileInputStream(TestUtils.getResourcePath("schemas/complex-embedded-schema.xsd")))
       TestUtils.assertSimilarXml(expected, schemas.values.iterator().next())
     }
+
+    it("should collect the schema embedded in an imported wsdl with multiple import values") {
+      val parsed = WsdlParser.parse(TestUtils.getResourcePath("wsdl/multiple-imports-as-value/multiple-imports-base.wsdl"))
+      val schemas = parsed.collectSchemas()
+      assertThat(schemas.values, hasSize(1))
+      val expected = IOUtils.toString(FileInputStream(TestUtils.getResourcePath("schemas/multiple-import-values.xsd")))
+      TestUtils.assertSimilarXml(expected, schemas.values.iterator().next())
+    }
   }
 })
 
