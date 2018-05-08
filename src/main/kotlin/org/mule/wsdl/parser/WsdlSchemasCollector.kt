@@ -1,10 +1,8 @@
 package org.mule.wsdl.parser
 
-import net.sf.saxon.jaxp.IdentityTransformer
 import net.sf.saxon.jaxp.SaxonTransformerFactory
 import org.mule.metadata.xml.api.SchemaCollector
 import org.w3c.dom.Node
-import org.w3c.dom.NodeList
 import java.io.StringWriter
 import java.util.*
 import javax.wsdl.Definition
@@ -13,13 +11,8 @@ import javax.wsdl.Types
 import javax.wsdl.extensions.schema.Schema
 import javax.wsdl.extensions.schema.SchemaImport
 import javax.wsdl.extensions.schema.SchemaReference
-import javax.xml.transform.OutputKeys
-import javax.xml.transform.Transformer
-import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
-import javax.xml.xpath.XPathConstants
-import javax.xml.xpath.XPathFactory
 
 import kotlin.collections.HashMap
 
@@ -34,6 +27,8 @@ import kotlin.collections.HashMap
 class WsdlSchemasCollector(private val definition: Definition, private val charset: String = "UTF-8") {
 
   private val schemas = HashMap<String, Schema>()
+  // we should keep track of already found imports to avoid recursive infinite loops
+  private val foundImports = ArrayList<String>()
 
   companion object {
     val TARGET_NS = "targetNamespace"
@@ -56,9 +51,18 @@ class WsdlSchemasCollector(private val definition: Definition, private val chars
   private fun collectSchemas(definition: Definition) {
     collectFromTypes(definition.types)
     definition.imports.values.forEach { import ->
-      if (import is Import) {
-        collectSchemas(import.definition)
+      if (import is Vector<*>) {
+        import.forEach { it -> collectIfImport(it) }
+      } else {
+        collectIfImport(import)
       }
+    }
+  }
+
+  private fun collectIfImport(import: Any?) {
+    if (import is Import && !foundImports.contains(import.locationURI)) {
+      foundImports.add(import.locationURI)
+      collectSchemas(import.definition)
     }
   }
 
