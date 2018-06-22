@@ -35,7 +35,7 @@ class WsdlSchemasCollector(private val definition: Definition, private val chars
   }
 
   fun collector() : SchemaCollector {
-    val collector = SchemaCollector.getInstance()
+    val collector = SchemaCollector.getInstance(charset)
     collectSchemas(definition)
     schemas.forEach { (uri, schema) ->
       try {
