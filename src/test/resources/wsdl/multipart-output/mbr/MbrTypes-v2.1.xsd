@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:common="urn:common2_0.schema.bcbsm.com" xmlns:tns="urn:mbr2_1.schema.bcbsm.com" targetNamespace="urn:mbr2_1.schema.bcbsm.com" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.1.6">
+	<xs:import namespace="urn:common2_0.schema.bcbsm.com" schemaLocation="../common/CommonTypes-v2.0.xsd"/>
+	<xs:complexType name="AddressDetailType">
+		<xs:annotation>
+			<xs:documentation>Primary AddressType extended for status and identifier information.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="common:AddressType">
+				<xs:sequence>
+					<xs:element name="Type" type="tns:CodeCategoryType">
+						<xs:annotation>
+							<xs:documentation>Valid Values are :  MA - Mailing, MR - Rating, RA - Residential, SA - Student, ZO - Other </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Code" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>User defined code;  selected when the Address Type is ZO</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ID" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Unique identifier;  used to associate a member on the same contract to an existing address.  For example, this is normally the AddressIdentifier of the subscriber's address. If not shared (ShareAddrFlag="N", then set to "0" (zero).</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Primary" type="common:YesNoIndicatorEnum" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Indicator whether this address is primary.  Valid Values are : Y - for primary;  N or Spaces - for not primary</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Shared" type="common:YesNoIndicatorEnum">
+						<xs:annotation>
+							<xs:documentation>Indicator whether other members share this address. Valid Values are :  Y - shared;  N - not shared</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="StatusCode" type="tns:CodeCategoryType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Status code (still active) of the Address</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="EffectiveDate" type="xs:date" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Date this address becomes effective to use.  User can edit for valid date</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ExpirationDate" type="xs:date" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Date this address may no longer be available  User can edit for valid date</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ReceiptDate" type="xs:date" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Date of the request to add this address information.  User can edit for valid date</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="CodeCategoryType">
+		<xs:annotation>
+			<xs:documentation>Standard lookup and code categories, normally two or four byte code (Reason Codes, Status Codes, Condition Codes, Explanation Codes, etc.)  </xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="4"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="ContactType">
+		<xs:sequence>
+			<xs:element name="Address" type="tns:AddressDetailType" minOccurs="0" maxOccurs="4">
+				<xs:annotation>
+					<xs:documentation>Up to four addresses supported for each member.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ContractCrossReferenceType">
+		<xs:annotation>
+			<xs:documentation>Cross Reference</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="NewContractNumber" type="tns:ContractNumberType">
+				<xs:annotation>
+					<xs:documentation>New Contract Number</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Reason" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Reason  for cross reference. String of length 3 for NASCO</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DateRange" type="common:ExpirableType"/>
+			<xs:element name="EndDateReason" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>String of length 4 on NASCO</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ContractInfoType">
+		<xs:annotation>
+			<xs:documentation>Contract Information</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ContractNumber" type="tns:ContractNumberType"/>
+			<xs:element name="Group" type="tns:GroupType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ContractIdentifier">
+		<xs:annotation>
+			<xs:documentation>Contract ID that can be used to identify a contract. This field generically specifies the contract number and may be used in various forms.  Specific format should be presented by the elements realizing this type.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Number" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ContractNumberType">
+		<xs:annotation>
+			<xs:documentation>Contract ID that can be used to identify a contract. It consists of and 3 character prefix, 9 character contract number, and possibly a 4 character extent.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:ContractIdentifier">
+				<xs:sequence>
+					<xs:element name="AlphaPrefix" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:length value="3"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="Extent" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:length value="4"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="ContractTypeEnum">
+		<xs:annotation>
+			<xs:documentation>Descriptions are Planspecific, for example: 1 (Group), 2 (Non-group), 3 (Workers' compensation), 4 (Accidental injury). Note: Value is required with OtherCoverageIndicator of Y and DetailActionCode of A</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:nonNegativeInteger">
+			<xs:pattern value="[1234]"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="CoverageHistoryType">
+		<xs:sequence>
+			<xs:element name="OtherCarrierIdentifier" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Identifier associated with other carrier company</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EffectiveDate" type="xs:date"/>
+			<xs:element name="ExpirationDate" type="xs:date" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CoverageSpanType">
+		<xs:annotation>
+			<xs:documentation>This defines the timespan for which the contract is active; there MAY be multiple (upto 5) spanTypes per contract. One of the required elements for creating, updating, reinstating and voiding a contract in Metavance. Metavance CoverageTypeSpan has Action field which has values A, C, V, and R. CreateContract would call backend with Action of A and updateContact would call with action of C...</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:ContractInfoType">
+				<xs:sequence>
+					<xs:element name="ContractTypeCode" type="tns:ContractTypeEnum"/>
+					<xs:element name="ControlPlan" type="tns:PlanCodeType" minOccurs="0"/>
+					<xs:element name="RatePackageID" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>Rate Package identifier; currently defined as string of length 4 for NASCO systems. </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="EmployerGroup" type="tns:GroupType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>This defines employer group and Division (Number+Division) with which the coverage contract is associated (Number+Section). </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="BusinessLevel" type="xs:string" minOccurs="0" maxOccurs="4">
+						<xs:annotation>
+							<xs:documentation>Business Level 4, 5, 6, and 7 ID. Metavance required this field for creating contract.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="RequestDate" type="xs:date" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>This is the date when contract was requested. It may be different from current date. </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="CoverageDateRange" type="common:ExpirableType" minOccurs="0"/>
+					<xs:element name="CoverageEndReasonCode" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Reason code for end date; currently defined as string of length 4 for NASCO systems. </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="EmploymentInfoType">
+		<xs:annotation>
+			<xs:documentation>Employment information</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="EmploymentStatus" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Current values for NASCO used in COB services are A: Active, R: Retired, L: Laid Off. 
+										Currently for CreateContract service it's a string of length 4 for NASCO</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DateRange" type="common:ExpirableType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Date range represents start and end date for employment. For COB services it may mean effective and cancel date for other coverage. </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EmployerName" type="xs:string" minOccurs="0"/>
+			<xs:element name="EmployerAddress" type="common:AddressType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ExternalContractIdentifier">
+		<xs:annotation>
+			<xs:documentation>External contract numbers of may have length greater than 9. Contract ID that is used to identify a contract. It can be upto 14 character length.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Number" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ExternalContractNumberType">
+		<xs:annotation>
+			<xs:documentation>External contract numbers of may have length greater than 9.  In conjunction with ExternalContractIdentifier this is used to further identify a contract. It consists of and 3 character prefix, a greater than 9 character contract number, and possibly a 4 character extent.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:ExternalContractIdentifier">
+				<xs:sequence>
+					<xs:element name="AlphaPrefix" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:length value="3"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+					<xs:element name="Extent" minOccurs="0">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:length value="4"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="GroupIdentifier">
+		<xs:sequence>
+			<xs:element name="Number">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="5"/>
+						<xs:maxLength value="9"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Suffix" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Group suffix number the contract is associated with.  For NASCO this is equivalent section number.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GroupType">
+		<xs:complexContent>
+			<xs:extension base="tns:GroupIdentifier">
+				<xs:sequence>
+					<xs:element name="Division" type="xs:string" minOccurs="0"/>
+					<xs:element name="Name" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="MemberContactType">
+		<xs:complexContent>
+			<xs:extension base="tns:MemberInfoType">
+				<xs:sequence>
+					<xs:element name="Address" type="common:AddressType"/>
+					<xs:element name="Phone" type="common:PhoneNumberDetailedType" minOccurs="0"/>
+					<xs:element name="AlternateAddress" type="common:AddressType" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="MemberDINIdentifier">
+		<xs:annotation>
+			<xs:documentation>System's Deidentified Number</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:complexType name="MemberInfoType">
+		<xs:annotation>
+			<xs:documentation>Member Information. Subscriber is a member so this can be used as subscriber too.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="MemberID" type="tns:MemberSequenceIdentifier" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indicates the unique number of the member within the contract</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="PersonInfo" type="common:PersonalInfoType" minOccurs="0"/>
+			<xs:element name="RelationshipCode" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="MemberSequenceIdentifier">
+		<xs:annotation>
+			<xs:documentation>System's sequence number for the member. e.g. 01, 02, 03, etc.  For some systems leading zeroes are dropped. Also referred to as Member ID</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="MemberSSNIdentifier">
+		<xs:annotation>
+			<xs:documentation>Social Security Number (no hyphens or spaces)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{9}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="PersonInfoType">
+		<xs:annotation>
+			<xs:documentation>Primary information to identify a person or human being.  Not necessarily a member.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="common:PersonalInfoType">
+				<xs:sequence>
+					<xs:element name="UpdateNameHistoryFlag" type="common:YesNoIndicatorEnum" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Indicator of whether a name history record should be created for this name change. Valid values are Y, N or spaces.  This is for auditing purposes.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="DateofDeath" type="xs:date" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Date of Death of the person.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SSN" type="tns:MemberSSNIdentifier" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Social Security Number of the person.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="MaritalStatusCode" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Person's Marital Status</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="OrigEffectiveDate" type="xs:date" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Original date the personl had coverage or some type of service.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="PlanCodeType">
+		<xs:annotation>
+			<xs:documentation>NASCO plan code; also known as control plan code</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="PreConditionType">
+		<xs:sequence>
+			<xs:element name="ConditionType" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Identifies the condition, the member is totally disabled, or is in waiting period at the Division level regarding pre-existing conditions. Valid values are M, T, D</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ConditionCode" type="tns:CodeCategoryType">
+				<xs:annotation>
+					<xs:documentation>User defined code indicationing a category/classification of the pre-existing condition.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EffectiveDate" type="xs:date">
+				<xs:annotation>
+					<xs:documentation>When the precondition is acknowledged as current with the system.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExpirationDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>This is conditionally required based on the ConditionType</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExplainCode" type="tns:CodeCategoryType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Explanation category of the pre-existing condition.  A user defined code;  for adding a member, this field is required for ConditionType=T</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="InvestigationType" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Identifies whether the investigation is based on a disability that began prior to enrollment, during coverage while coverage is in effect or during coverage and coverage is no longer in effectConditionally required; Required when Condition Type is T.  Values are:  (B)efore Enrollment,  (D)uring Coverage, (U)pon Termination.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DisabilityDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Date when the member's disability began;  Required when ConditionType is T</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AccidentClaimBypass" type="common:YesNoIndicatorEnum" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="StatusType">
+		<xs:sequence>
+			<xs:element name="Code" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>User defined status code</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Type" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Member status type either: Claims, Billing, Underwriting or Other.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EffectiveDate" type="xs:date"/>
+			<xs:element name="ExpirationDate" type="xs:date" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="TransactionIndType">
+		<xs:annotation>
+			<xs:documentation>Transaction indicator type for backend, normally (A)dd, (C)hange, (V)oid.  Others include (T)erminate and (R)einstate.  These values could change at any time, so enumeration is not used.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:length value="1"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>
