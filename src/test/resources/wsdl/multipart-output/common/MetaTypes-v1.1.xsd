@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2018 sp1 (http://www.altova.com) by Altova XMLSpy 2018 Professional XML Editor, Installed for 104 users (Blue Cross Blue Shield of MI) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:common="urn:common2_0.schema.bcbsm.com" xmlns:tns="urn:meta1_1.schema.bcbsm.com" targetNamespace="urn:meta1_1.schema.bcbsm.com" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1">
+	<!--
+	=================== Change Log ===================
+		Version	: 1.1.1
+		Date		: 9/11/2008
+		Details		: Modified namespace to inclide schema version..
+				Changed common from 1.0 to 2.0
+
+		Version	: 1.1
+		Date		: 8/14/2008
+		Details		:
+				Added more environments to SystemEnvironmentCode to manage more TERI back-ends.
+					All XML generated on previous type will still work with this type.
+
+		Version	: 1.0
+		Date		: 4/25/2008
+		Details		: Initial version.
+-->
+	<xs:import namespace="urn:common2_0.schema.bcbsm.com" schemaLocation="CommonTypes-v2.0.xsd"/>
+	<xs:complexType name="ConsumerType">
+		<xs:annotation>
+			<xs:documentation>Identifies the End consumer of message.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ID">
+				<xs:annotation>
+					<xs:documentation>Unique id that is used to identify the consuming application. The id will be assigned to the consumer by the Services COE and used as specified by the Service Consumer Guide. This should be the end consumer ID, i.e the actual consuming appliation that requested the information</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="30"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="Name" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Additional information about the consuming application (i.e. name of the application). This should be the end consumer name, i.e the actual consuming appliation that requested the information</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:minLength value="1"/>
+						<xs:maxLength value="30"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="HeaderAreaType" abstract="true">
+		<xs:sequence>
+			<xs:element name="VersionInfo" type="tns:VersionType"/>
+			<xs:element name="CreationDateTime" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>is the date time stamp that the given instance of the Business Object Document was created.  This date must not be modified during the life of the message.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MessageID" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>
+The MessageId provides a place to carry a Globally Unique Identifier (GUID) that will make each Schema instance uniquely identifiable.  
+This is a critical success factor to enable software developers to use the Globally Unique Identifier (GUID) to build the following services or capabilities:
+1. Legally binding transactions,
+2. Transaction logging,
+3. Exception handling,
+4. Re-sending,
+5. Reporting,
+6. Confirmations,
+7. Security.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="systemEnvironmentCode" type="tns:SystemEnvironmentEnum" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="MessageType">
+		<xs:annotation>
+			<xs:documentation>Informational element that is used to provide an indication toward the effectiveness of the request processing.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="common:CodeDescriptionType">
+				<xs:sequence>
+					<xs:element name="Source" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>Name of the back-end system, which is the source of information</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SubCode" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Code from any other system </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="AdditionalInfo" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Additional technical information.  This field should be used instead of appending information to the general Description associated with the Code.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ReqHeaderAreaType">
+		<xs:complexContent>
+			<xs:extension base="tns:HeaderAreaType">
+				<xs:sequence>
+					<xs:element name="Consumer" type="tns:ConsumerType">
+						<xs:annotation>
+							<xs:documentation>Identifies characteristics and control identifiers that relate to the application that created the message.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ReqMessageTemplateType" abstract="true">
+		<xs:annotation>
+			<xs:documentation>Is the schema based inheritance for all service schemas. The logical model would also include the Payload.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ReqHeaderArea" type="tns:ReqHeaderAreaType">
+				<xs:annotation>
+					<xs:documentation>Provides the information that an application may need to know in order to communicate in an integration of two or more business applications. The HeaderArea is used at the applications layer of communication. While the integration frameworks web services and middleware provide the communication layer that message operates on top of.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ReqPaginationType">
+		<xs:annotation>
+			<xs:documentation> This is used for large messages where response is broken down into multiple responces.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="PageID" type="xs:string" minOccurs="0"/>
+			<xs:element name="NeedPagination" type="common:BooleanIndicatorEnum" default="N" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RespHeaderAreaType">
+		<xs:complexContent>
+			<xs:extension base="tns:HeaderAreaType">
+				<xs:sequence>
+					<xs:element name="Status" type="tns:RespStatusEnum"/>
+					<xs:element name="SystemMessage" type="tns:MessageType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Used to communicate results of component systems that are consumed by the request's processing.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RespMessageTemplateType" abstract="true">
+		<xs:annotation>
+			<xs:documentation>Is the schema based inheritance for all service schemas. The logical model would also include the Payload.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="RespHeaderArea" type="tns:RespHeaderAreaType">
+				<xs:annotation>
+					<xs:documentation>Provides the information that an application may need to know in order to communicate in an integration of two or more business applications. The HeaderArea is used at the applications layer of communication. While the integration frameworks web services and middleware provide the communication layer that message operates on top of.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RespPaginationType">
+		<xs:annotation>
+			<xs:documentation> This is used for long messages where response is broken down into multiple responces.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="PageID" type="xs:string" minOccurs="0"/>
+			<xs:element name="RowsReturned" type="xs:nonNegativeInteger">
+				<xs:annotation>
+					<xs:documentation>Number of contracts returned in the response</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MaxRowsPerPage" type="xs:nonNegativeInteger" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Maximum number of rows that can be returned in one response/page. </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MoreDataAvailable" type="common:YesNoIndicatorEnum"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="RespStatusEnum">
+		<xs:annotation>
+			<xs:documentation>Indicates the overall status of the service response to the consumer (possible statuses include successful, partial data, failure, etc).</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:normalizedString">
+			<xs:enumeration value="SUCCESSFUL"/>
+			<xs:enumeration value="UNSUCCESSFUL"/>
+			<xs:enumeration value="PARTIAL"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SystemEnvironmentEnum">
+		<xs:annotation>
+			<xs:documentation>
+				Indicates the environment in which to run the operation through.
+				This has multiple values to cover current and future TERI runways.
+				Promotions normally move from TEST to SIT to QA/E2E to PROD. 
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:normalizedString">
+			<xs:enumeration value="PROD"/>
+			<xs:enumeration value="QA"/>
+			<xs:enumeration value="E2E"/>
+			<xs:enumeration value="E2E2"/>
+			<xs:enumeration value="E2E3"/>
+			<xs:enumeration value="E2E4"/>
+			<xs:enumeration value="E2E5"/>
+			<xs:enumeration value="E2E6"/>
+			<xs:enumeration value="E2E7"/>
+			<xs:enumeration value="E2E8"/>
+			<xs:enumeration value="E2E9"/>
+			<xs:enumeration value="E2E10"/>
+			<xs:enumeration value="SIT"/>
+			<xs:enumeration value="SIT2"/>
+			<xs:enumeration value="SIT3"/>
+			<xs:enumeration value="SIT4"/>
+			<xs:enumeration value="SIT5"/>
+			<xs:enumeration value="SIT6"/>
+			<xs:enumeration value="SIT7"/>
+			<xs:enumeration value="SIT8"/>
+			<xs:enumeration value="SIT9"/>
+			<xs:enumeration value="SIT10"/>
+			<xs:enumeration value="TEST"/>
+			<xs:enumeration value="TEST2"/>
+			<xs:enumeration value="TEST3"/>
+			<xs:enumeration value="TEST4"/>
+			<xs:enumeration value="TEST5"/>
+			<xs:enumeration value="TEST6"/>
+			<xs:enumeration value="TEST7"/>
+			<xs:enumeration value="TEST8"/>
+			<xs:enumeration value="TEST9"/>
+			<xs:enumeration value="TEST10"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="VersionType">
+		<xs:sequence>
+			<xs:element name="ServiceVersion" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Indicates the service version.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SchemaVersion" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Indicates the schema version.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

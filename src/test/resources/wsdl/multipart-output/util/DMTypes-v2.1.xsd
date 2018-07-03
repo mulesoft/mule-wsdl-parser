@@ -1,0 +1,615 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by BCBSM (Blue Cross Blue Shield of MI) -->
+<xs:schema xmlns:tns="urn:docmgmt2_1.util.schema.bcbsm.com" xmlns:claim="urn:claim1_4.schema.bcbsm.com" xmlns:mbr="urn:mbr2_1.schema.bcbsm.com" xmlns:meta="urn:meta1_1.schema.bcbsm.com" xmlns:common="urn:common2_0.schema.bcbsm.com" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:docmgmt2_1.util.schema.bcbsm.com" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.1.12">
+	<xs:import namespace="urn:common2_0.schema.bcbsm.com" schemaLocation="../common/CommonTypes-v2.0.xsd"/>
+	<xs:import namespace="urn:meta1_1.schema.bcbsm.com" schemaLocation="../common/MetaTypes-v1.1.xsd"/>
+	<xs:import namespace="urn:mbr2_1.schema.bcbsm.com" schemaLocation="../mbr/MbrTypes-v2.1.xsd"/>
+	<xs:import namespace="urn:claim1_4.schema.bcbsm.com" schemaLocation="../claim/ClaimTypes-v1.4.xsd"/>
+
+	<xs:element name="RetrieveDocumentRequest">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="meta:ReqMessageTemplateType">
+					<xs:sequence>
+						<xs:element name="PayloadArea" type="tns:RetrieveDocumentReqPayloadType">
+							<xs:annotation>
+								<xs:documentation>Is where the information that the message carries is provided</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RetrieveDocumentResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="meta:RespMessageTemplateType">
+					<xs:sequence>
+						<xs:element name="PayloadArea" type="tns:RetrieveDocumentRespPayloadType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Is where the information that the message carries is provided</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RtrvMbrMaterialsRequest">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="meta:ReqMessageTemplateType">
+					<xs:sequence>
+						<xs:element name="PayloadArea">
+							<xs:annotation>
+								<xs:documentation>Is where the information that the message carries is provided</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="tns:RtrvMbrMaterialsReqPayloadType"/>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RtrvMbrMaterialsResponse">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="meta:RespMessageTemplateType">
+					<xs:sequence>
+						<xs:element name="PayloadArea" type="tns:RtrvMbrMaterialsRespPayloadType" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Is where the information that the message carries is provided</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="AttributeType">
+		<xs:annotation>
+			<xs:documentation>Required attribute associated to the content.  e.g.: Attachment_ID = "98765432123457689"</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Name" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Represents a name of the property of content [eg: Attachment_ID]</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Value" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Represents a value of the property of content [eg: "98765432123457689"] </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Date" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Represents a date value of the property of content [eg: "2012-11-01"] </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ClaimInfoType">
+		<xs:annotation>
+			<xs:documentation>Claim information</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ChargeAmount" type="common:CurrencyType" minOccurs="0"/>
+			<xs:element name="ClaimIdentifier" type="claim:ClaimIdentifierType" minOccurs="0"/>
+			<xs:element name="MemberInfo" type="common:PersonalInfoType"/>
+			<xs:element name="ProviderName" type="xs:string" minOccurs="0"/>
+			<xs:element name="ServiceDates" type="common:DateRangeType" minOccurs="0"/>
+			<xs:element name="ServicePlan" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DocumentInfoType">
+		<xs:sequence>
+			<xs:element name="Type" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Document type - eg: pdf, word etc</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Data" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>XML payload will used to getnerate actual document</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Name" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Document name</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MaterialType">
+		<xs:annotation>
+			<xs:documentation>Metadata about a material (document)</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="ID" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The Material ID or code used to identify a document. Required by BCN and IKA. On IKA side, this is called CategoryID.  and currently available values in IKA :  FULFIL, ENROLL, CLMCL </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RequestDate" type="xs:date" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The date the material was requested to be processed by the Consumer.  Not all materials have a request date. Required by IKA.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ReceivedInd" type="common:YesNoIndicatorEnum" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Indicates if the material (i.e. a form) was received by the business from the member.  A Y or N value.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SubCategoryID" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Available values in IKA : FORMS, IDCARD, IDLOST, IDSTLN, EOB, EOC. Required by IKA.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CallType" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>If not provided, will be defaulted to 'Phone'. Required by IKA.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="CallerType" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>If not provided, will be defaulted to 'M' which indicates Member. Required by IKA.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Comments" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Comments. Required by IKA.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RtrvMbrMaterialsReqPayloadType">
+		<xs:annotation>
+			<xs:documentation>Request type for request materials service</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="BusinessChannel" type="common:BusinessChannelType" minOccurs="0"/>
+			<xs:element name="Contract" type="mbr:ContractNumberType"/>
+			<xs:element name="Group" type="mbr:GroupIdentifier"/>
+			<xs:element name="Member">
+				<xs:annotation>
+					<xs:documentation>If MemberID is not provided, then must at least provide first, last, DOB, and Gender.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="common:PersonalInfoType">
+							<xs:sequence>
+								<xs:element name="MemberID" type="mbr:MemberSequenceIdentifier" minOccurs="0">
+									<xs:annotation>
+										<xs:documentation>If MemberID provided, then cannot provide other member information.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:sequence>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="EligibilityPeriod" type="common:ExpirableType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>If no date provided, the assumes current eligibility.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RtrvMbrMaterialsRespPayloadType">
+		<xs:annotation>
+			<xs:documentation>Response type for request materials document service</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Contract" type="mbr:ContractNumberType"/>
+			<xs:element name="Group" type="mbr:GroupIdentifier">
+				<xs:annotation>
+					<xs:documentation>For BCN, the Suffix is also known as the Group Subcode.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MemberDemographics" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="BusinessChannel" type="common:BusinessChannelType">
+							<xs:annotation>
+								<xs:documentation>One business channel (BCN) available at this time.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Person" type="common:PersonalInfoType" minOccurs="0"/>
+						<xs:element name="MemberID" type="mbr:MemberSequenceIdentifier" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>The source system member identification code for a subscriber or member.  This is the member the matierial is being requested for.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="Material" type="tns:MaterialType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Describe the meta data of a material or document.  Material ID is required.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+						<xs:element name="EligibilityPeriod" type="common:ExpirableType" minOccurs="0"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RetrieveDocumentReqCriteriaType">
+		<xs:choice>
+			<xs:sequence>
+				<xs:element name="DataMapName" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>Name of the Data Map in IICE where federated query definition is caputred</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Attribute" type="tns:AttributeType" maxOccurs="100"/>
+			</xs:sequence>
+			<xs:sequence>
+				<xs:element name="DocumentName" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Valid values are:
+						"EOB" - Explanation of Benefits
+						"NBR" - Negative Balance Reports
+						"1095B" - 1095B Tax Statement
+					"VOUCHER" -  to support voucher based search</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="Contract" type="mbr:ContractNumberType" minOccurs="0"/>
+				<xs:element name="DocID" type="xs:base64Binary" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>An identifier returned by the source system to identify an artifact.  It is NOT necessarily unique.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="ClaimIdentifier" type="claim:ClaimIdentifierType" minOccurs="0"/>
+				<xs:element name="GroupName" type="xs:string" minOccurs="0"/>
+				<xs:element name="StatementDate" type="xs:date" minOccurs="0"/>
+				<xs:element name="SubscriberInd" type="common:YesNoIndicatorEnum" minOccurs="0"/>
+				<xs:element name="ControlPlan" type="xs:string" minOccurs="0"/>
+				<xs:element name="ServicePlan" type="xs:string" minOccurs="0"/>
+			</xs:sequence>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="RetrieveDocumentReqPayloadType">
+		<xs:annotation>
+			<xs:documentation>Request type for retrieve document service</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:RetrieveDocumentReqCriteriaType">
+				<xs:sequence>
+					<xs:element name="BusinessChannel" type="common:BusinessChannelType">
+						<xs:annotation>
+							<xs:documentation>IICE, NASCO, CMOD, TR etc</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="IncludeContent" type="common:YesNoIndicatorEnum" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Indicates whether to include document content (attachment) as part of response or not</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Id" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Id to access ContentManagement </xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="Password" type="xs:string" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>password to access ContentManagement</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RetrieveDocumentRespPayloadType">
+		<xs:annotation>
+			<xs:documentation>Response type for retrieve document service</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Attribute" type="tns:AttributeType" maxOccurs="100"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SearchDocumentReqPayloadType">
+		<xs:annotation>
+			<xs:documentation>Request type for store document service</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DocumentName" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Valid values are:
+						"EOB" - Explanation of Benefits
+						"NBR" - Negative Balance Reports
+						"1095B" - 1095B Tax Statement
+					"VOUCHER" -  to support voucher based search</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EID" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Used for EOB search</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ClaimIdentifier" type="claim:ClaimIdentifierType" minOccurs="0"/>
+			<xs:element name="ContractNumber" type="mbr:ContractNumberType" minOccurs="0"/>
+			<xs:element name="ProviderID" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Used for NBR search </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ActivityDates" type="common:DateRangeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Activity Date Range - Used for NBR search </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ServiceDates" type="common:DateRangeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>When the service was rendered by the provider. Used for EOB search</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="StatementDates" type="common:DateRangeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Statement date. If it is not provided a two year history window will be defaulted.
+					Used for EOB search and 1095B statements search.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SourceSystemMemberID" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Used for EOB search if provided.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="RecipientName" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Recipient Name as appear on tax statements. Used to search 1095B tax statements.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="TIN" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Tax Identification number as appear on 1095B Tax statements. Used to search 1095B tax statements.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DocID" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Document Identification number for PCPPO Letters</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DataMapName" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Name of the Data Map in ICI where federated query definition is caputred</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Id" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Id to access ContentManagement </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Password" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>password to access ContentManagement</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AttributeValue" type="tns:AttributeValueType">
+				<xs:annotation>
+					<xs:documentation>AttributeValue will have attribute name, values and operator. Atleast one should be required</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="AttributeValueWithLogical" type="tns:AttributeValueWithLogicalType" minOccurs="0" maxOccurs="30">
+				<xs:annotation>
+					<xs:documentation>AttributeValueWithLogicalwill have logical operator, attribute name, values and operator.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SortBy" type="tns:AttributeSortType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Sort Order</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="MaxRecCount" type="xs:int" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Max Result set size</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Voucher" type="tns:VoucherType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Voucher specific elements</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DateRange" type="common:DateRangeType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="OperatorEnum">
+		<xs:annotation>
+			<xs:documentation>
+				Comparison,Equality and other operators supported by ICI
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="BETWEEN"/>
+			<xs:enumeration value="EQUAL_TO"/>
+			<xs:enumeration value="GREATER_THAN"/>
+			<xs:enumeration value="GREATER_THAN_OR_EQUAL_TO"/>
+			<xs:enumeration value="IN"/>
+			<xs:enumeration value="IS_NOT_NULL"/>
+			<xs:enumeration value="IS_NULL"/>
+			<xs:enumeration value="LESS_THAN"/>
+			<xs:enumeration value="LESS_THAN_OR_EQUAL_TO"/>
+			<xs:enumeration value="LIKE"/>
+			<xs:enumeration value="NOT_BETWEEN"/>
+			<xs:enumeration value="NOT_EQUAL_TO"/>
+			<xs:enumeration value="NOT_IN"/>
+			<xs:enumeration value="NOT_LIKE"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="LogicalOperatorEnum">
+		<xs:annotation>
+			<xs:documentation>
+			Basic Logical Operator Type supported by ICI
+		</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="AND"/>
+			<xs:enumeration value="OR"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SortEnum">
+		<xs:annotation>
+			<xs:documentation>
+			Basic Sort Order
+		</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ASCENDING"/>
+			<xs:enumeration value="DESCENDING"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="AttributeSortType">
+		<xs:annotation>
+			<xs:documentation>Basic sort attribute eg: Sort By ContractNumber</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AttributeName" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Represents a name of the property of content [eg: Attachment_ID]</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SortOrder" type="tns:SortEnum" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AttributeValueType">
+		<xs:annotation>
+			<xs:documentation>Required attribute associated to the content.  e.g.: Attachment_ID = "98765432123457689"</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Name" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Represents a name of the property of content [eg: Attachment_ID]</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Operator" type="tns:OperatorEnum"/>
+			<xs:element name="Value" type="xs:string" minOccurs="0" maxOccurs="30">
+				<xs:annotation>
+					<xs:documentation>Represents a string value of the property of content [eg: "98765432123457689"] </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AttributeValueWithLogicalType">
+		<xs:annotation>
+			<xs:documentation>Required attribute associated to the content.  e.g.: Attachment_ID = "98765432123457689"</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:AttributeValueType">
+				<xs:sequence>
+					<xs:element name="LogicalOperator" type="tns:LogicalOperatorEnum" default="AND" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Defaulted to AND operator.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SearchDocumentRespPayloadType">
+		<xs:annotation>
+			<xs:documentation>Response type for search document service</xs:documentation>
+		</xs:annotation>
+		<xs:choice>
+			<xs:element name="SearchInfo" type="tns:SearchInfoType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Document" type="tns:DocumentType" minOccurs="0" maxOccurs="100"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="DocumentType">
+		<xs:annotation>
+			<xs:documentation>Document Type</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Attribute" type="tns:AttributeType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SearchInfoType">
+		<xs:annotation>
+			<xs:documentation>Top level entity for search listing data</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="BusinessChannel" type="xs:string"/>
+			<xs:element name="DocumentName" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Valid values are:
+						"EOB" - Explanation of Benefits
+						"NBR" - Negative Balance Reports
+						"1095B" - 1095B Tax Statement
+					"VOUCHER" -  to support voucher based search</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ClaimInfo" type="tns:ClaimInfoType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Contract" type="mbr:ContractNumberType" minOccurs="0"/>
+			<xs:element name="DocIdentifier" type="xs:base64Binary" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>An identifer returned by the source system for the artifact.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="GroupName" type="xs:string" minOccurs="0"/>
+			<xs:element name="StatementDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="TotalChargeAmount" type="common:CurrencyType" minOccurs="0"/>
+			<xs:element name="ControlPlan" type="xs:string" minOccurs="0"/>
+			<xs:element name="NotificationNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="ProviderID" type="xs:string" minOccurs="0"/>
+			<xs:element name="ActivityDate" type="xs:date" minOccurs="0"/>
+			<xs:element name="ProviderRefID" type="xs:string" minOccurs="0"/>
+			<xs:element name="SourceSystemMemberID" type="xs:string" minOccurs="0"/>
+			<xs:element name="DocDeliveryType" type="xs:string" minOccurs="0"/>
+			<xs:element name="Voucher" type="tns:VoucherRespType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="VoucherRespType">
+		<xs:annotation>
+			<xs:documentation>Voucher response type extending voucher type</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="tns:VoucherType">
+				<xs:sequence>
+					<xs:element name="PayDate" type="xs:date" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Paid date</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="VoucherType">
+		<xs:annotation>
+			<xs:documentation>Voucher specific elements</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CheckNumber" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Check Number</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="FDSNumber" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Financial Document Serial Number</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="DocumentNumber" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Unique numer given to the Voucher document</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SubSystem" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Processing application. Ex CF, Facility, MI, FEP etc</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="FolderName" type="xs:string" default="NONHIPAA" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ParentFolderSearchType">
+		<xs:annotation>
+			<xs:documentation>Parent Folder Search parameters</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Attribute" type="tns:AttributeType" maxOccurs="100"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

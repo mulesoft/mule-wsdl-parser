@@ -9,6 +9,7 @@ import java.util.*
 import java.util.Optional.ofNullable
 import javax.wsdl.*
 import javax.wsdl.extensions.ElementExtensible
+import javax.wsdl.extensions.mime.MIMEMultipartRelated
 import javax.wsdl.extensions.soap.SOAPBody
 import javax.wsdl.extensions.soap.SOAPHeader
 import javax.wsdl.extensions.soap.SOAPOperation
@@ -110,15 +111,27 @@ class OperationModel(override val name: String, private val bop: BindingOperatio
         return ofNullable(bodyParts[0])
       }
     }
+
     return Optional.empty()
   }
 
   private fun getPartNames(elementExtensible: ElementExtensible): List<String> {
     val elements = elementExtensible.extensibilityElements
-    return elements
-        .filter { e -> e is SOAPBody || e is SOAP12Body }
-        .map { e -> if (e is SOAPBody) e.parts else (e as SOAP12Body).parts }
-        .flatMap { parts -> parts ?: emptyList<String>() } as List<String>
+    val partNames = elements
+            .filter { e -> e is SOAPBody || e is SOAP12Body }
+            .map { e -> if (e is SOAPBody) e.parts else (e as SOAP12Body).parts }
+            .flatMap { parts -> parts ?: emptyList<String>() } as List<String>
+
+    if (!partNames.isEmpty()) {
+      return partNames
+    }
+
+    val multiparts = elements.filter { e -> e is MIMEMultipartRelated }
+    if (!multiparts.isEmpty()) {
+      val multipart = multiparts[0] as MIMEMultipartRelated
+      return multipart.mimeParts.map({ e -> getPartNames(e as ElementExtensible) }).flatten()
+    }
+    return emptyList()
   }
 
   private fun getHeaderParts(bindingType: ElementExtensible): List<SoapHeader> {

@@ -23,7 +23,6 @@ import org.mockserver.matchers.Times
 import org.mockserver.model.Header
 import org.mockserver.model.HttpResponse
 import org.mockserver.socket.PortFactory
-import org.mule.wsdl.parser.model.operation.OperationModel
 import java.io.FileInputStream
 
 
@@ -45,6 +44,16 @@ class WsdlParserSpec : Spek({
       it("should be of doc literal style defined in the binding") {
         val wsdl = WsdlParser.parse(TestUtils.getResourcePath("wsdl/rpc.wsdl"))
         wsdl.style shouldBe WsdlStyle.RPC
+      }
+    }
+
+    describe("a multipart output") {
+      it("should be correctly parsed") {
+        val wsdl = WsdlParser.parse(TestUtils.getResourcePath("wsdl/multipart-output/Multipart.wsdl"))
+        val operation = wsdl.services[0].ports[0].getOperation("retrieveDocument")
+        val bodyPart = operation.getOutputBodyPart()
+        bodyPart.isPresent shouldEqual true
+        bodyPart.get().name shouldEqual "response"
       }
     }
 
