@@ -21,7 +21,7 @@ class WsdlSchemasCollectorSpec : Spek({
 
     it("should collect all the local referenced schemas that contains recursive references") {
       val schemas = WsdlParser.parse(TestUtils.getResourcePath("wsdl/recursive/main.wsdl")).collectSchemas()
-      assertThat(schemas.values, hasSize(6))
+      assertThat(schemas.values, hasSize(7))
     }
 
     it("has an schema that does not specify a location") {
@@ -32,7 +32,6 @@ class WsdlSchemasCollectorSpec : Spek({
     it("should collector multiples schemas embedded in the wsdl types tag") {
       val schemas = WsdlParser.parse(TestUtils.getResourcePath("wsdl/types-multiple-schema.wsdl")).collectSchemas()
       assertThat(schemas.values, hasSize(2))
-      assertThat(schemas.keys, hasItems("http://www.test.com/schemas/FirstInterface", "http://www.test.com/schemas/SecondInterface"))
     }
 
     it("should collect the schema embedded in the wsdl types tag and assert the extracted content") {
@@ -48,6 +47,10 @@ class WsdlSchemasCollectorSpec : Spek({
       assertThat(schemas.values, hasSize(1))
       val expected = IOUtils.toString(FileInputStream(TestUtils.getResourcePath("schemas/multiple-import-values.xsd")))
       TestUtils.assertSimilarXml(expected, schemas.values.iterator().next())
+    }
+    it("should found all schemas without id and its inner imported schemas") {
+      val schemas = WsdlParser.parse(TestUtils.getResourcePath("wsdl/multiple-schemas-in-types-without-key")).collectSchemas()
+      assertThat(schemas.values, hasSize(10))
     }
   }
 })
