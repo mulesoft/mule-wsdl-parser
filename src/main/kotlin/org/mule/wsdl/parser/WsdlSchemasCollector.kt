@@ -1,6 +1,7 @@
 package org.mule.wsdl.parser
 
 import net.sf.saxon.jaxp.SaxonTransformerFactory
+import org.apache.commons.lang3.StringUtils.isBlank
 import org.mule.metadata.xml.api.SchemaCollector
 import org.w3c.dom.Node
 import java.io.StringWriter
@@ -69,7 +70,8 @@ class WsdlSchemasCollector(private val definition: Definition, private val chars
   private fun collectFromTypes(types: Types?) {
     types?.extensibilityElements?.forEach { element ->
       if (element is Schema) {
-        addSchema(element.element.getAttribute(TARGET_NS) ?: element.documentBaseURI, element)
+        // using hashcode since there is no way to distinct this schemas.
+        addSchema(element.hashCode().toString(), element)
       }
     }
   }
