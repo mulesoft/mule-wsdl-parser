@@ -82,11 +82,11 @@ class WsdlParser private constructor(wsdlLocator: WSDLLocator, charset: String =
         .map { e ->
           if (e is SOAP12Binding) {
             val style = e.style
-            if (style != null) SoapBinding(WsdlStyleFinder.find(style), e.transportURI) else null
+            if (style != null) SoapBinding(Version.V1_2, WsdlStyleFinder.find(style), e.transportURI) else null
           }
           else {
             val style = (e as SOAPBinding).style
-            if (style != null) SoapBinding(WsdlStyleFinder.find(style), e.transportURI) else null
+            if (style != null) SoapBinding(Version.V1_1, WsdlStyleFinder.find(style), e.transportURI) else null
           }
         }
         .firstOrNull()
