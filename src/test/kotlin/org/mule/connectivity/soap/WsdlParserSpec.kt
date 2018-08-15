@@ -23,6 +23,7 @@ import org.mockserver.matchers.Times
 import org.mockserver.model.Header
 import org.mockserver.model.HttpResponse
 import org.mockserver.socket.PortFactory
+import org.mule.wsdl.parser.model.Version
 import java.io.FileInputStream
 
 
@@ -45,6 +46,18 @@ class WsdlParserSpec : Spek({
         val wsdl = WsdlParser.parse(TestUtils.getResourcePath("wsdl/rpc.wsdl"))
         wsdl.style shouldBe WsdlStyle.RPC
       }
+    }
+
+    describe("a Port SoapBinding version") {
+          it("has version 1.1 defined") {
+              val wsdl = WsdlParser.parse(TestUtils.getResourcePath("wsdl/simple-service.wsdl"))
+              wsdl.services[0].ports[0].binding!!.version shouldBe Version.V1_1
+          }
+
+          it("has version 1.2 defined") {
+              val wsdl = WsdlParser.parse(TestUtils.getResourcePath("wsdl/hello-world-soap12.wsdl"))
+              wsdl.services[0].ports[0].binding!!.version shouldBe Version.V1_2
+          }
     }
 
     describe("a multipart output") {

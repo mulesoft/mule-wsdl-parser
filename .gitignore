@@ -1,6 +1,7 @@
 *.idea/
 *.gradle/
 *iml
+*.DS_STORE
 gradle/
 build/
 target/
