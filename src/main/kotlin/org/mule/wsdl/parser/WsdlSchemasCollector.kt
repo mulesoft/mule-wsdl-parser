@@ -1,7 +1,6 @@
 package org.mule.wsdl.parser
 
 import net.sf.saxon.jaxp.SaxonTransformerFactory
-import org.apache.commons.lang3.StringUtils.isBlank
 import org.mule.metadata.xml.api.SchemaCollector
 import org.w3c.dom.Node
 import java.io.StringWriter
@@ -32,7 +31,8 @@ class WsdlSchemasCollector(private val definition: Definition, private val chars
   private val foundImports = ArrayList<String>()
 
   fun collector() : SchemaCollector {
-    val collector = SchemaCollector.getInstance(charset)
+
+    val collector: SchemaCollector = try { SchemaCollector.getInstance(charset) } catch (e: NoSuchMethodError) { SchemaCollector.getInstance() }
     collectSchemas(definition)
     schemas.forEach { (uri, schema) ->
       try {
