@@ -42,7 +42,6 @@ internal class WsdlLocator(private val wsdlLocation: String, private val resourc
    * delegate the search to the delegate cxf [CatalogWSDLLocator].
    */
   override fun getBaseInputSource(): InputSource? {
-//    return if (resourceLocator.handles(wsdlLocation)) getInputSource(wsdlLocation) else delegateLocator.baseInputSource
       return getInputSource(wsdlLocation)
   }
 
