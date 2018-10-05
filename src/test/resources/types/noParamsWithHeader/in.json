@@ -1,0 +1,56 @@
+{
+  "body": {
+    "format": "xml",
+    "type": "Object",
+    "annotations": {
+      "typeId": "{http://service.ws.extension.mule.org/}noParamsWithHeader"
+    },
+    "fields": [
+      {
+        "key": {
+          "name": "{http://service.ws.extension.mule.org/}noParamsWithHeader",
+          "required": "true"
+        },
+        "model": {
+          "type": "Object",
+          "annotations": {
+            "typeId": "{http://service.ws.extension.mule.org/}noParamsWithHeader"
+          },
+          "fields": []
+        }
+      }
+    ]
+  },
+  "headers": {
+    "format": "xml",
+    "type": "Object",
+    "fields": [
+      {
+        "key": {
+          "name": "headerIn"
+        },
+        "model": {
+          "type": "Object",
+          "annotations": {
+            "typeId": "{http://service.ws.extension.mule.org/}headerIn"
+          },
+          "fields": [
+            {
+              "key": {
+                "name": "{http://service.ws.extension.mule.org/}headerIn",
+                "required": "true"
+              },
+              "model": {
+                "type": "String"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "attachments": {
+    "format": "xml",
+    "type": "Null"
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "body": {
+    "format": "xml",
+    "type": "Object",
+    "annotations": {
+      "typeId": "{http://service.ws.extension.mule.org/}echoWithHeadersResponse"
+    },
+    "fields": [
+      {
+        "key": {
+          "name": "{http://service.ws.extension.mule.org/}echoWithHeadersResponse",
+          "required": "true"
+        },
+        "model": {
+          "type": "Object",
+          "annotations": {
+            "typeId": "{http://service.ws.extension.mule.org/}echoWithHeadersResponse"
+          },
+          "ordered": true,
+          "fields": [
+            {
+              "key": {
+                "name": "text"
+              },
+              "model": {
+                "type": "String"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "headers": {
+    "format": "xml",
+    "type": "Object",
+    "fields": [
+      {
+        "key": {
+          "name": "headerOut"
+        },
+        "model": {
+          "type": "Object",
+          "annotations": {
+            "typeId": "{http://service.ws.extension.mule.org/}headerOut"
+          },
+          "fields": [
+            {
+              "key": {
+                "name": "{http://service.ws.extension.mule.org/}headerOut",
+                "required": "true"
+              },
+              "model": {
+                "type": "String"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "key": {
+          "name": "headerInOut"
+        },
+        "model": {
+          "type": "Object",
+          "annotations": {
+            "typeId": "{http://service.ws.extension.mule.org/}headerInOut"
+          },
+          "fields": [
+            {
+              "key": {
+                "name": "{http://service.ws.extension.mule.org/}headerInOut",
+                "required": "true"
+              },
+              "model": {
+                "type": "String"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "attachments": {
+    "format": "xml",
+    "type": "Null"
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "body": {
+    "format": "xml",
+    "type": "Object",
+    "annotations": {
+      "typeId": "{http://service.ws.extension.mule.org/}echoAccountResponse"
+    },
+    "fields": [
+      {
+        "key": {
+          "name": "{http://service.ws.extension.mule.org/}echoAccountResponse",
+          "required": "true"
+        },
+        "model": {
+          "type": "Object",
+          "annotations": {
+            "typeId": "{http://service.ws.extension.mule.org/}echoAccountResponse"
+          },
+          "ordered": true,
+          "fields": [
+            {
+              "key": {
+                "name": "account"
+              },
+              "model": {
+                "type": "Object",
+                "annotations": {
+                  "typeId": "{http://service.ws.extension.mule.org/}account"
+                },
+                "ordered": true,
+                "fields": [
+                  {
+                    "key": {
+                      "name": "clientName"
+                    },
+                    "model": {
+                      "type": "String"
+                    }
+                  },
+                  {
+                    "key": {
+                      "name": "id"
+                    },
+                    "model": {
+                      "type": "Number",
+                      "annotations": {
+                        "range": {
+                          "from": -9.223372036854776E18,
+                          "to": 9.223372036854776E18
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "key": {
+                      "name": "items",
+                      "repeated": "true"
+                    },
+                    "model": {
+                      "type": "String"
+                    }
+                  },
+                  {
+                    "key": {
+                      "name": "startingDate"
+                    },
+                    "model": {
+                      "type": "DateTime"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "headers": {
+    "format": "xml",
+    "type": "Object",
+    "fields": []
+  },
+  "attachments": {
+    "format": "xml",
+    "type": "Null"
+  }
+}

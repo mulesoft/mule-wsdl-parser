@@ -1,0 +1,88 @@
+{
+  "body": {
+    "format": "xml",
+    "type": "Object",
+    "annotations": {
+      "typeId": "{http://service.ws.extension.mule.org/}echoWithHeaders"
+    },
+    "fields": [
+      {
+        "key": {
+          "name": "{http://service.ws.extension.mule.org/}echoWithHeaders",
+          "required": "true"
+        },
+        "model": {
+          "type": "Object",
+          "annotations": {
+            "typeId": "{http://service.ws.extension.mule.org/}echoWithHeaders"
+          },
+          "ordered": true,
+          "fields": [
+            {
+              "key": {
+                "name": "text"
+              },
+              "model": {
+                "type": "String"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "headers": {
+    "format": "xml",
+    "type": "Object",
+    "fields": [
+      {
+        "key": {
+          "name": "headerIn"
+        },
+        "model": {
+          "type": "Object",
+          "annotations": {
+            "typeId": "{http://service.ws.extension.mule.org/}headerIn"
+          },
+          "fields": [
+            {
+              "key": {
+                "name": "{http://service.ws.extension.mule.org/}headerIn",
+                "required": "true"
+              },
+              "model": {
+                "type": "String"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "key": {
+          "name": "headerInOut"
+        },
+        "model": {
+          "type": "Object",
+          "annotations": {
+            "typeId": "{http://service.ws.extension.mule.org/}headerInOut"
+          },
+          "fields": [
+            {
+              "key": {
+                "name": "{http://service.ws.extension.mule.org/}headerInOut",
+                "required": "true"
+              },
+              "model": {
+                "type": "String"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "attachments": {
+    "format": "xml",
+    "type": "Null"
+  }
+}
