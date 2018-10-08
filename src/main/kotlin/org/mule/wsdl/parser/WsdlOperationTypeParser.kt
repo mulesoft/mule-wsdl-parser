@@ -201,7 +201,6 @@ class WsdlOperationTypeParser private constructor(private val wsdl: Definition,
     return NULL_TYPE
   }
 
-  // TODO(MULE-15275): Move this to the parser.
   private fun getMultipartAttachments(bodyPart: Part): MetadataType {
     if (message != null) {
       val parts = message.parts
