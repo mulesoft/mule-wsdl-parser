@@ -1,7 +1,5 @@
 package org.mule.wsdl.parser.model
 
-import org.mule.metadata.xml.api.XmlTypeLoader
-import org.mule.wsdl.parser.WsdlSchemasCollector
 import org.mule.wsdl.parser.model.message.MessageDefinition
 import org.mule.wsdl.parser.model.operation.OperationModel
 import java.io.Serializable

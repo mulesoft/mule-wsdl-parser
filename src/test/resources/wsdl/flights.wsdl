@@ -1,6 +1,10 @@
-<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://soap.training.mulesoft.com/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="TicketServiceService" targetNamespace="http://soap.training.mulesoft.com/">
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:tns="http://soap.training.mulesoft.com/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  name="TicketServiceService"
+                  targetNamespace="http://soap.training.mulesoft.com/">
     <wsdl:types>
-        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://soap.training.mulesoft.com/" elementFormDefault="unqualified" targetNamespace="http://soap.training.mulesoft.com/" version="1.0">
+        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://soap.training.mulesoft.com/"
+                   elementFormDefault="unqualified" targetNamespace="http://soap.training.mulesoft.com/" version="1.0">
             <xs:element name="findFlight" type="tns:findFlight"/>
             <xs:element name="findFlightResponse" type="tns:findFlightResponse"/>
             <xs:element name="listAllFlights" type="tns:listAllFlights"/>

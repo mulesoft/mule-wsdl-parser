@@ -2,8 +2,13 @@ package org.mule.wsdl.parser
 
 import org.mule.metadata.api.TypeLoader
 import org.mule.metadata.api.builder.BaseTypeBuilder
-import org.mule.metadata.api.model.*
-import org.mule.metadata.api.model.MetadataFormat.*
+import org.mule.metadata.api.model.BinaryType
+import org.mule.metadata.api.model.MetadataFormat.JAVA
+import org.mule.metadata.api.model.MetadataFormat.XML
+import org.mule.metadata.api.model.MetadataType
+import org.mule.metadata.api.model.NullType
+import org.mule.metadata.api.model.ObjectFieldType
+import org.mule.metadata.api.model.ObjectType
 import org.mule.metadata.api.utils.MetadataTypeUtils.getLocalPart
 import org.mule.metadata.api.utils.MetadataTypeUtils.isObjectType
 import org.mule.wsdl.parser.model.operation.SoapHeader

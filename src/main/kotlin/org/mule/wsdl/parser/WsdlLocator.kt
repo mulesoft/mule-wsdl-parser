@@ -1,17 +1,15 @@
 package org.mule.wsdl.parser
 
 import org.apache.cxf.resource.URIResolver
-import java.io.IOException
-import java.io.InputStream
-import java.util.ArrayList
-
-import javax.wsdl.xml.WSDLLocator
-
 import org.apache.cxf.wsdl11.CatalogWSDLLocator
 import org.mule.wsdl.parser.exception.WsdlParsingException
 import org.mule.wsdl.parser.locator.GlobalResourceLocator
 import org.mule.wsdl.parser.locator.ResourceLocator
 import org.xml.sax.InputSource
+import java.io.IOException
+import java.io.InputStream
+import java.util.*
+import javax.wsdl.xml.WSDLLocator
 
 /**
  * [WSDLLocator] implementation that enables the retrieval of WSDL document and associated files
@@ -42,7 +40,7 @@ internal class WsdlLocator(private val wsdlLocation: String, private val resourc
    * delegate the search to the delegate cxf [CatalogWSDLLocator].
    */
   override fun getBaseInputSource(): InputSource? {
-      return getInputSource(wsdlLocation)
+    return getInputSource(wsdlLocation)
   }
 
   /**

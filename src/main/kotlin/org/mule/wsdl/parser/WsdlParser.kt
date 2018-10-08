@@ -5,10 +5,23 @@ import org.mule.metadata.xml.api.XmlTypeLoader
 import org.mule.wsdl.parser.exception.WsdlParsingException
 import org.mule.wsdl.parser.locator.GlobalResourceLocator
 import org.mule.wsdl.parser.locator.ResourceLocator
-import org.mule.wsdl.parser.model.*
+import org.mule.wsdl.parser.model.PortModel
+import org.mule.wsdl.parser.model.ServiceModel
+import org.mule.wsdl.parser.model.SoapBinding
+import org.mule.wsdl.parser.model.Version
+import org.mule.wsdl.parser.model.WsdlModel
+import org.mule.wsdl.parser.model.WsdlStyle
+import org.mule.wsdl.parser.model.WsdlStyleFinder
 import org.mule.wsdl.parser.model.message.MessageDefinition
 import org.mule.wsdl.parser.model.operation.OperationModel
-import javax.wsdl.*
+import javax.wsdl.BindingInput
+import javax.wsdl.BindingOperation
+import javax.wsdl.Definition
+import javax.wsdl.Message
+import javax.wsdl.Port
+import javax.wsdl.Service
+import javax.wsdl.Types
+import javax.wsdl.WSDLException
 import javax.wsdl.extensions.ExtensionRegistry
 import javax.wsdl.extensions.http.HTTPAddress
 import javax.wsdl.extensions.mime.MIMEPart
@@ -32,19 +45,19 @@ class WsdlParser private constructor(wsdlLocator: WSDLLocator, charset: String =
   private val wsdl = WsdlModel(wsdlLocator.baseURI, parseServices(definition), style, parseMessages(definition))
 
   private fun parseMessages(definition: Definition): Set<MessageDefinition> {
-    return definition.messages.values.map { m ->  MessageDefinition.fromMessage(m as Message ) }.toSet()
+    return definition.messages.values.map { m -> MessageDefinition.fromMessage(m as Message) }.toSet()
   }
 
   private fun parseServices(definition: Definition) = definition.services
-      .map { (_, v) -> v as Service }
-      .map { s -> ServiceModel(s.qName.localPart, s.qName, parsePorts(s)) }
+    .map { (_, v) -> v as Service }
+    .map { s -> ServiceModel(s.qName.localPart, s.qName, parsePorts(s)) }
 
   private fun parsePorts(service: Service): List<PortModel> = service.ports
-      .map { (_, v) -> v as Port }
-      .map { p -> PortModel(p.name, parseOperations(p), findSoapAddress(p), findPortBinding(p)) }
+    .map { (_, v) -> v as Port }
+    .map { p -> PortModel(p.name, parseOperations(p), findSoapAddress(p), findPortBinding(p)) }
 
   private fun parseOperations(port: Port): List<OperationModel> = port.binding.bindingOperations
-      .map { bop -> WsdlOperationParser.parse(definition, style, loader, bop as BindingOperation) }
+    .map { bop -> WsdlOperationParser.parse(definition, style, loader, bop as BindingOperation) }
 
   private fun parseWsdl(wsdlLocator: WSDLLocator): Definition {
     try {
@@ -88,31 +101,30 @@ class WsdlParser private constructor(wsdlLocator: WSDLLocator, charset: String =
 
   private fun findPortBinding(p: Port): SoapBinding? {
     return p.binding.extensibilityElements
-        .filter { e -> e is SOAP12Binding || e is SOAPBinding }
-        .map { e ->
-          if (e is SOAP12Binding) {
-            val style = e.style
-            if (style != null) SoapBinding(Version.V1_2, WsdlStyleFinder.find(style), e.transportURI) else null
-          }
-          else {
-            val style = (e as SOAPBinding).style
-            if (style != null) SoapBinding(Version.V1_1, WsdlStyleFinder.find(style), e.transportURI) else null
-          }
+      .filter { e -> e is SOAP12Binding || e is SOAPBinding }
+      .map { e ->
+        if (e is SOAP12Binding) {
+          val style = e.style
+          if (style != null) SoapBinding(Version.V1_2, WsdlStyleFinder.find(style), e.transportURI) else null
+        } else {
+          val style = (e as SOAPBinding).style
+          if (style != null) SoapBinding(Version.V1_1, WsdlStyleFinder.find(style), e.transportURI) else null
         }
-        .firstOrNull()
+      }
+      .firstOrNull()
   }
 
   private fun findStyle(): WsdlStyle {
     val ports = definition.services.values.flatMap { s -> (s as Service).ports.values as Collection<Port> }
-    val bindingStyle = ports.flatMap{ it.binding.extensibilityElements }.filter { e -> e is SOAPBinding }.map{ b -> (b as SOAPBinding).style }.firstOrNull()
+    val bindingStyle = ports.flatMap { it.binding.extensibilityElements }.filter { e -> e is SOAPBinding }.map { b -> (b as SOAPBinding).style }.firstOrNull()
     if (bindingStyle != null) {
       return WsdlStyleFinder.find(bindingStyle)
     }
 
-    val operationStyle = ports.flatMap { p -> p.binding.bindingOperations as List<BindingOperation>}
+    val operationStyle = ports.flatMap { p -> p.binding.bindingOperations as List<BindingOperation> }
       .flatMap { ope -> ope.extensibilityElements }
-      .filter { e ->  e is SOAP12Operation || e is SOAPOperation }
-      .map { e -> if (e is SOAPOperation) e.style  else (e as SOAP12Operation).style }
+      .filter { e -> e is SOAP12Operation || e is SOAPOperation }
+      .map { e -> if (e is SOAPOperation) e.style else (e as SOAP12Operation).style }
       .firstOrNull()
 
     if (operationStyle != null) {

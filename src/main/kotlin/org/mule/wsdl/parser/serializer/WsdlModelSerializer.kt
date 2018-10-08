@@ -8,7 +8,7 @@ import org.mule.wsdl.parser.model.WsdlModel
 object WsdlModelSerializer {
 
   fun serialize(model: WsdlModel, pretty: Boolean = false): String {
-    val gson  = GsonBuilder()
+    val gson = GsonBuilder()
     gson.registerTypeAdapter(MetadataType::class.java, MetadataTypeGsonTypeAdapter())
     if (pretty) {
       gson.setPrettyPrinting()

@@ -1,38 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <wsdl:definitions name="RecursiveServiceDataIntegrationService"
-targetNamespace="RecursiveService.WebService.DataIntegration"
-xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
-xmlns:i0="http://tempuri.org/"
-xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-xmlns:tns="RecursiveService.WebService.DataIntegration"
-xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
-xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl">
-  <wsdl:import namespace="http://tempuri.org/" location="imported.wsdl" />
+                  targetNamespace="RecursiveService.WebService.DataIntegration"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:i0="http://tempuri.org/"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  xmlns:tns="RecursiveService.WebService.DataIntegration"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl">
+    <wsdl:import namespace="http://tempuri.org/" location="imported.wsdl"/>
 
-  <wsdl:types>
-    <xsd:schema targetNamespace="RecursiveService.WebService.DataIntegration/Imports">
-      <xsd:import schemaLocation="dir1/import0.xsd" namespace="RecursiveService.WebService.DataIntegration" />
-      <xsd:import schemaLocation="dir1/dir2/import1.xsd" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-      <xsd:import schemaLocation="import2.xsd" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
-      <xsd:import schemaLocation="import3.xsd" namespace="http://schemas.datacontract.org/2004/07/RecursiveService.Contracts" />
-      <xsd:import schemaLocation="import4.xsd" namespace="http://schemas.datacontract.org/2004/07/RecursiveService.WebService.DataIntegration.Contracts.GetProtocolInfo" />
-    </xsd:schema>
-  </wsdl:types>
-  <wsdl:message name="IRecursiveServiceDataIntegrationService_Authenticate_InputMessage">
-    <wsdl:part name="parameters" element="tns:Authenticate" />
-  </wsdl:message>
-  <wsdl:message name="IRecursiveServiceDataIntegrationService_Authenticate_OutputMessage">
-    <wsdl:part name="parameters" element="tns:AuthenticateResponse" />
-  </wsdl:message>
-  <wsdl:portType name="IRecursiveServiceDataIntegrationService">
-    <wsdl:operation name="Authenticate">
-      <wsdl:input wsaw:Action="RecursiveService.WebService.DataIntegration/IRecursiveServiceDataIntegrationService/Authenticate" message="tns:IRecursiveServiceDataIntegrationService_Authenticate_InputMessage" />
-      <wsdl:output wsaw:Action="RecursiveService.WebService.DataIntegration/IRecursiveServiceDataIntegrationService/AuthenticateResponse" message="tns:IRecursiveServiceDataIntegrationService_Authenticate_OutputMessage" />
-    </wsdl:operation>
-  </wsdl:portType>
-  <wsdl:service name="RecursiveService">
-    <wsdl:port name="RecursivePort" binding="i0:BasicHttpBinding_IRecursiveServiceDataIntegrationService">
-      <soap:address location="http://localhost/RecursiveServiceDataIntegrationService.svc" />
-    </wsdl:port>
-  </wsdl:service>
+    <wsdl:types>
+        <xsd:schema targetNamespace="RecursiveService.WebService.DataIntegration/Imports">
+            <xsd:import schemaLocation="dir1/import0.xsd" namespace="RecursiveService.WebService.DataIntegration"/>
+            <xsd:import schemaLocation="dir1/dir2/import1.xsd" namespace="http://schemas.microsoft.com/2003/10/Serialization/"/>
+            <xsd:import schemaLocation="import2.xsd" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+            <xsd:import schemaLocation="import3.xsd"
+                        namespace="http://schemas.datacontract.org/2004/07/RecursiveService.Contracts"/>
+            <xsd:import schemaLocation="import4.xsd"
+                        namespace="http://schemas.datacontract.org/2004/07/RecursiveService.WebService.DataIntegration.Contracts.GetProtocolInfo"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="IRecursiveServiceDataIntegrationService_Authenticate_InputMessage">
+        <wsdl:part name="parameters" element="tns:Authenticate"/>
+    </wsdl:message>
+    <wsdl:message name="IRecursiveServiceDataIntegrationService_Authenticate_OutputMessage">
+        <wsdl:part name="parameters" element="tns:AuthenticateResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="IRecursiveServiceDataIntegrationService">
+        <wsdl:operation name="Authenticate">
+            <wsdl:input
+                    wsaw:Action="RecursiveService.WebService.DataIntegration/IRecursiveServiceDataIntegrationService/Authenticate"
+                    message="tns:IRecursiveServiceDataIntegrationService_Authenticate_InputMessage"/>
+            <wsdl:output
+                    wsaw:Action="RecursiveService.WebService.DataIntegration/IRecursiveServiceDataIntegrationService/AuthenticateResponse"
+                    message="tns:IRecursiveServiceDataIntegrationService_Authenticate_OutputMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:service name="RecursiveService">
+        <wsdl:port name="RecursivePort" binding="i0:BasicHttpBinding_IRecursiveServiceDataIntegrationService">
+            <soap:address location="http://localhost/RecursiveServiceDataIntegrationService.svc"/>
+        </wsdl:port>
+    </wsdl:service>
 </wsdl:definitions>

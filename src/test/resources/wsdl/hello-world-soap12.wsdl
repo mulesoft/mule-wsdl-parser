@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns:tns="http://apache.org/hello_world_soap12_http" 
-             xmlns:x1="http://apache.org/hello_world_soap12_http/types" 
-             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
-             xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-             xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" 
-             xmlns="http://schemas.xmlsoap.org/wsdl/" name="HelloWorld" 
+<definitions xmlns:tns="http://apache.org/hello_world_soap12_http"
+             xmlns:x1="http://apache.org/hello_world_soap12_http/types"
+             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+             xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+             xmlns="http://schemas.xmlsoap.org/wsdl/" name="HelloWorld"
              targetNamespace="http://apache.org/hello_world_soap12_http">
     <wsdl:types>
-        <schema xmlns:x1="http://apache.org/hello_world_soap12_http/types" xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://apache.org/hello_world_soap12_http/types" elementFormDefault="qualified">
+        <schema xmlns:x1="http://apache.org/hello_world_soap12_http/types" xmlns="http://www.w3.org/2001/XMLSchema"
+                targetNamespace="http://apache.org/hello_world_soap12_http/types" elementFormDefault="qualified">
             <simpleType name="MyStringType">
                 <restriction base="string">
                     <maxLength value="30"/>

@@ -1,9 +1,10 @@
 package org.mule.connectivity.soap
 
-import org.apache.commons.io.IOUtils
 import org.apache.commons.io.IOUtils.toString
 import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.*
+import org.hamcrest.Matchers.`is`
+import org.hamcrest.Matchers.hasSize
+import org.hamcrest.Matchers.instanceOf
 import org.junit.Test
 import org.mockserver.integration.ClientAndServer
 import org.mockserver.matchers.Times

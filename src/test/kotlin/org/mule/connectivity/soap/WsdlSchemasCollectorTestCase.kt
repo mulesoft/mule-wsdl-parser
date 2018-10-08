@@ -2,7 +2,7 @@ package org.mule.connectivity.soap
 
 import org.apache.commons.io.IOUtils
 import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.*
+import org.hamcrest.Matchers.hasSize
 import org.junit.Test
 import org.mule.wsdl.parser.WsdlSchemasCollector
 import java.io.FileInputStream

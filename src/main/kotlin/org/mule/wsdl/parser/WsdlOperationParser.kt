@@ -1,19 +1,20 @@
 package org.mule.wsdl.parser
 
 import org.mule.metadata.api.TypeLoader
-import org.mule.wsdl.parser.WsdlOperationTypeParser.Companion.NULL_TYPE
 import org.mule.wsdl.parser.WsdlOperationTypeParser.Companion.parseInput
 import org.mule.wsdl.parser.WsdlOperationTypeParser.Companion.parseOutput
-import org.mule.wsdl.parser.model.*
+import org.mule.wsdl.parser.model.FaultModel
+import org.mule.wsdl.parser.model.WsdlStyle
 import org.mule.wsdl.parser.model.message.MessageDefinition
 import org.mule.wsdl.parser.model.operation.OperationModel
 import org.mule.wsdl.parser.model.operation.OperationType
 import org.mule.wsdl.parser.model.operation.OperationType.ONE_WAY
-import org.mule.wsdl.parser.model.operation.Type
 import org.mule.wsdl.parser.model.operation.Type.Companion.NULL_OPERATION_TYPE
-import javax.wsdl.*
-import javax.wsdl.extensions.soap.*
-import javax.wsdl.extensions.soap12.*
+import javax.wsdl.BindingOperation
+import javax.wsdl.Definition
+import javax.wsdl.Fault
+import javax.wsdl.extensions.soap.SOAPOperation
+import javax.wsdl.extensions.soap12.SOAP12Operation
 
 
 class WsdlOperationParser private constructor(private val wsdl: Definition,
@@ -35,10 +36,10 @@ class WsdlOperationParser private constructor(private val wsdl: Definition,
   }
 
   fun findFaults(): List<FaultModel> = bop.operation.faults
-          .map { (_, f) -> f as Fault }.map { f -> FaultModel(f.name, MessageDefinition.fromMessage(f.message)) }
+    .map { (_, f) -> f as Fault }.map { f -> FaultModel(f.name, MessageDefinition.fromMessage(f.message)) }
 
   private fun findType(): OperationType {
-    return when(bop.operation.style) {
+    return when (bop.operation.style) {
       javax.wsdl.OperationType.NOTIFICATION -> OperationType.NOTIFICATION
       javax.wsdl.OperationType.SOLICIT_RESPONSE -> OperationType.SOLICIT_RESPONSE
       javax.wsdl.OperationType.ONE_WAY -> ONE_WAY
@@ -48,10 +49,10 @@ class WsdlOperationParser private constructor(private val wsdl: Definition,
 
   private fun findAction(): String? {
     return bop.extensibilityElements
-            .filter { e -> e is SOAP12Operation || e is SOAPOperation }
-            .map { e -> if (e is SOAPOperation) e.soapActionURI else (e as SOAP12Operation).soapActionURI }
-            .filter { it != null }
-            .firstOrNull()
+      .filter { e -> e is SOAP12Operation || e is SOAPOperation }
+      .map { e -> if (e is SOAPOperation) e.soapActionURI else (e as SOAP12Operation).soapActionURI }
+      .filter { it != null }
+      .firstOrNull()
   }
 
   companion object {
