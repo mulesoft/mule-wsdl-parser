@@ -30,9 +30,13 @@ class WsdlSchemasCollector(private val definition: Definition, private val chars
   // we should keep track of already found imports to avoid recursive infinite loops
   private val foundImports = ArrayList<String>()
 
-  fun collector() : SchemaCollector {
+  fun collector(): SchemaCollector {
 
-    val collector: SchemaCollector = try { SchemaCollector.getInstance(charset) } catch (e: NoSuchMethodError) { SchemaCollector.getInstance() }
+    val collector: SchemaCollector = try {
+      SchemaCollector.getInstance(charset)
+    } catch (e: NoSuchMethodError) {
+      SchemaCollector.getInstance()
+    }
     collectSchemas(definition)
     schemas.forEach { (uri, schema) ->
       try {

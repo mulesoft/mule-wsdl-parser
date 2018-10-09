@@ -1,189 +1,200 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="urn:common2_0.schema.bcbsm.com" targetNamespace="urn:common2_0.schema.bcbsm.com" elementFormDefault="qualified" attributeFormDefault="unqualified" version="2.0.3">
-	<xs:complexType name="AddressType">
-		<xs:sequence>
-			<xs:element name="Street" type="xs:string" minOccurs="0" maxOccurs="3"/>
-			<xs:element name="City" type="xs:string" minOccurs="0"/>
-			<xs:element name="County" type="xs:string" minOccurs="0"/>
-			<xs:element name="StateProvince" type="xs:string" minOccurs="0"/>
-			<xs:element name="PostalCode" type="xs:string" minOccurs="0"/>
-			<xs:element name="Country" type="xs:string" minOccurs="0"/>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:simpleType name="BooleanIndicatorEnum">
-		<xs:restriction base="xs:string">
-			<xs:pattern value="[YNU]"/>
-		</xs:restriction>
-	</xs:simpleType>
-	<xs:simpleType name="BusinessChannelType">
-		<xs:annotation>
-			<xs:documentation>
-Possible values are: LOCAL, NPS, MTV, BCN, PGBA, MA, DENTEMAX
-Business channel is an abstract concept for backend system, which enables services to group backend systems in logical units. This is used by consumers to specify where to retrieve data from or where to change data. 
-Common interface systems identified in information layer [UC:SOAs] across services and service candidates. 
-If a service has multiple information layer components/UC: SOAs, business channel allows consumers to specify information layer channel. Most of the cases consumer already has this information before calling the service
-Usage: If service needs to accept multiple values for business channel e.g. getting data from both Local and Nasco then have definition with maxOccurs=n (n can be a predefined number or unbound)
-E.g. element name="BusinessChannel" type="common:BusinessChannelEnumEnum" minOccurs="0" maxOccurs="3"
-			</xs:documentation>
-		</xs:annotation>
-		<xs:restriction base="xs:string">
-			<xs:minLength value="2"/>
-		</xs:restriction>
-	</xs:simpleType>
-	<xs:complexType name="CodeDescriptionType">
-		<xs:annotation>
-			<xs:documentation>Informational element that is used to provide information about the state of the information retrieved, significant messages (info and error level) from the back-end systems, service level validation status, status  about relevant components of the service, etc</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="Code" type="xs:string" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Code representation of the message </xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="Description" type="xs:string" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Descriptive represntation of the message</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="ContactInfoDetailedType">
-		<xs:sequence>
-			<xs:element name="Address" type="tns:AddressType" minOccurs="0" maxOccurs="unbounded"/>
-			<xs:element name="PhoneNumber" type="tns:PhoneNumberDetailedType" minOccurs="0" maxOccurs="unbounded"/>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="ContactInfoType">
-		<xs:sequence>
-			<xs:element name="Address" type="tns:AddressType" minOccurs="0"/>
-			<xs:element name="PhoneNumber" type="xs:string" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>10-digit phone number and 4-digit extension</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:simpleType name="CurrencyType">
-		<xs:restriction base="xs:decimal">
-			<xs:totalDigits value="11"/>
-			<xs:fractionDigits value="2"/>
-			<xs:pattern value="-?\d{1,9}\.\d{2}"/>
-		</xs:restriction>
-	</xs:simpleType>
-	<xs:complexType name="DateRangeType">
-		<xs:annotation>
-			<xs:documentation>Indicates a start and end date of a period.</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="StartDate" type="xs:date" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Indicates the first date services were performed. Beginning of date range.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="EndDate" type="xs:date" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Indicates the last date services were performed. End of date range.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="ExpirableType">
-		<xs:annotation>
-			<xs:documentation>Indicates the effective and expiration dates.</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="EffectiveDate" type="xs:date" minOccurs="0"/>
-			<xs:element name="ExpirationDate" type="xs:date" minOccurs="0"/>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:simpleType name="MatchEnum">
-		<xs:annotation>
-			<xs:documentation>For matching two string values there are various options, including Exact, Partial, and Phonetic. This type defines these math types</xs:documentation>
-		</xs:annotation>
-		<xs:restriction base="xs:string">
-			<xs:enumeration value="EXACT"/>
-			<xs:enumeration value="PARTIAL"/>
-			<xs:enumeration value="PHONETIC"/>
-			<xs:enumeration value="STARTSWITH"/>
-			<xs:enumeration value="ENDSWITH"/>
-			<xs:enumeration value="CONTAINS"/>
-		</xs:restriction>
-	</xs:simpleType>
-	<xs:complexType name="NameType">
-		<xs:sequence>
-			<xs:element name="Prefix" type="xs:string" minOccurs="0"/>
-			<xs:element name="First" type="xs:string" minOccurs="0"/>
-			<xs:element name="Last" type="xs:string" minOccurs="0"/>
-			<xs:element name="Middle" type="xs:string" minOccurs="0"/>
-			<xs:element name="Suffix" type="xs:string" minOccurs="0"/>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:simpleType name="NonNegativeCurrencyType">
-		<xs:restriction base="xs:decimal">
-			<xs:totalDigits value="11"/>
-			<xs:fractionDigits value="2"/>
-			<xs:pattern value="\d{1,9}\.\d{2}"/>
-		</xs:restriction>
-	</xs:simpleType>
-	<xs:complexType name="PersonalInfoType">
-		<xs:sequence>
-			<xs:element name="Name" type="tns:NameType" minOccurs="0"/>
-			<xs:element name="DateOfBirth" type="tns:SegmentedDateType" minOccurs="0"/>
-			<xs:element name="GenderIndicator" minOccurs="0">
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:pattern value="[MFU]"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="PhoneNumberDetailedType">
-		<xs:sequence>
-			<xs:element name="AreaCode" type="xs:string" minOccurs="0"/>
-			<xs:element name="Exchange" type="xs:string" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>3 digit prefix to number</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="Number" type="xs:string" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Number of 4 digits</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="Extension" type="xs:string" minOccurs="0"/>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="SegmentedDateType">
-		<xs:sequence>
-			<xs:element name="Year" minOccurs="0">
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:length value="4"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="Month" minOccurs="0">
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:minLength value="1"/>
-						<xs:maxLength value="2"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="Day" minOccurs="0">
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:minLength value="1"/>
-						<xs:maxLength value="2"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:simpleType name="YesNoIndicatorEnum">
-		<xs:restriction base="xs:string">
-			<xs:pattern value="[YN]"/>
-		</xs:restriction>
-	</xs:simpleType>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="urn:common2_0.schema.bcbsm.com"
+           targetNamespace="urn:common2_0.schema.bcbsm.com" elementFormDefault="qualified" attributeFormDefault="unqualified"
+           version="2.0.3">
+    <xs:complexType name="AddressType">
+        <xs:sequence>
+            <xs:element name="Street" type="xs:string" minOccurs="0" maxOccurs="3"/>
+            <xs:element name="City" type="xs:string" minOccurs="0"/>
+            <xs:element name="County" type="xs:string" minOccurs="0"/>
+            <xs:element name="StateProvince" type="xs:string" minOccurs="0"/>
+            <xs:element name="PostalCode" type="xs:string" minOccurs="0"/>
+            <xs:element name="Country" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="BooleanIndicatorEnum">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[YNU]"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="BusinessChannelType">
+        <xs:annotation>
+            <xs:documentation>
+                Possible values are: LOCAL, NPS, MTV, BCN, PGBA, MA, DENTEMAX
+                Business channel is an abstract concept for backend system, which enables services to group backend systems in
+                logical units. This is used by consumers to specify where to retrieve data from or where to change data.
+                Common interface systems identified in information layer [UC:SOAs] across services and service candidates.
+                If a service has multiple information layer components/UC: SOAs, business channel allows consumers to specify
+                information layer channel. Most of the cases consumer already has this information before calling the service
+                Usage: If service needs to accept multiple values for business channel e.g. getting data from both Local and Nasco
+                then have definition with maxOccurs=n (n can be a predefined number or unbound)
+                E.g. element name="BusinessChannel" type="common:BusinessChannelEnumEnum" minOccurs="0" maxOccurs="3"
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:minLength value="2"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="CodeDescriptionType">
+        <xs:annotation>
+            <xs:documentation>Informational element that is used to provide information about the state of the information
+                retrieved, significant messages (info and error level) from the back-end systems, service level validation status,
+                status about relevant components of the service, etc
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Code" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Code representation of the message</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Description" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Descriptive represntation of the message</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ContactInfoDetailedType">
+        <xs:sequence>
+            <xs:element name="Address" type="tns:AddressType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="PhoneNumber" type="tns:PhoneNumberDetailedType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ContactInfoType">
+        <xs:sequence>
+            <xs:element name="Address" type="tns:AddressType" minOccurs="0"/>
+            <xs:element name="PhoneNumber" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>10-digit phone number and 4-digit extension</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="CurrencyType">
+        <xs:restriction base="xs:decimal">
+            <xs:totalDigits value="11"/>
+            <xs:fractionDigits value="2"/>
+            <xs:pattern value="-?\d{1,9}\.\d{2}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="DateRangeType">
+        <xs:annotation>
+            <xs:documentation>Indicates a start and end date of a period.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="StartDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Indicates the first date services were performed. Beginning of date range.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="EndDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Indicates the last date services were performed. End of date range.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ExpirableType">
+        <xs:annotation>
+            <xs:documentation>Indicates the effective and expiration dates.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="EffectiveDate" type="xs:date" minOccurs="0"/>
+            <xs:element name="ExpirationDate" type="xs:date" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="MatchEnum">
+        <xs:annotation>
+            <xs:documentation>For matching two string values there are various options, including Exact, Partial, and Phonetic.
+                This type defines these math types
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="EXACT"/>
+            <xs:enumeration value="PARTIAL"/>
+            <xs:enumeration value="PHONETIC"/>
+            <xs:enumeration value="STARTSWITH"/>
+            <xs:enumeration value="ENDSWITH"/>
+            <xs:enumeration value="CONTAINS"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="NameType">
+        <xs:sequence>
+            <xs:element name="Prefix" type="xs:string" minOccurs="0"/>
+            <xs:element name="First" type="xs:string" minOccurs="0"/>
+            <xs:element name="Last" type="xs:string" minOccurs="0"/>
+            <xs:element name="Middle" type="xs:string" minOccurs="0"/>
+            <xs:element name="Suffix" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="NonNegativeCurrencyType">
+        <xs:restriction base="xs:decimal">
+            <xs:totalDigits value="11"/>
+            <xs:fractionDigits value="2"/>
+            <xs:pattern value="\d{1,9}\.\d{2}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="PersonalInfoType">
+        <xs:sequence>
+            <xs:element name="Name" type="tns:NameType" minOccurs="0"/>
+            <xs:element name="DateOfBirth" type="tns:SegmentedDateType" minOccurs="0"/>
+            <xs:element name="GenderIndicator" minOccurs="0">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:pattern value="[MFU]"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PhoneNumberDetailedType">
+        <xs:sequence>
+            <xs:element name="AreaCode" type="xs:string" minOccurs="0"/>
+            <xs:element name="Exchange" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>3 digit prefix to number</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Number" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Number of 4 digits</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Extension" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="SegmentedDateType">
+        <xs:sequence>
+            <xs:element name="Year" minOccurs="0">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:length value="4"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="Month" minOccurs="0">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="2"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="Day" minOccurs="0">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:minLength value="1"/>
+                        <xs:maxLength value="2"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="YesNoIndicatorEnum">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[YN]"/>
+        </xs:restriction>
+    </xs:simpleType>
 </xs:schema>

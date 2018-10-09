@@ -1,54 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" name="GCS6010" targetNamespace="file://target.files"
                   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
-                  xmlns:tns="file://target.files" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  xmlns:tns="file://target.files"
                   xmlns:xsd1="http://www.test.com/schemas/FirstInterface"
                   xmlns:xsd2="http://www.test.com/schemas/SecondInterface">
-  <wsdl:types>
-    <schema xmlns="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://www.test.com/schemas/FirstInterface" xmlns:cbl="http://www.test.com/schemas/FirstInterface">
-      <complexType name="MULTIPLE"/>
-      <element name="MULTIPLE" type="cbl:MULTIPLE">
-        <annotation>
-          <documentation source="com.ibm.etools.xmlent.batch">11.2.0.V20141105_0810</documentation>
-        </annotation>
-      </element>
-    </schema>
-    <schema xmlns="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://www.test.com/schemas/SecondInterface" xmlns:cbl="http://www.test.com/schemas/SecondInterface">
-      <complexType name="MULTIPLE"/>
-      <element name="MULTIPLE" type="cbl:MULTIPLE">
-        <annotation>
-          <documentation source="com.ibm.etools.xmlent.batch">11.2.0.V20141105_0810</documentation>
-        </annotation>
-      </element>
-    </schema>
-  </wsdl:types>
-  <wsdl:message name="MULTOperationRequest">
-    <wsdl:part element="xsd1:MULTIPLE" name="MULT-DATAPart"/>
-  </wsdl:message>
-  <wsdl:message name="MULTOperationResponse">
-    <wsdl:part element="xsd2:MULTIPLE" name="MULT-DATAPart"/>
-  </wsdl:message>
-  <wsdl:portType name="GCS6010PortType">
-    <wsdl:operation name="MULTOperation">
-      <wsdl:input message="tns:MULTOperationRequest" name="MULTOperationRequest"/>
-      <wsdl:output message="tns:MULTOperationResponse" name="MULTOperationResponse"/>
-    </wsdl:operation>
-  </wsdl:portType>
-  <wsdl:binding name="GCS6010Binding" type="tns:GCS6010PortType">
-    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
-    <wsdl:operation name="MULTOperation">
-      <soap:operation soapAction="" style="document"/>
-      <wsdl:input name="MULTOperationRequest">
-        <soap:body parts="MULT-DATAPart" use="literal"/>
-      </wsdl:input>
-      <wsdl:output name="MULTOperationResponse">
-        <soap:body parts="MULT-DATAPart" use="literal"/>
-      </wsdl:output>
-    </wsdl:operation>
-  </wsdl:binding>
-  <wsdl:service name="TService">
-    <wsdl:port binding="tns:GCS6010Binding" name="TPort">
-      <soap:address location="http://test.mainframe.ameritas.com:8083/cics/services/GCS6010P"/>
-    </wsdl:port>
-  </wsdl:service>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified"
+                targetNamespace="http://www.test.com/schemas/FirstInterface"
+                xmlns:cbl="http://www.test.com/schemas/FirstInterface">
+            <complexType name="MULTIPLE"/>
+            <element name="MULTIPLE" type="cbl:MULTIPLE">
+                <annotation>
+                    <documentation source="com.ibm.etools.xmlent.batch">11.2.0.V20141105_0810</documentation>
+                </annotation>
+            </element>
+        </schema>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified" elementFormDefault="qualified"
+                targetNamespace="http://www.test.com/schemas/SecondInterface"
+                xmlns:cbl="http://www.test.com/schemas/SecondInterface">
+            <complexType name="MULTIPLE"/>
+            <element name="MULTIPLE" type="cbl:MULTIPLE">
+                <annotation>
+                    <documentation source="com.ibm.etools.xmlent.batch">11.2.0.V20141105_0810</documentation>
+                </annotation>
+            </element>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="MULTOperationRequest">
+        <wsdl:part element="xsd1:MULTIPLE" name="MULT-DATAPart"/>
+    </wsdl:message>
+    <wsdl:message name="MULTOperationResponse">
+        <wsdl:part element="xsd2:MULTIPLE" name="MULT-DATAPart"/>
+    </wsdl:message>
+    <wsdl:portType name="GCS6010PortType">
+        <wsdl:operation name="MULTOperation">
+            <wsdl:input message="tns:MULTOperationRequest" name="MULTOperationRequest"/>
+            <wsdl:output message="tns:MULTOperationResponse" name="MULTOperationResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="GCS6010Binding" type="tns:GCS6010PortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="MULTOperation">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input name="MULTOperationRequest">
+                <soap:body parts="MULT-DATAPart" use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="MULTOperationResponse">
+                <soap:body parts="MULT-DATAPart" use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="TService">
+        <wsdl:port binding="tns:GCS6010Binding" name="TPort">
+            <soap:address location="http://test.mainframe.ameritas.com:8083/cics/services/GCS6010P"/>
+        </wsdl:port>
+    </wsdl:service>
 </wsdl:definitions>

@@ -1,0 +1,1006 @@
+{
+  "location": "http://localhost:##PORT##/test?wsdl",
+  "services": [
+    {
+      "name": "TestService",
+      "qName": {
+        "namespaceURI": "http://service.ws.extension.mule.org/",
+        "localPart": "TestService",
+        "prefix": ""
+      },
+      "ports": [
+        {
+          "address": "http://localhost:8082/simpleService",
+          "name": "TestPort",
+          "operations": [
+            {
+              "name": "echo",
+              "inputType": {
+                "body": {
+                  "format": "xml",
+                  "type": "Object",
+                  "annotations": {
+                    "typeId": "{http://service.ws.extension.mule.org/}echo"
+                  },
+                  "fields": [
+                    {
+                      "key": {
+                        "name": "{http://service.ws.extension.mule.org/}echo",
+                        "required": "true"
+                      },
+                      "model": {
+                        "type": "Object",
+                        "annotations": {
+                          "typeId": "{http://service.ws.extension.mule.org/}echo"
+                        },
+                        "ordered": true,
+                        "fields": [
+                          {
+                            "key": {
+                              "name": "text"
+                            },
+                            "model": {
+                              "type": "String"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "headers": {
+                  "format": "xml",
+                  "type": "Null"
+                },
+                "attachments": {
+                  "format": "xml",
+                  "type": "Null"
+                }
+              },
+              "outputType": {
+                "body": {
+                  "format": "xml",
+                  "type": "Object",
+                  "annotations": {
+                    "typeId": "{http://service.ws.extension.mule.org/}echoResponse"
+                  },
+                  "fields": [
+                    {
+                      "key": {
+                        "name": "{http://service.ws.extension.mule.org/}echoResponse",
+                        "required": "true"
+                      },
+                      "model": {
+                        "type": "Object",
+                        "annotations": {
+                          "typeId": "{http://service.ws.extension.mule.org/}echoResponse"
+                        },
+                        "ordered": true,
+                        "fields": [
+                          {
+                            "key": {
+                              "name": "text"
+                            },
+                            "model": {
+                              "type": "String"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "headers": {
+                  "format": "xml",
+                  "type": "Null"
+                },
+                "attachments": {
+                  "format": "xml",
+                  "type": "Null"
+                }
+              },
+              "type": "REQUEST_RESPONSE",
+              "soapAction": "echoOperation",
+              "faults": []
+            },
+            {
+              "name": "fail",
+              "inputType": {
+                "body": {
+                  "format": "xml",
+                  "type": "Object",
+                  "annotations": {
+                    "typeId": "{http://service.ws.extension.mule.org/}fail"
+                  },
+                  "fields": [
+                    {
+                      "key": {
+                        "name": "{http://service.ws.extension.mule.org/}fail",
+                        "required": "true"
+                      },
+                      "model": {
+                        "type": "Object",
+                        "annotations": {
+                          "typeId": "{http://service.ws.extension.mule.org/}fail"
+                        },
+                        "ordered": true,
+                        "fields": [
+                          {
+                            "key": {
+                              "name": "text"
+                            },
+                            "model": {
+                              "type": "String"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "headers": {
+                  "format": "xml",
+                  "type": "Null"
+                },
+                "attachments": {
+                  "format": "xml",
+                  "type": "Null"
+                }
+              },
+              "outputType": {
+                "body": {
+                  "format": "xml",
+                  "type": "Object",
+                  "annotations": {
+                    "typeId": "{http://service.ws.extension.mule.org/}failResponse"
+                  },
+                  "fields": [
+                    {
+                      "key": {
+                        "name": "{http://service.ws.extension.mule.org/}failResponse",
+                        "required": "true"
+                      },
+                      "model": {
+                        "type": "Object",
+                        "annotations": {
+                          "typeId": "{http://service.ws.extension.mule.org/}failResponse"
+                        },
+                        "ordered": true,
+                        "fields": [
+                          {
+                            "key": {
+                              "name": "text"
+                            },
+                            "model": {
+                              "type": "String"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "headers": {
+                  "format": "xml",
+                  "type": "Null"
+                },
+                "attachments": {
+                  "format": "xml",
+                  "type": "Null"
+                }
+              },
+              "type": "REQUEST_RESPONSE",
+              "soapAction": "fail",
+              "faults": [
+                {
+                  "name": "EchoException",
+                  "message": {
+                    "name": "{http://service.ws.extension.mule.org/}EchoException",
+                    "parts": [
+                      {
+                        "name": "fault",
+                        "elementName": {
+                          "namespaceURI": "http://service.ws.extension.mule.org/",
+                          "localPart": "EchoException",
+                          "prefix": ""
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "echoWithHeaders",
+              "inputType": {
+                "body": {
+                  "format": "xml",
+                  "type": "Object",
+                  "annotations": {
+                    "typeId": "{http://service.ws.extension.mule.org/}echoWithHeaders"
+                  },
+                  "fields": [
+                    {
+                      "key": {
+                        "name": "{http://service.ws.extension.mule.org/}echoWithHeaders",
+                        "required": "true"
+                      },
+                      "model": {
+                        "type": "Object",
+                        "annotations": {
+                          "typeId": "{http://service.ws.extension.mule.org/}echoWithHeaders"
+                        },
+                        "ordered": true,
+                        "fields": [
+                          {
+                            "key": {
+                              "name": "text"
+                            },
+                            "model": {
+                              "type": "String"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "headers": {
+                  "format": "xml",
+                  "type": "Object",
+                  "fields": [
+                    {
+                      "key": {
+                        "name": "headerIn"
+                      },
+                      "model": {
+                        "type": "Object",
+                        "annotations": {
+                          "typeId": "{http://service.ws.extension.mule.org/}headerIn"
+                        },
+                        "fields": [
+                          {
+                            "key": {
+                              "name": "{http://service.ws.extension.mule.org/}headerIn",
+                              "required": "true"
+                            },
+                            "model": {
+                              "type": "String"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "key": {
+                        "name": "headerInOut"
+                      },
+                      "model": {
+                        "type": "Object",
+                        "annotations": {
+                          "typeId": "{http://service.ws.extension.mule.org/}headerInOut"
+                        },
+                        "fields": [
+                          {
+                            "key": {
+                              "name": "{http://service.ws.extension.mule.org/}headerInOut",
+                              "required": "true"
+                            },
+                            "model": {
+                              "type": "String"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "attachments": {
+                  "format": "xml",
+                  "type": "Null"
+                }
+              },
+              "outputType": {
+                "body": {
+                  "format": "xml",
+                  "type": "Object",
+                  "annotations": {
+                    "typeId": "{http://service.ws.extension.mule.org/}echoWithHeadersResponse"
+                  },
+                  "fields": [
+                    {
+                      "key": {
+                        "name": "{http://service.ws.extension.mule.org/}echoWithHeadersResponse",
+                        "required": "true"
+                      },
+                      "model": {
+                        "type": "Object",
+                        "annotations": {
+                          "typeId": "{http://service.ws.extension.mule.org/}echoWithHeadersResponse"
+                        },
+                        "ordered": true,
+                        "fields": [
+                          {
+                            "key": {
+                              "name": "text"
+                            },
+                            "model": {
+                              "type": "String"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "headers": {
+                  "format": "xml",
+                  "type": "Object",
+                  "fields": [
+                    {
+                      "key": {
+                        "name": "headerOut"
+                      },
+                      "model": {
+                        "type": "Object",
+                        "annotations": {
+                          "typeId": "{http://service.ws.extension.mule.org/}headerOut"
+                        },
+                        "fields": [
+                          {
+                            "key": {
+                              "name": "{http://service.ws.extension.mule.org/}headerOut",
+                              "required": "true"
+                            },
+                            "model": {
+                              "type": "String"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "key": {
+                        "name": "headerInOut"
+                      },
+                      "model": {
+                        "type": "Object",
+                        "annotations": {
+                          "typeId": "{http://service.ws.extension.mule.org/}headerInOut"
+                        },
+                        "fields": [
+                          {
+                            "key": {
+                              "name": "{http://service.ws.extension.mule.org/}headerInOut",
+                              "required": "true"
+                            },
+                            "model": {
+                              "type": "String"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "attachments": {
+                  "format": "xml",
+                  "type": "Null"
+                }
+              },
+              "type": "REQUEST_RESPONSE",
+              "soapAction": "echoWithHeaders",
+              "faults": [
+                {
+                  "name": "EchoException",
+                  "message": {
+                    "name": "{http://service.ws.extension.mule.org/}EchoException",
+                    "parts": [
+                      {
+                        "name": "fault",
+                        "elementName": {
+                          "namespaceURI": "http://service.ws.extension.mule.org/",
+                          "localPart": "EchoException",
+                          "prefix": ""
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "noParams",
+              "inputType": {
+                "body": {
+                  "format": "xml",
+                  "type": "Object",
+                  "annotations": {
+                    "typeId": "{http://service.ws.extension.mule.org/}noParams"
+                  },
+                  "fields": [
+                    {
+                      "key": {
+                        "name": "{http://service.ws.extension.mule.org/}noParams",
+                        "required": "true"
+                      },
+                      "model": {
+                        "type": "Object",
+                        "annotations": {
+                          "typeId": "{http://service.ws.extension.mule.org/}noParams"
+                        },
+                        "fields": []
+                      }
+                    }
+                  ]
+                },
+                "headers": {
+                  "format": "xml",
+                  "type": "Null"
+                },
+                "attachments": {
+                  "format": "xml",
+                  "type": "Null"
+                }
+              },
+              "outputType": {
+                "body": {
+                  "format": "xml",
+                  "type": "Object",
+                  "annotations": {
+                    "typeId": "{http://service.ws.extension.mule.org/}noParamsResponse"
+                  },
+                  "fields": [
+                    {
+                      "key": {
+                        "name": "{http://service.ws.extension.mule.org/}noParamsResponse",
+                        "required": "true"
+                      },
+                      "model": {
+                        "type": "Object",
+                        "annotations": {
+                          "typeId": "{http://service.ws.extension.mule.org/}noParamsResponse"
+                        },
+                        "ordered": true,
+                        "fields": [
+                          {
+                            "key": {
+                              "name": "text"
+                            },
+                            "model": {
+                              "type": "String"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "headers": {
+                  "format": "xml",
+                  "type": "Null"
+                },
+                "attachments": {
+                  "format": "xml",
+                  "type": "Null"
+                }
+              },
+              "type": "REQUEST_RESPONSE",
+              "soapAction": "noParams",
+              "faults": []
+            },
+            {
+              "name": "noParamsWithHeader",
+              "inputType": {
+                "body": {
+                  "format": "xml",
+                  "type": "Object",
+                  "annotations": {
+                    "typeId": "{http://service.ws.extension.mule.org/}noParamsWithHeader"
+                  },
+                  "fields": [
+                    {
+                      "key": {
+                        "name": "{http://service.ws.extension.mule.org/}noParamsWithHeader",
+                        "required": "true"
+                      },
+                      "model": {
+                        "type": "Object",
+                        "annotations": {
+                          "typeId": "{http://service.ws.extension.mule.org/}noParamsWithHeader"
+                        },
+                        "fields": []
+                      }
+                    }
+                  ]
+                },
+                "headers": {
+                  "format": "xml",
+                  "type": "Object",
+                  "fields": [
+                    {
+                      "key": {
+                        "name": "headerIn"
+                      },
+                      "model": {
+                        "type": "Object",
+                        "annotations": {
+                          "typeId": "{http://service.ws.extension.mule.org/}headerIn"
+                        },
+                        "fields": [
+                          {
+                            "key": {
+                              "name": "{http://service.ws.extension.mule.org/}headerIn",
+                              "required": "true"
+                            },
+                            "model": {
+                              "type": "String"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "attachments": {
+                  "format": "xml",
+                  "type": "Null"
+                }
+              },
+              "outputType": {
+                "body": {
+                  "format": "xml",
+                  "type": "Object",
+                  "annotations": {
+                    "typeId": "{http://service.ws.extension.mule.org/}noParamsWithHeaderResponse"
+                  },
+                  "fields": [
+                    {
+                      "key": {
+                        "name": "{http://service.ws.extension.mule.org/}noParamsWithHeaderResponse",
+                        "required": "true"
+                      },
+                      "model": {
+                        "type": "Object",
+                        "annotations": {
+                          "typeId": "{http://service.ws.extension.mule.org/}noParamsWithHeaderResponse"
+                        },
+                        "ordered": true,
+                        "fields": [
+                          {
+                            "key": {
+                              "name": "text"
+                            },
+                            "model": {
+                              "type": "String"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "headers": {
+                  "format": "xml",
+                  "type": "Null"
+                },
+                "attachments": {
+                  "format": "xml",
+                  "type": "Null"
+                }
+              },
+              "type": "REQUEST_RESPONSE",
+              "soapAction": "noParams",
+              "faults": []
+            },
+            {
+              "name": "echoAccount",
+              "inputType": {
+                "body": {
+                  "format": "xml",
+                  "type": "Object",
+                  "annotations": {
+                    "typeId": "{http://service.ws.extension.mule.org/}echoAccount"
+                  },
+                  "fields": [
+                    {
+                      "key": {
+                        "name": "{http://service.ws.extension.mule.org/}echoAccount",
+                        "required": "true"
+                      },
+                      "model": {
+                        "type": "Object",
+                        "annotations": {
+                          "typeId": "{http://service.ws.extension.mule.org/}echoAccount"
+                        },
+                        "ordered": true,
+                        "fields": [
+                          {
+                            "key": {
+                              "name": "account"
+                            },
+                            "model": {
+                              "type": "Object",
+                              "annotations": {
+                                "typeId": "{http://service.ws.extension.mule.org/}account"
+                              },
+                              "ordered": true,
+                              "fields": [
+                                {
+                                  "key": {
+                                    "name": "clientName"
+                                  },
+                                  "model": {
+                                    "type": "String"
+                                  }
+                                },
+                                {
+                                  "key": {
+                                    "name": "id"
+                                  },
+                                  "model": {
+                                    "type": "Number",
+                                    "annotations": {
+                                      "range": {
+                                        "from": -9.223372036854776E18,
+                                        "to": 9.223372036854776E18
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "key": {
+                                    "name": "items",
+                                    "repeated": "true"
+                                  },
+                                  "model": {
+                                    "type": "String"
+                                  }
+                                },
+                                {
+                                  "key": {
+                                    "name": "startingDate"
+                                  },
+                                  "model": {
+                                    "type": "DateTime"
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          {
+                            "key": {
+                              "name": "name"
+                            },
+                            "model": {
+                              "type": "String"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "headers": {
+                  "format": "xml",
+                  "type": "Null"
+                },
+                "attachments": {
+                  "format": "xml",
+                  "type": "Null"
+                }
+              },
+              "outputType": {
+                "body": {
+                  "format": "xml",
+                  "type": "Object",
+                  "annotations": {
+                    "typeId": "{http://service.ws.extension.mule.org/}echoAccountResponse"
+                  },
+                  "fields": [
+                    {
+                      "key": {
+                        "name": "{http://service.ws.extension.mule.org/}echoAccountResponse",
+                        "required": "true"
+                      },
+                      "model": {
+                        "type": "Object",
+                        "annotations": {
+                          "typeId": "{http://service.ws.extension.mule.org/}echoAccountResponse"
+                        },
+                        "ordered": true,
+                        "fields": [
+                          {
+                            "key": {
+                              "name": "account"
+                            },
+                            "model": {
+                              "type": "Object",
+                              "annotations": {
+                                "typeId": "{http://service.ws.extension.mule.org/}account"
+                              },
+                              "ordered": true,
+                              "fields": [
+                                {
+                                  "key": {
+                                    "name": "clientName"
+                                  },
+                                  "model": {
+                                    "type": "String"
+                                  }
+                                },
+                                {
+                                  "key": {
+                                    "name": "id"
+                                  },
+                                  "model": {
+                                    "type": "Number",
+                                    "annotations": {
+                                      "range": {
+                                        "from": -9.223372036854776E18,
+                                        "to": 9.223372036854776E18
+                                      }
+                                    }
+                                  }
+                                },
+                                {
+                                  "key": {
+                                    "name": "items",
+                                    "repeated": "true"
+                                  },
+                                  "model": {
+                                    "type": "String"
+                                  }
+                                },
+                                {
+                                  "key": {
+                                    "name": "startingDate"
+                                  },
+                                  "model": {
+                                    "type": "DateTime"
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "headers": {
+                  "format": "xml",
+                  "type": "Null"
+                },
+                "attachments": {
+                  "format": "xml",
+                  "type": "Null"
+                }
+              },
+              "type": "REQUEST_RESPONSE",
+              "soapAction": "echoAccount",
+              "faults": []
+            }
+          ],
+          "binding": {
+            "version": "V1_1",
+            "style": "DOC_LITERAL",
+            "transportUri": "http://schemas.xmlsoap.org/soap/http"
+          }
+        }
+      ]
+    }
+  ],
+  "style": "DOC_LITERAL",
+  "messages": [
+    {
+      "name": "{http://service.ws.extension.mule.org/}failResponse",
+      "parts": [
+        {
+          "name": "parameters",
+          "elementName": {
+            "namespaceURI": "http://service.ws.extension.mule.org/",
+            "localPart": "failResponse",
+            "prefix": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "{http://service.ws.extension.mule.org/}noParams",
+      "parts": [
+        {
+          "name": "parameters",
+          "elementName": {
+            "namespaceURI": "http://service.ws.extension.mule.org/",
+            "localPart": "noParams",
+            "prefix": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "{http://service.ws.extension.mule.org/}EchoException",
+      "parts": [
+        {
+          "name": "fault",
+          "elementName": {
+            "namespaceURI": "http://service.ws.extension.mule.org/",
+            "localPart": "EchoException",
+            "prefix": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "{http://service.ws.extension.mule.org/}echo",
+      "parts": [
+        {
+          "name": "parameters",
+          "elementName": {
+            "namespaceURI": "http://service.ws.extension.mule.org/",
+            "localPart": "echo",
+            "prefix": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "{http://service.ws.extension.mule.org/}noParamsResponse",
+      "parts": [
+        {
+          "name": "parameters",
+          "elementName": {
+            "namespaceURI": "http://service.ws.extension.mule.org/",
+            "localPart": "noParamsResponse",
+            "prefix": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "{http://service.ws.extension.mule.org/}echoAccount",
+      "parts": [
+        {
+          "name": "parameters",
+          "elementName": {
+            "namespaceURI": "http://service.ws.extension.mule.org/",
+            "localPart": "echoAccount",
+            "prefix": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "{http://service.ws.extension.mule.org/}echoWithHeaders",
+      "parts": [
+        {
+          "name": "headerIn",
+          "elementName": {
+            "namespaceURI": "http://service.ws.extension.mule.org/",
+            "localPart": "headerIn",
+            "prefix": ""
+          }
+        },
+        {
+          "name": "headerInOut",
+          "elementName": {
+            "namespaceURI": "http://service.ws.extension.mule.org/",
+            "localPart": "headerInOut",
+            "prefix": ""
+          }
+        },
+        {
+          "name": "parameters",
+          "elementName": {
+            "namespaceURI": "http://service.ws.extension.mule.org/",
+            "localPart": "echoWithHeaders",
+            "prefix": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "{http://service.ws.extension.mule.org/}echoAccountResponse",
+      "parts": [
+        {
+          "name": "parameters",
+          "elementName": {
+            "namespaceURI": "http://service.ws.extension.mule.org/",
+            "localPart": "echoAccountResponse",
+            "prefix": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "{http://service.ws.extension.mule.org/}fail",
+      "parts": [
+        {
+          "name": "parameters",
+          "elementName": {
+            "namespaceURI": "http://service.ws.extension.mule.org/",
+            "localPart": "fail",
+            "prefix": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "{http://service.ws.extension.mule.org/}echoWithHeadersResponse",
+      "parts": [
+        {
+          "name": "result",
+          "elementName": {
+            "namespaceURI": "http://service.ws.extension.mule.org/",
+            "localPart": "echoWithHeadersResponse",
+            "prefix": ""
+          }
+        },
+        {
+          "name": "headerInOut",
+          "elementName": {
+            "namespaceURI": "http://service.ws.extension.mule.org/",
+            "localPart": "headerInOut",
+            "prefix": ""
+          }
+        },
+        {
+          "name": "headerOut",
+          "elementName": {
+            "namespaceURI": "http://service.ws.extension.mule.org/",
+            "localPart": "headerOut",
+            "prefix": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "{http://service.ws.extension.mule.org/}noParamsWithHeader",
+      "parts": [
+        {
+          "name": "headerIn",
+          "elementName": {
+            "namespaceURI": "http://service.ws.extension.mule.org/",
+            "localPart": "headerIn",
+            "prefix": ""
+          }
+        },
+        {
+          "name": "parameters",
+          "elementName": {
+            "namespaceURI": "http://service.ws.extension.mule.org/",
+            "localPart": "noParamsWithHeader",
+            "prefix": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "{http://service.ws.extension.mule.org/}echoResponse",
+      "parts": [
+        {
+          "name": "parameters",
+          "elementName": {
+            "namespaceURI": "http://service.ws.extension.mule.org/",
+            "localPart": "echoResponse",
+            "prefix": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "{http://service.ws.extension.mule.org/}noParamsWithHeaderResponse",
+      "parts": [
+        {
+          "name": "result",
+          "elementName": {
+            "namespaceURI": "http://service.ws.extension.mule.org/",
+            "localPart": "noParamsWithHeaderResponse",
+            "prefix": ""
+          }
+        }
+      ]
+    }
+  ]
+}

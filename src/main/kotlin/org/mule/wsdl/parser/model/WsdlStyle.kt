@@ -7,7 +7,7 @@ enum class WsdlStyle(name: String) {
 
 object WsdlStyleFinder {
 
-  fun find(value: String) : WsdlStyle = when(value) {
+  fun find(value: String): WsdlStyle = when (value) {
     "rpc" -> WsdlStyle.RPC
     "RPC" -> WsdlStyle.RPC
     else -> WsdlStyle.DOC_LITERAL

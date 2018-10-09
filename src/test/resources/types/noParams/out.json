@@ -1,0 +1,43 @@
+{
+  "body": {
+    "format": "xml",
+    "type": "Object",
+    "annotations": {
+      "typeId": "{http://service.ws.extension.mule.org/}noParamsResponse"
+    },
+    "fields": [
+      {
+        "key": {
+          "name": "{http://service.ws.extension.mule.org/}noParamsResponse",
+          "required": "true"
+        },
+        "model": {
+          "type": "Object",
+          "annotations": {
+            "typeId": "{http://service.ws.extension.mule.org/}noParamsResponse"
+          },
+          "ordered": true,
+          "fields": [
+            {
+              "key": {
+                "name": "text"
+              },
+              "model": {
+                "type": "String"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "headers": {
+    "format": "xml",
+    "type": "Object",
+    "fields": []
+  },
+  "attachments": {
+    "format": "xml",
+    "type": "Null"
+  }
+}

@@ -1,14 +1,15 @@
 package org.mule.wsdl.parser
 
+import org.apache.cxf.resource.URIResolver
+import org.apache.cxf.wsdl11.CatalogWSDLLocator
+import org.mule.wsdl.parser.exception.WsdlParsingException
+import org.mule.wsdl.parser.locator.GlobalResourceLocator
+import org.mule.wsdl.parser.locator.ResourceLocator
+import org.xml.sax.InputSource
 import java.io.IOException
 import java.io.InputStream
 import java.util.ArrayList
-
 import javax.wsdl.xml.WSDLLocator
-
-import org.apache.cxf.wsdl11.CatalogWSDLLocator
-import org.mule.wsdl.parser.locator.ResourceLocator
-import org.xml.sax.InputSource
 
 /**
  * [WSDLLocator] implementation that enables the retrieval of WSDL document and associated files
@@ -19,7 +20,7 @@ import org.xml.sax.InputSource
  */
 internal class WsdlLocator(private val wsdlLocation: String, private val resourceLocator: ResourceLocator) : WSDLLocator {
 
-  private val delegateLocator: WSDLLocator
+  private val delegateLocator: ResourceLocator
   private val streams = ArrayList<InputStream>()
 
   /**
@@ -28,7 +29,7 @@ internal class WsdlLocator(private val wsdlLocation: String, private val resourc
   private var latestImportUri: String = wsdlLocation
 
   init {
-    this.delegateLocator = CatalogWSDLLocator(wsdlLocation)
+    this.delegateLocator = GlobalResourceLocator()
   }
 
   /**
@@ -39,7 +40,7 @@ internal class WsdlLocator(private val wsdlLocation: String, private val resourc
    * delegate the search to the delegate cxf [CatalogWSDLLocator].
    */
   override fun getBaseInputSource(): InputSource? {
-    return if (resourceLocator.handles(wsdlLocation)) getInputSource(wsdlLocation) else delegateLocator.baseInputSource
+    return getInputSource(wsdlLocation)
   }
 
   /**
@@ -50,19 +51,9 @@ internal class WsdlLocator(private val wsdlLocation: String, private val resourc
    * the fetching is delegated to the [CatalogWSDLLocator].
    */
   override fun getImportInputSource(parentLocation: String, importLocation: String): InputSource {
-    try {
-      if (resourceLocator.handles(importLocation)) {
-        latestImportUri = importLocation
-        return getInputSource(latestImportUri)
-      } else {
-        val importInputSource = delegateLocator.getImportInputSource(parentLocation, importLocation)
-        latestImportUri = delegateLocator.latestImportURI
-        return importInputSource
-      }
-    } catch (e: Exception) {
-      throw RuntimeException("Error retrieving the following WSDL resource: " + latestImportUri!!, e)
-    }
-
+    val resolved = URIResolver(parentLocation, importLocation).uri.toURL().toString()
+    latestImportUri = resolved
+    return getInputSource(resolved)
   }
 
   /**
@@ -95,13 +86,12 @@ internal class WsdlLocator(private val wsdlLocation: String, private val resourc
 
   private fun getInputSource(url: String): InputSource {
     try {
-      val resultStream = resourceLocator.getResource(url)
+      val handler = if (resourceLocator.handles(wsdlLocation)) resourceLocator else delegateLocator
+      val resultStream = handler.getResource(url)
       streams.add(resultStream)
       return InputSource(resultStream)
     } catch (e: Exception) {
-      throw IllegalArgumentException("Error fetching the resource [" + url + "]: " + e.message, e)
+      throw WsdlParsingException("Error fetching the resource [" + url + "]: " + e.message, e)
     }
-
   }
-
 }

@@ -1,6 +1,9 @@
 package org.mule.connectivity.soap
 
+import com.turbomanage.httpclient.BasicHttpClient
 import org.apache.commons.io.IOUtils
+import org.custommonkey.xmlunit.DetailedDiff
+import org.custommonkey.xmlunit.Difference
 import org.custommonkey.xmlunit.XMLUnit
 import org.custommonkey.xmlunit.XMLUnit.compareXML
 import org.hamcrest.MatcherAssert
@@ -15,9 +18,6 @@ import javax.xml.transform.OutputKeys
 import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
 import javax.xml.transform.stream.StreamResult
-import com.turbomanage.httpclient.BasicHttpClient
-import org.custommonkey.xmlunit.DetailedDiff
-import org.custommonkey.xmlunit.Difference
 
 
 object TestUtils {
@@ -67,7 +67,7 @@ object TestUtils {
     return result.writer.toString()
   }
 
-  class TestResourceLocator: ResourceLocator {
+  class TestResourceLocator : ResourceLocator {
 
     override fun handles(url: String): Boolean = url.startsWith("http")
 

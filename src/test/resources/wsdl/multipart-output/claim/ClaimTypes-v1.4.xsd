@@ -1,344 +1,395 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSpy v2018 sp1 (http://www.altova.com) by Altova XMLSpy 2018 Professional XML Editor, Installed for 104 users (Blue Cross Blue Shield of MI) -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:common="urn:common2_0.schema.bcbsm.com" xmlns:mbr="urn:mbr2_1.schema.bcbsm.com" xmlns:tns="urn:claim1_4.schema.bcbsm.com" targetNamespace="urn:claim1_4.schema.bcbsm.com" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.4.1">
-	<xs:import namespace="urn:common2_0.schema.bcbsm.com" schemaLocation="../common/CommonTypes-v2.0.xsd"/>
-	<xs:import namespace="urn:mbr2_1.schema.bcbsm.com" schemaLocation="../mbr/MbrTypes-v2.1.xsd"/>
-	<xs:complexType name="AuthorizationCodeType">
-		<xs:sequence>
-			<xs:element name="First2" type="xs:string" minOccurs="0"/>
-			<xs:element name="Last12" type="xs:string" minOccurs="0"/>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:simpleType name="ClaimFormatTypeEnum">
-		<xs:annotation>
-			<xs:documentation>ITS Specific - Claim Format Type from the ITS Formats Database.
-Values:
-'SF' - Submission Format
-'DF' - Disposition Format
-'RF' - Reconciliation Format
-'NF' - Notification Format</xs:documentation>
-		</xs:annotation>
-		<xs:restriction base="xs:string">
-			<xs:enumeration value="SF"/>
-			<xs:enumeration value="DF"/>
-			<xs:enumeration value="RF"/>
-			<xs:enumeration value="NF"/>
-		</xs:restriction>
-	</xs:simpleType>
-	<xs:complexType name="ClaimIdentifierType">
-		<xs:sequence>
-			<xs:element name="PayerClaimControlNumber" type="xs:string" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Unique number used to identify claims for detail requests.
-Note: PayerClaimControlNumber is a data element returned by the LocateClaimsService (eg. 99999999999, 999999999999), will be ICN for NASCO</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="ClaimControlNumber" type="xs:string" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Will be populated only for Facility Finalized Claims - FIF = ClaimControlNumber, FOF = ClaimControlDigit</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="AdjClaimControlNumber" type="xs:string" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Adjusted Claim Control Number</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="SCCFNbr" type="xs:string" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>SCCF Number - 17 digit - For ITS Claims (both NASCO and Local) Indicates the SCCF number on the claim: On an original claim, this is the SCCF number of the submission format (SF) record that created it. On an adjustment claim, this is the SCCF number of the adjustment SF record that created it</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="CrossRefSCCFNbr" type="xs:string" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Cross Reference SCCF Number - same as SCCF Number. This Cross Reference SCCFNumber is used in SF and DF for adjusted and closed-out/rejected claims.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="ClaimSequenceNumber" type="xs:string" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Will be populated only for Facility Finalized Claims</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:simpleType name="ClaimStatusEnum">
-		<xs:annotation>
-			<xs:documentation>This field is used for searching claims based on the status - In Process, Finalized or All</xs:documentation>
-		</xs:annotation>
-		<xs:restriction base="xs:string">
-			<xs:enumeration value="ALL"/>
-			<xs:enumeration value="INPROCESS"/>
-			<xs:enumeration value="FINALIZED"/>
-			<xs:enumeration value="FINALIZEDPAID"/>
-			<xs:enumeration value="FINALIZEDDENIED"/>
-			<xs:enumeration value="PARTIALPAID"/>
-		</xs:restriction>
-	</xs:simpleType>
-	<xs:complexType name="ClaimStopType">
-		<xs:annotation>
-			<xs:documentation>Common Contract And Member Types:</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="ClaimStopCode" type="xs:string"/>
-			<xs:element name="DatesRange" type="common:ExpirableType"/>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="ClaimAmountsType">
-		<xs:annotation>
-			<xs:documentation>This element represents the amounts specific to the claim.</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="TotalCoPmtAmount" type="common:CurrencyType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Copay Amount.  Total Claim copayment amount applied to this claim based on the subscriber's contract. All Copay for all services</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="TotalApprovedAmount" type="common:CurrencyType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The amount of money BCBSM approved for payment after any reductions in payment have been applied, but before any cost sharing was approved. </xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="TotalPatLiabAmount" type="common:CurrencyType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>A generic term referring to any cost a subscriber is liable for (for example, a deductible, copayment or amount owed for a noncovered service). Returned at the Claim Level. </xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="TotalPaidAmount" type="common:CurrencyType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Sum of all the service paid amount.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="TotalDedAmount" type="common:CurrencyType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Total Claim Deductible Amount. All deductible for all services.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="TotalChargeAmount" type="common:CurrencyType" minOccurs="0"/>
-			<xs:element name="TotalNonCoveredAmount" type="common:CurrencyType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The difference of the amount chanrged and the amount of money BCBSM approved for payment after any reductions in payment have been applied, but before any cost sharing was approved. </xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="TotalCoveredAmount" type="common:CurrencyType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>The amount of money BCBSM approved for payment after any reductions in payment have been applied, but before any cost sharing was approved. </xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="ContractIdentifier">
-		<xs:annotation>
-			<xs:documentation>Contract ID that is used to identify a contract. It can be upto 14 character length.</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="Number" type="xs:string"/>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="ContractNumberType">
-		<xs:annotation>
-			<xs:documentation>Contract ID that is used to identify a contract. It consists of and 3 character prefix, 9 character contract number, and possibly a 4 character extent.</xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="tns:ContractIdentifier">
-				<xs:sequence>
-					<xs:element name="AlphaPrefix" minOccurs="0">
-						<xs:simpleType>
-							<xs:restriction base="xs:string">
-								<xs:length value="3"/>
-							</xs:restriction>
-						</xs:simpleType>
-					</xs:element>
-					<xs:element name="Extent" minOccurs="0">
-						<xs:simpleType>
-							<xs:restriction base="xs:string">
-								<xs:length value="4"/>
-							</xs:restriction>
-						</xs:simpleType>
-					</xs:element>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="DiagCodeType">
-		<xs:annotation>
-			<xs:documentation>Diag Code Grouping</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="DiagCode" type="xs:string">
-				<xs:annotation>
-					<xs:documentation>Diagnosis Code</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="POAInd" type="xs:string" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Present On Admission Indicator - POA</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="DispositionInfoType">
-		<xs:annotation>
-			<xs:documentation>Claim's Billing Disposition Info. LOCAL.</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="DispositionCode" type="xs:string" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Claims Billing Disposition Code</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="DispositionDate" type="xs:date" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Claims Billing Disposition Date</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="FacilityInfoType">
-		<xs:sequence>
-			<xs:element name="HospSurgProcdrCd" type="xs:string" minOccurs="0" maxOccurs="6">
-				<xs:annotation>
-					<xs:documentation>Indicates the surgical procedure that was performed</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="HospitalDates" minOccurs="0">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element name="AdmissionDate" type="xs:date" minOccurs="0">
-							<xs:annotation>
-								<xs:documentation>Indicates the date on which the patient was admitted to the hospital</xs:documentation>
-							</xs:annotation>
-						</xs:element>
-						<xs:element name="DischargeDate" type="xs:date" minOccurs="0">
-							<xs:annotation>
-								<xs:documentation>Indicates the date on which the patient was discharged from the hospital									</xs:documentation>
-							</xs:annotation>
-						</xs:element>
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
-			<xs:element name="ReimbursementMethod" type="xs:string" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Indicates the method in which the facility is reimbursed</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="HospReimbFactor" type="xs:string" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Indicates the percentage factor applied to the approved-to-pay amount for payments to the hospital</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="SurgicalProcedureDate" type="xs:date" minOccurs="0" maxOccurs="6">
-				<xs:annotation>
-					<xs:documentation>Indicates the date on which the surgical procedure was performed</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:simpleType name="ConditionCdType">
-		<xs:annotation>
-			<xs:documentation>Indicates where and why a claim record or detail line was rejected or suspended in processing.  Available from NASCO and LOCAL.</xs:documentation>
-		</xs:annotation>
-		<xs:restriction base="xs:string"/>
-	</xs:simpleType>
-	<xs:simpleType name="OptionCodeType">
-		<xs:restriction base="xs:string">
-			<xs:length value="3"/>
-			<xs:pattern value="\d{3}"/>
-		</xs:restriction>
-	</xs:simpleType>
-	<xs:complexType name="PatientInfoType">
-		<xs:annotation>
-			<xs:documentation>Information about the member for whom the claim was submitted</xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="mbr:MemberInfoType">
-				<xs:sequence>
-					<xs:element name="PatientAccountNumber" type="xs:string" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>Account number for NASCO. Facility-Case for LOCAL</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:simpleType name="PreCertCaseNumberType">
-		<xs:restriction base="xs:string">
-			<xs:length value="4"/>
-			<xs:pattern value="\d{4}"/>
-		</xs:restriction>
-	</xs:simpleType>
-	<xs:simpleType name="PreNoteNumberType">
-		<xs:restriction base="xs:string">
-			<xs:length value="13"/>
-			<xs:pattern value="\d{13}"/>
-		</xs:restriction>
-	</xs:simpleType>
-	<xs:complexType name="ProcedureType">
-		<xs:sequence>
-			<xs:element name="ProcedureCd" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Identifies the services performed for the subscriber and/or the subscriber's dependents.      Stands for HCFA Common Procedure Coding System, where HCFA is the Health Care Financing Administration. This procedure coding system is used by BCBSM for "professional" and outpatient facility  claims to identify services performed.
-					</xs:documentation>
-				</xs:annotation>
-				<xs:simpleType>
-					<xs:restriction base="xs:string"/>
-				</xs:simpleType>
-			</xs:element>
-			<xs:element name="ProcCdModifier" type="xs:string" minOccurs="0" maxOccurs="4">
-				<xs:annotation>
-					<xs:documentation>Defines the meaning of the procedure code on a claim line. NASCO currently supports only upto 3 occurences.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="UnitsOfSvc" type="xs:string" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Indicates the number of services allowed for the procedure code on the claim line. Note: Units may represent days, pills, etc., depending on the procedure code</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="HCPCSProcdrCd" type="xs:string" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Indicates the Health Care Procedure Coding System code used for pricing outpatient and ambulatory surgical facility claims at a lower cost than traditional, non-HCPCS claims</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="ProviderIdentifierType">
-		<xs:sequence>
-			<xs:element name="ProviderCd" type="xs:string" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>Represents the following: • First three digits are the code of the Home Plan that submitted the claim (a.k.a. servicing Plan) • Fourth digit is the line of business code • Last ten digits are the provider number assigned and maintained by the Plan.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="ProviderInfoType">
-		<xs:complexContent>
-			<xs:extension base="tns:ProviderIdentifierType">
-				<xs:sequence>
-					<xs:element name="Name" type="xs:string" minOccurs="0"/>
-					<xs:element name="Address" type="common:AddressType" minOccurs="0"/>
-					<xs:element name="Relationship" type="xs:string" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>Indicates the relationship the servicing provider has with the network in the Administration system</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="ParticCd" type="xs:string" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>Indicates the provider's participation status; denotes the type of agreement a provider has with a Plan for a specified line of business</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:simpleType name="ProviderTaxIdType">
-		<xs:annotation>
-			<xs:documentation>Provider's Federal Tax ID. This generic type can represent the TaxID specific to the Claim and the base Tax ID attached to the Provider.</xs:documentation>
-		</xs:annotation>
-		<xs:restriction base="xs:string"/>
-	</xs:simpleType>
-	<xs:simpleType name="StatusCdType">
-		<xs:annotation>
-			<xs:documentation>Status Code</xs:documentation>
-		</xs:annotation>
-		<xs:restriction base="xs:string"/>
-	</xs:simpleType>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:common="urn:common2_0.schema.bcbsm.com"
+           xmlns:mbr="urn:mbr2_1.schema.bcbsm.com" xmlns:tns="urn:claim1_4.schema.bcbsm.com"
+           targetNamespace="urn:claim1_4.schema.bcbsm.com" elementFormDefault="qualified" attributeFormDefault="unqualified"
+           version="1.4.1">
+    <xs:import namespace="urn:common2_0.schema.bcbsm.com" schemaLocation="../common/CommonTypes-v2.0.xsd"/>
+    <xs:import namespace="urn:mbr2_1.schema.bcbsm.com" schemaLocation="../mbr/MbrTypes-v2.1.xsd"/>
+    <xs:complexType name="AuthorizationCodeType">
+        <xs:sequence>
+            <xs:element name="First2" type="xs:string" minOccurs="0"/>
+            <xs:element name="Last12" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="ClaimFormatTypeEnum">
+        <xs:annotation>
+            <xs:documentation>ITS Specific - Claim Format Type from the ITS Formats Database.
+                Values:
+                'SF' - Submission Format
+                'DF' - Disposition Format
+                'RF' - Reconciliation Format
+                'NF' - Notification Format
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="SF"/>
+            <xs:enumeration value="DF"/>
+            <xs:enumeration value="RF"/>
+            <xs:enumeration value="NF"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="ClaimIdentifierType">
+        <xs:sequence>
+            <xs:element name="PayerClaimControlNumber" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Unique number used to identify claims for detail requests.
+                        Note: PayerClaimControlNumber is a data element returned by the LocateClaimsService (eg. 99999999999,
+                        999999999999), will be ICN for NASCO
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ClaimControlNumber" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Will be populated only for Facility Finalized Claims - FIF = ClaimControlNumber, FOF =
+                        ClaimControlDigit
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="AdjClaimControlNumber" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Adjusted Claim Control Number</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SCCFNbr" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>SCCF Number - 17 digit - For ITS Claims (both NASCO and Local) Indicates the SCCF number on
+                        the claim: On an original claim, this is the SCCF number of the submission format (SF) record that created
+                        it. On an adjustment claim, this is the SCCF number of the adjustment SF record that created it
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="CrossRefSCCFNbr" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Cross Reference SCCF Number - same as SCCF Number. This Cross Reference SCCFNumber is used
+                        in SF and DF for adjusted and closed-out/rejected claims.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="ClaimSequenceNumber" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Will be populated only for Facility Finalized Claims</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="ClaimStatusEnum">
+        <xs:annotation>
+            <xs:documentation>This field is used for searching claims based on the status - In Process, Finalized or All
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="ALL"/>
+            <xs:enumeration value="INPROCESS"/>
+            <xs:enumeration value="FINALIZED"/>
+            <xs:enumeration value="FINALIZEDPAID"/>
+            <xs:enumeration value="FINALIZEDDENIED"/>
+            <xs:enumeration value="PARTIALPAID"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="ClaimStopType">
+        <xs:annotation>
+            <xs:documentation>Common Contract And Member Types:</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="ClaimStopCode" type="xs:string"/>
+            <xs:element name="DatesRange" type="common:ExpirableType"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ClaimAmountsType">
+        <xs:annotation>
+            <xs:documentation>This element represents the amounts specific to the claim.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="TotalCoPmtAmount" type="common:CurrencyType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Copay Amount. Total Claim copayment amount applied to this claim based on the subscriber's
+                        contract. All Copay for all services
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="TotalApprovedAmount" type="common:CurrencyType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The amount of money BCBSM approved for payment after any reductions in payment have been
+                        applied, but before any cost sharing was approved.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="TotalPatLiabAmount" type="common:CurrencyType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>A generic term referring to any cost a subscriber is liable for (for example, a deductible,
+                        copayment or amount owed for a noncovered service). Returned at the Claim Level.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="TotalPaidAmount" type="common:CurrencyType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Sum of all the service paid amount.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="TotalDedAmount" type="common:CurrencyType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Total Claim Deductible Amount. All deductible for all services.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="TotalChargeAmount" type="common:CurrencyType" minOccurs="0"/>
+            <xs:element name="TotalNonCoveredAmount" type="common:CurrencyType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The difference of the amount chanrged and the amount of money BCBSM approved for payment
+                        after any reductions in payment have been applied, but before any cost sharing was approved.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="TotalCoveredAmount" type="common:CurrencyType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>The amount of money BCBSM approved for payment after any reductions in payment have been
+                        applied, but before any cost sharing was approved.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ContractIdentifier">
+        <xs:annotation>
+            <xs:documentation>Contract ID that is used to identify a contract. It can be upto 14 character length.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="Number" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ContractNumberType">
+        <xs:annotation>
+            <xs:documentation>Contract ID that is used to identify a contract. It consists of and 3 character prefix, 9 character
+                contract number, and possibly a 4 character extent.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="tns:ContractIdentifier">
+                <xs:sequence>
+                    <xs:element name="AlphaPrefix" minOccurs="0">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:length value="3"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                    <xs:element name="Extent" minOccurs="0">
+                        <xs:simpleType>
+                            <xs:restriction base="xs:string">
+                                <xs:length value="4"/>
+                            </xs:restriction>
+                        </xs:simpleType>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="DiagCodeType">
+        <xs:annotation>
+            <xs:documentation>Diag Code Grouping</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="DiagCode" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Diagnosis Code</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="POAInd" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Present On Admission Indicator - POA</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DispositionInfoType">
+        <xs:annotation>
+            <xs:documentation>Claim's Billing Disposition Info. LOCAL.</xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="DispositionCode" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Claims Billing Disposition Code</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="DispositionDate" type="xs:date" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Claims Billing Disposition Date</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="FacilityInfoType">
+        <xs:sequence>
+            <xs:element name="HospSurgProcdrCd" type="xs:string" minOccurs="0" maxOccurs="6">
+                <xs:annotation>
+                    <xs:documentation>Indicates the surgical procedure that was performed</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="HospitalDates" minOccurs="0">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="AdmissionDate" type="xs:date" minOccurs="0">
+                            <xs:annotation>
+                                <xs:documentation>Indicates the date on which the patient was admitted to the hospital
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                        <xs:element name="DischargeDate" type="xs:date" minOccurs="0">
+                            <xs:annotation>
+                                <xs:documentation>Indicates the date on which the patient was discharged from the hospital
+                                </xs:documentation>
+                            </xs:annotation>
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="ReimbursementMethod" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Indicates the method in which the facility is reimbursed</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="HospReimbFactor" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Indicates the percentage factor applied to the approved-to-pay amount for payments to the
+                        hospital
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="SurgicalProcedureDate" type="xs:date" minOccurs="0" maxOccurs="6">
+                <xs:annotation>
+                    <xs:documentation>Indicates the date on which the surgical procedure was performed</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="ConditionCdType">
+        <xs:annotation>
+            <xs:documentation>Indicates where and why a claim record or detail line was rejected or suspended in processing.
+                Available from NASCO and LOCAL.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string"/>
+    </xs:simpleType>
+    <xs:simpleType name="OptionCodeType">
+        <xs:restriction base="xs:string">
+            <xs:length value="3"/>
+            <xs:pattern value="\d{3}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="PatientInfoType">
+        <xs:annotation>
+            <xs:documentation>Information about the member for whom the claim was submitted</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="mbr:MemberInfoType">
+                <xs:sequence>
+                    <xs:element name="PatientAccountNumber" type="xs:string" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Account number for NASCO. Facility-Case for LOCAL</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:simpleType name="PreCertCaseNumberType">
+        <xs:restriction base="xs:string">
+            <xs:length value="4"/>
+            <xs:pattern value="\d{4}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="PreNoteNumberType">
+        <xs:restriction base="xs:string">
+            <xs:length value="13"/>
+            <xs:pattern value="\d{13}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="ProcedureType">
+        <xs:sequence>
+            <xs:element name="ProcedureCd" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Identifies the services performed for the subscriber and/or the subscriber's dependents.
+                        Stands for HCFA Common Procedure Coding System, where HCFA is the Health Care Financing Administration.
+                        This procedure coding system is used by BCBSM for "professional" and outpatient facility claims to
+                        identify services performed.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string"/>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="ProcCdModifier" type="xs:string" minOccurs="0" maxOccurs="4">
+                <xs:annotation>
+                    <xs:documentation>Defines the meaning of the procedure code on a claim line. NASCO currently supports only
+                        upto 3 occurences.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="UnitsOfSvc" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Indicates the number of services allowed for the procedure code on the claim line. Note:
+                        Units may represent days, pills, etc., depending on the procedure code
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="HCPCSProcdrCd" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Indicates the Health Care Procedure Coding System code used for pricing outpatient and
+                        ambulatory surgical facility claims at a lower cost than traditional, non-HCPCS claims
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ProviderIdentifierType">
+        <xs:sequence>
+            <xs:element name="ProviderCd" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Represents the following: • First three digits are the code of the Home Plan that submitted
+                        the claim (a.k.a. servicing Plan) • Fourth digit is the line of business code • Last ten digits are the
+                        provider number assigned and maintained by the Plan.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ProviderInfoType">
+        <xs:complexContent>
+            <xs:extension base="tns:ProviderIdentifierType">
+                <xs:sequence>
+                    <xs:element name="Name" type="xs:string" minOccurs="0"/>
+                    <xs:element name="Address" type="common:AddressType" minOccurs="0"/>
+                    <xs:element name="Relationship" type="xs:string" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Indicates the relationship the servicing provider has with the network in the
+                                Administration system
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element name="ParticCd" type="xs:string" minOccurs="0">
+                        <xs:annotation>
+                            <xs:documentation>Indicates the provider's participation status; denotes the type of agreement a
+                                provider has with a Plan for a specified line of business
+                            </xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:simpleType name="ProviderTaxIdType">
+        <xs:annotation>
+            <xs:documentation>Provider's Federal Tax ID. This generic type can represent the TaxID specific to the Claim and the
+                base Tax ID attached to the Provider.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string"/>
+    </xs:simpleType>
+    <xs:simpleType name="StatusCdType">
+        <xs:annotation>
+            <xs:documentation>Status Code</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string"/>
+    </xs:simpleType>
 </xs:schema>

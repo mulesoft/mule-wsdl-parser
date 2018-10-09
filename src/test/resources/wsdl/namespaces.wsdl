@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:impl="http://namespaces.soaplite.com/perl"
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
                   xmlns:tns1="http://namespaces.soaplite.com/perl"
-                  xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  xmlns:tns="http://namespaces.soaplite.com/perl"
                   targetNamespace="http://namespaces.soaplite.com/perl">
     <wsdl:types>
         <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://namespaces.soaplite.com/perl">
@@ -53,4 +55,35 @@
             </complexType>
         </schema>
     </wsdl:types>
+
+    <wsdl:message name="echo">
+        <wsdl:part name="parameters" element="tns:oaAddress"/>
+    </wsdl:message>
+
+    <wsdl:portType name="TestPortType">
+        <wsdl:operation name="echo">
+            <wsdl:input message="tns:echo"/>
+            <wsdl:output message="tns:echo"/>
+        </wsdl:operation>
+    </wsdl:portType>
+
+    <wsdl:binding name="TestPortBinding" type="tns:TestPortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="echo">
+            <soap:operation soapAction="echoOperation"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+
+    <wsdl:service name="TestService">
+        <wsdl:port name="TestPort" binding="tns:TestPortBinding">
+            <soap:address location="http://localhost:8082/simpleService"/>
+        </wsdl:port>
+    </wsdl:service>
+
 </wsdl:definitions>

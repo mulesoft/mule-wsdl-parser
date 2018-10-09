@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.filenet.com/ns/fnce/2006/11/ws/schema"
-            xmlns:ctyp="http://www.filenet.com/ns/fnce/2006/11/ws/schema"
-            xmlns:cdef="http://www.filenet.com/ns/fnce/2006/11/ws/wsdl" elementFormDefault="qualified"
+            elementFormDefault="qualified"
             targetNamespace="http://www.filenet.com/ns/fnce/2006/11/ws/schema">
     <!--  ***Property representations***  -->
     <!--  Stringized GUID  -->

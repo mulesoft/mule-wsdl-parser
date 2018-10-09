@@ -1,14 +1,22 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wd-wsdl="urn:com.workday/bsvc/Tenant_Data_Translation" xmlns:wd="urn:com.workday/bsvc" xmlns:nyw="urn:com.netyourwork/aod" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapbind="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:httpbind="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mimebind="http://schemas.xmlsoap.org/wsdl/mime/" name="Tenant_Data_Translation" targetNamespace="urn:com.workday/bsvc/Tenant_Data_Translation">
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wd-wsdl="urn:com.workday/bsvc/Tenant_Data_Translation"
+                  xmlns:wd="urn:com.workday/bsvc" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  xmlns:soapbind="http://schemas.xmlsoap.org/wsdl/soap/"
+                  name="Tenant_Data_Translation"
+                  targetNamespace="urn:com.workday/bsvc/Tenant_Data_Translation">
     <wsdl:documentation>Public Web Service to export and import translatable tenant data</wsdl:documentation>
     <wsdl:types>
         <xsd:schema elementFormDefault="qualified" attributeFormDefault="qualified" targetNamespace="urn:com.workday/bsvc">
             <xsd:element name="Validation_Fault" type="wd:Validation_FaultType"/>
             <xsd:element name="Processing_Fault" type="wd:Processing_FaultType"/>
-            <xsd:element name="Get_Translatable_Tenant_Data_Public_Request" type="wd:Get_Translatable_Tenant_Data_Public_RequestType"/>
-            <xsd:element name="Get_Translatable_Tenant_Data_Public_Response" type="wd:Get_Translatable_Tenant_Data_Public_ResponseType"/>
-            <xsd:element name="Put_Translatable_Tenant_Data_Public_Request" type="wd:Put_Translatable_Tenant_Data_Public_RequestType"/>
-            <xsd:element name="Put_Translatable_Tenant_Data_Public_Response" type="wd:Put_Translatable_Tenant_Data_Public_ResponseType"/>
+            <xsd:element name="Get_Translatable_Tenant_Data_Public_Request"
+                         type="wd:Get_Translatable_Tenant_Data_Public_RequestType"/>
+            <xsd:element name="Get_Translatable_Tenant_Data_Public_Response"
+                         type="wd:Get_Translatable_Tenant_Data_Public_ResponseType"/>
+            <xsd:element name="Put_Translatable_Tenant_Data_Public_Request"
+                         type="wd:Put_Translatable_Tenant_Data_Public_RequestType"/>
+            <xsd:element name="Put_Translatable_Tenant_Data_Public_Response"
+                         type="wd:Put_Translatable_Tenant_Data_Public_ResponseType"/>
             <xsd:element name="Workday_Common_Header" type="wd:Workday_Common_HeaderType"/>
             <xsd:attribute name="version" type="xsd:string" wd:fixed="v28.0"/>
             <xsd:simpleType name="RichText">
@@ -113,7 +121,8 @@
                         <xsd:annotation>
                         </xsd:annotation>
                     </xsd:element>
-                    <xsd:element name="Translated_Value_for_Instance_Data" type="wd:Translated_Value_for_Instance_DataType" minOccurs="0" maxOccurs="unbounded">
+                    <xsd:element name="Translated_Value_for_Instance_Data" type="wd:Translated_Value_for_Instance_DataType"
+                                 minOccurs="0" maxOccurs="unbounded">
                         <xsd:annotation>
                         </xsd:annotation>
                     </xsd:element>
@@ -123,7 +132,9 @@
                 <xsd:annotation>
                     <xsd:appinfo>
                         <wd:Validation>
-                            <wd:Validation_Message>Instance Reference is not valid. Only tenanted instances can be uploaded for translation.</wd:Validation_Message>
+                            <wd:Validation_Message>Instance Reference is not valid. Only tenanted instances can be uploaded for
+                                translation.
+                            </wd:Validation_Message>
                         </wd:Validation>
                     </xsd:appinfo>
                 </xsd:annotation>
@@ -248,9 +259,11 @@
             </xsd:complexType>
             <xsd:complexType name="Get_Translatable_Tenant_Data_Public_RequestType">
                 <xsd:sequence>
-                    <xsd:element name="Request_References" type="wd:Translatable_Tenant_Data_Public_Request_ReferencesType" minOccurs="0" maxOccurs="unbounded">
+                    <xsd:element name="Request_References" type="wd:Translatable_Tenant_Data_Public_Request_ReferencesType"
+                                 minOccurs="0" maxOccurs="unbounded">
                     </xsd:element>
-                    <xsd:element name="Request_Criteria" type="wd:Translatable_Tenant_Data_Public_Request_CriteriaType" minOccurs="0" maxOccurs="unbounded"/>
+                    <xsd:element name="Request_Criteria" type="wd:Translatable_Tenant_Data_Public_Request_CriteriaType"
+                                 minOccurs="0" maxOccurs="unbounded"/>
                     <xsd:element name="Response_Filter" type="wd:Response_FilterType" minOccurs="0">
                     </xsd:element>
                 </xsd:sequence>
@@ -266,7 +279,8 @@
             </xsd:complexType>
             <xsd:complexType name="Get_Translatable_Tenant_Data_Public_ResponseType">
                 <xsd:sequence>
-                    <xsd:element name="Request_Criteria" type="wd:Translatable_Tenant_Data_Public_Request_CriteriaType" minOccurs="0"/>
+                    <xsd:element name="Request_Criteria" type="wd:Translatable_Tenant_Data_Public_Request_CriteriaType"
+                                 minOccurs="0"/>
                     <xsd:element name="Response_Filter" type="wd:Response_FilterType" minOccurs="0"/>
                     <xsd:element name="Response_Results" type="wd:Response_ResultsType" minOccurs="0"/>
                     <xsd:element name="Response_Data" type="wd:Translatable_Tenant_Data_Public_Response_DataType" minOccurs="0">
@@ -290,13 +304,15 @@
             </xsd:complexType>
             <xsd:complexType name="Translatable_Tenant_Data_Public_Response_DataType">
                 <xsd:sequence>
-                    <xsd:element name="Translatable_Tenant_Data_Public" type="wd:Translatable_User_Language_PublicType" minOccurs="0" maxOccurs="unbounded">
+                    <xsd:element name="Translatable_Tenant_Data_Public" type="wd:Translatable_User_Language_PublicType"
+                                 minOccurs="0" maxOccurs="unbounded">
                     </xsd:element>
                 </xsd:sequence>
             </xsd:complexType>
             <xsd:complexType name="Translatable_User_Language_PublicType">
                 <xsd:sequence>
-                    <xsd:element name="Translatable_Tenant_Data_Public_Data" type="wd:Translatable_Class_Attribute_DataType" maxOccurs="unbounded"/>
+                    <xsd:element name="Translatable_Tenant_Data_Public_Data" type="wd:Translatable_Class_Attribute_DataType"
+                                 maxOccurs="unbounded"/>
                 </xsd:sequence>
             </xsd:complexType>
             <xsd:complexType name="Instance_IDType">
@@ -347,15 +363,19 @@
         <wsdl:documentation>Public Web Service to export and import translatable tenant data</wsdl:documentation>
         <wsdl:operation name="Get_Translatable_Tenant_Data_Public">
             <wsdl:documentation>Public Web Service Task to export translatable tenant data</wsdl:documentation>
-            <wsdl:input name="Get_Translatable_Tenant_Data_PublicInput" message="wd-wsdl:Get_Translatable_Tenant_Data_Public_RequestInputMsg"/>
-            <wsdl:output name="Get_Translatable_Tenant_Data_PublicOutput" message="wd-wsdl:Get_Translatable_Tenant_Data_Public_ResponseOutputMsg"/>
+            <wsdl:input name="Get_Translatable_Tenant_Data_PublicInput"
+                        message="wd-wsdl:Get_Translatable_Tenant_Data_Public_RequestInputMsg"/>
+            <wsdl:output name="Get_Translatable_Tenant_Data_PublicOutput"
+                         message="wd-wsdl:Get_Translatable_Tenant_Data_Public_ResponseOutputMsg"/>
             <wsdl:fault name="Validation_Fault" message="wd-wsdl:Validation_FaultMsg"/>
             <wsdl:fault name="Processing_Fault" message="wd-wsdl:Processing_FaultMsg"/>
         </wsdl:operation>
         <wsdl:operation name="Put_Translatable_Tenant_Data_Public">
             <wsdl:documentation>Public Web Service Task to import translatable tenant data</wsdl:documentation>
-            <wsdl:input name="Put_Translatable_Tenant_Data_PublicInput" message="wd-wsdl:Put_Translatable_Tenant_Data_Public_RequestInputMsg"/>
-            <wsdl:output name="Put_Translatable_Tenant_Data_PublicOutput" message="wd-wsdl:Put_Translatable_Tenant_Data_Public_ResponseOutputMsg"/>
+            <wsdl:input name="Put_Translatable_Tenant_Data_PublicInput"
+                        message="wd-wsdl:Put_Translatable_Tenant_Data_Public_RequestInputMsg"/>
+            <wsdl:output name="Put_Translatable_Tenant_Data_PublicOutput"
+                         message="wd-wsdl:Put_Translatable_Tenant_Data_Public_ResponseOutputMsg"/>
             <wsdl:fault name="Validation_Fault" message="wd-wsdl:Validation_FaultMsg"/>
             <wsdl:fault name="Processing_Fault" message="wd-wsdl:Processing_FaultMsg"/>
         </wsdl:operation>
@@ -397,7 +417,8 @@
     </wsdl:binding>
     <wsdl:service name="Tenant_Data_TranslationService">
         <wsdl:port name="Tenant_Data_Translation" binding="wd-wsdl:Tenant_Data_TranslationBinding">
-            <soapbind:address location="https://wd2-impl-services1.workday.com/ccx/service/mulesoft_dpt2/Tenant_Data_Translation/v28.0"/>
+            <soapbind:address
+                    location="https://wd2-impl-services1.workday.com/ccx/service/mulesoft_dpt2/Tenant_Data_Translation/v28.0"/>
         </wsdl:port>
     </wsdl:service>
 </wsdl:definitions>

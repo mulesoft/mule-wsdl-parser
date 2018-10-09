@@ -1,4 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapbind="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:httpbind="http://schemas.xmlsoap.org/wsdl/http/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wd-wsdl="urn:com.workday/bsvc/Tenant_Data_Translation" xmlns:mimebind="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:nyw="urn:com.netyourwork/aod" xmlns:wd="urn:com.workday/bsvc" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="urn:com.workday/bsvc">
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:wd="urn:com.workday/bsvc" attributeFormDefault="qualified"
+            elementFormDefault="qualified" targetNamespace="urn:com.workday/bsvc">
     <xsd:element name="Validation_Fault" type="wd:Validation_FaultType"/>
     <xsd:element name="Processing_Fault" type="wd:Processing_FaultType"/>
     <xsd:element name="Get_Translatable_Tenant_Data_Public_Request" type="wd:Get_Translatable_Tenant_Data_Public_RequestType"/>
@@ -109,7 +112,8 @@
                 <xsd:annotation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element maxOccurs="unbounded" minOccurs="0" name="Translated_Value_for_Instance_Data" type="wd:Translated_Value_for_Instance_DataType">
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="Translated_Value_for_Instance_Data"
+                         type="wd:Translated_Value_for_Instance_DataType">
                 <xsd:annotation>
                 </xsd:annotation>
             </xsd:element>
@@ -119,7 +123,9 @@
         <xsd:annotation>
             <xsd:appinfo>
                 <wd:Validation>
-                    <wd:Validation_Message>Instance Reference is not valid. Only tenanted instances can be uploaded for translation.</wd:Validation_Message>
+                    <wd:Validation_Message>Instance Reference is not valid. Only tenanted instances can be uploaded for
+                        translation.
+                    </wd:Validation_Message>
                 </wd:Validation>
             </xsd:appinfo>
         </xsd:annotation>
@@ -244,9 +250,11 @@
     </xsd:complexType>
     <xsd:complexType name="Get_Translatable_Tenant_Data_Public_RequestType">
         <xsd:sequence>
-            <xsd:element maxOccurs="unbounded" minOccurs="0" name="Request_References" type="wd:Translatable_Tenant_Data_Public_Request_ReferencesType">
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="Request_References"
+                         type="wd:Translatable_Tenant_Data_Public_Request_ReferencesType">
             </xsd:element>
-            <xsd:element maxOccurs="unbounded" minOccurs="0" name="Request_Criteria" type="wd:Translatable_Tenant_Data_Public_Request_CriteriaType"/>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="Request_Criteria"
+                         type="wd:Translatable_Tenant_Data_Public_Request_CriteriaType"/>
             <xsd:element minOccurs="0" name="Response_Filter" type="wd:Response_FilterType">
             </xsd:element>
         </xsd:sequence>
@@ -272,7 +280,8 @@
     </xsd:complexType>
     <xsd:complexType name="Put_Translatable_Tenant_Data_Public_RequestType">
         <xsd:sequence>
-            <xsd:element maxOccurs="unbounded" minOccurs="0" name="Translatable_Tenant_Data_Public_Data" type="wd:Translatable_Class_Attribute_DataType"/>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="Translatable_Tenant_Data_Public_Data"
+                         type="wd:Translatable_Class_Attribute_DataType"/>
         </xsd:sequence>
         <xsd:attribute ref="wd:version"/>
     </xsd:complexType>
@@ -285,13 +294,15 @@
     </xsd:complexType>
     <xsd:complexType name="Translatable_Tenant_Data_Public_Response_DataType">
         <xsd:sequence>
-            <xsd:element maxOccurs="unbounded" minOccurs="0" name="Translatable_Tenant_Data_Public" type="wd:Translatable_User_Language_PublicType">
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="Translatable_Tenant_Data_Public"
+                         type="wd:Translatable_User_Language_PublicType">
             </xsd:element>
         </xsd:sequence>
     </xsd:complexType>
     <xsd:complexType name="Translatable_User_Language_PublicType">
         <xsd:sequence>
-            <xsd:element maxOccurs="unbounded" name="Translatable_Tenant_Data_Public_Data" type="wd:Translatable_Class_Attribute_DataType"/>
+            <xsd:element maxOccurs="unbounded" name="Translatable_Tenant_Data_Public_Data"
+                         type="wd:Translatable_Class_Attribute_DataType"/>
         </xsd:sequence>
     </xsd:complexType>
     <xsd:complexType name="Instance_IDType">

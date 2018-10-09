@@ -1,10 +1,5 @@
 package org.mule.wsdl.parser.model
 
-import javax.wsdl.Fault
+import org.mule.wsdl.parser.model.message.MessageDefinition
 
-class FaultModel(private val fault: Fault) {
-
-  fun getName() = fault.name
-
-  fun getMessage() = fault.message
-}
+class FaultModel(override val name: String, val message: MessageDefinition) : NamedModel

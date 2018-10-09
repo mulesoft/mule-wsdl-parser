@@ -1,45 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<wsdl:definitions name="DocMgmt" targetNamespace="urn:docmgmt2_1.service.cs.bcbsm.com" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:svc="urn:docmgmt2_1.util.schema.bcbsm.com" xmlns:tns="urn:docmgmt2_1.service.cs.bcbsm.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-	<wsdl:types>
-		<xs:schema>
-			<xs:import namespace="urn:docmgmt2_1.util.schema.bcbsm.com" schemaLocation="util/DMTypes-v2.1.xsd"/>
-		</xs:schema>
-	</wsdl:types>
-	<wsdl:message name="retrieveDocumentRequest">
-		<wsdl:part element="svc:RetrieveDocumentRequest" name="request"/>
-	</wsdl:message>
-	<wsdl:message name="retrieveDocumentResponse">
-		<wsdl:part element="svc:RetrieveDocumentResponse" name="response"/>
-		<wsdl:part name="attachment" type="xs:hexBinary"/>
-	</wsdl:message>
-	<wsdl:portType name="ServiceWithMultipart">
-		<wsdl:operation name="retrieveDocument">
-			<wsdl:input message="tns:retrieveDocumentRequest"/>
-			<wsdl:output message="tns:retrieveDocumentResponse"/>
-		</wsdl:operation>
-	</wsdl:portType>
-	<wsdl:binding name="ServiceBinding" type="tns:ServiceWithMultipart">
-		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
-		<wsdl:operation name="retrieveDocument">
-			<soap:operation soapAction="urn:docmgmt.service.cs.bcbsm.com/retrieveDocument"/>
-			<wsdl:input>
-				<soap:body use="literal"/>
-			</wsdl:input>
-			<wsdl:output>
-				<mime:multipartRelated>
-					<mime:part>
-						<soap:body parts="response" use="literal"/>
-					</mime:part>
-					<mime:part>
-						<mime:content part="attachment" type="*/*"/>
-					</mime:part>
-				</mime:multipartRelated>
-			</wsdl:output>
-		</wsdl:operation>
-	</wsdl:binding>
-	<wsdl:service name="MultipartService">
-		<wsdl:port binding="tns:ServiceBinding" name="MultipartPort">
-			<soap:address location="http://localhost:9080/DocMgmtWeb/services/DocMgmt"/>
-		</wsdl:port>
-	</wsdl:service>
+<wsdl:definitions name="DocMgmt" targetNamespace="urn:docmgmt2_1.service.cs.bcbsm.com"
+                  xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:svc="urn:docmgmt2_1.util.schema.bcbsm.com" xmlns:tns="urn:docmgmt2_1.service.cs.bcbsm.com"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <wsdl:types>
+        <xs:schema>
+            <xs:import namespace="urn:docmgmt2_1.util.schema.bcbsm.com" schemaLocation="util/DMTypes-v2.1.xsd"/>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="retrieveDocumentRequest">
+        <wsdl:part element="svc:RetrieveDocumentRequest" name="request"/>
+    </wsdl:message>
+    <wsdl:message name="retrieveDocumentResponse">
+        <wsdl:part element="svc:RetrieveDocumentResponse" name="response"/>
+        <wsdl:part name="attachment" type="xs:hexBinary"/>
+    </wsdl:message>
+    <wsdl:portType name="ServiceWithMultipart">
+        <wsdl:operation name="retrieveDocument">
+            <wsdl:input message="tns:retrieveDocumentRequest"/>
+            <wsdl:output message="tns:retrieveDocumentResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="ServiceBinding" type="tns:ServiceWithMultipart">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="retrieveDocument">
+            <soap:operation soapAction="urn:docmgmt.service.cs.bcbsm.com/retrieveDocument"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:multipartRelated>
+                    <mime:part>
+                        <soap:body parts="response" use="literal"/>
+                    </mime:part>
+                    <mime:part>
+                        <mime:content part="attachment" type="*/*"/>
+                    </mime:part>
+                </mime:multipartRelated>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="MultipartService">
+        <wsdl:port binding="tns:ServiceBinding" name="MultipartPort">
+            <soap:address location="http://localhost:9080/DocMgmtWeb/services/DocMgmt"/>
+        </wsdl:port>
+    </wsdl:service>
 </wsdl:definitions>
