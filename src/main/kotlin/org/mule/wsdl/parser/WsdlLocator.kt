@@ -8,7 +8,7 @@ import org.mule.wsdl.parser.locator.ResourceLocator
 import org.xml.sax.InputSource
 import java.io.IOException
 import java.io.InputStream
-import java.util.*
+import java.util.ArrayList
 import javax.wsdl.xml.WSDLLocator
 
 /**
