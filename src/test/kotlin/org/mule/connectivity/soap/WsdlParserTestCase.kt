@@ -19,6 +19,7 @@ import org.mockserver.model.HttpResponse
 import org.mockserver.model.HttpResponse.response
 import org.mockserver.socket.PortFactory
 import org.mule.wsdl.parser.WsdlParser
+import org.mule.wsdl.parser.WsdlTypelessParser
 import org.mule.wsdl.parser.exception.WsdlParsingException
 import org.mule.wsdl.parser.model.Version
 import org.mule.wsdl.parser.model.WsdlStyle
@@ -42,6 +43,12 @@ class WsdlParserTestCase {
   @Test
   fun shouldBeRPCStyle() {
     val wsdl = WsdlParser.parse(TestUtils.getResourcePath("wsdl/rpc.wsdl"))
+    wsdl.style shouldBe WsdlStyle.RPC
+  }
+
+  @Test
+  fun shouldHaveAddress() {
+    val wsdl = WsdlTypelessParser.parse("http://disapi.da-desk.com/disweb/1.0/spring-ws/DaDeskDataExchange/dataexchange.wsdl")
     wsdl.style shouldBe WsdlStyle.RPC
   }
 
