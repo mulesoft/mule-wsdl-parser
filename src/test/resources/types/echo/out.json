@@ -33,8 +33,7 @@
   },
   "headers": {
     "format": "xml",
-    "type": "Object",
-    "fields": []
+    "type": "Null"
   },
   "attachments": {
     "format": "xml",

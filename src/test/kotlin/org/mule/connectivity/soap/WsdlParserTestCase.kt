@@ -47,12 +47,6 @@ class WsdlParserTestCase {
   }
 
   @Test
-  fun shouldHaveAddress() {
-    val wsdl = WsdlTypelessParser.parse("http://disapi.da-desk.com/disweb/1.0/spring-ws/DaDeskDataExchange/dataexchange.wsdl")
-    wsdl.style shouldBe WsdlStyle.RPC
-  }
-
-  @Test
   fun shouldBeVersion11() {
     val wsdl = WsdlParser.parse(TestUtils.getResourcePath("wsdl/simple-service.wsdl"))
     wsdl.services[0].ports[0].binding!!.version shouldBe Version.V1_1

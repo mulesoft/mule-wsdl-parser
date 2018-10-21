@@ -19,6 +19,7 @@ import javax.wsdl.xml.WSDLLocator
 internal class WsdlLocator(private val wsdlLocation: String, private val resourceLocator: ResourceLocator) : WSDLLocator {
 
   private val streams = ArrayList<InputStream>()
+  private val fallbackLocator = GlobalResourceLocator()
 
   /**
    * Mutable field, gets updated each time a new import is found
@@ -79,12 +80,10 @@ internal class WsdlLocator(private val wsdlLocation: String, private val resourc
 
   private fun getInputSource(url: String): InputSource? {
     try {
-      if (resourceLocator.handles(url)) {
-        val resource = resourceLocator.getResource(url)
-        streams.add(resource)
-        return InputSource(resource)
-      }
-      throw WsdlParsingException("Resource [$url] was not found")
+      val locator = if (resourceLocator.handles(url)) resourceLocator else fallbackLocator
+      val resource = locator.getResource(url)
+      streams.add(resource)
+      return InputSource(resource)
     } catch (e: Exception) {
       throw WsdlParsingException("Error fetching the resource [$url]: " + e.message, e)
     }

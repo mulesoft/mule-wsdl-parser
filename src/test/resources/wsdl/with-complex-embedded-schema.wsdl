@@ -132,9 +132,7 @@
                 <xsd:annotation>
                     <xsd:appinfo>
                         <wd:Validation>
-                            <wd:Validation_Message>Instance Reference is not valid. Only tenanted instances can be uploaded for
-                                translation.
-                            </wd:Validation_Message>
+                            <wd:Validation_Message>SomeMsg</wd:Validation_Message>
                         </wd:Validation>
                     </xsd:appinfo>
                 </xsd:annotation>
