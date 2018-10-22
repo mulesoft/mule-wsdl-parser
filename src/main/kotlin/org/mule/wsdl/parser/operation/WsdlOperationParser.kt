@@ -1,8 +1,6 @@
 package org.mule.wsdl.parser.operation
 
 import org.mule.metadata.api.TypeLoader
-import org.mule.wsdl.parser.operation.WsdlOperationTypeParser.Companion.parseInput
-import org.mule.wsdl.parser.operation.WsdlOperationTypeParser.Companion.parseOutput
 import org.mule.wsdl.parser.model.FaultModel
 import org.mule.wsdl.parser.model.WsdlStyle
 import org.mule.wsdl.parser.model.message.MessageDefinition
@@ -11,6 +9,8 @@ import org.mule.wsdl.parser.model.operation.OperationType
 import org.mule.wsdl.parser.model.operation.OperationType.ONE_WAY
 import org.mule.wsdl.parser.model.operation.Type
 import org.mule.wsdl.parser.model.operation.Type.Companion.NULL_OPERATION_TYPE
+import org.mule.wsdl.parser.operation.WsdlOperationTypeParser.Companion.parseInput
+import org.mule.wsdl.parser.operation.WsdlOperationTypeParser.Companion.parseOutput
 import javax.wsdl.BindingOperation
 import javax.wsdl.Definition
 import javax.wsdl.Fault

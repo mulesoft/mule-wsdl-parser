@@ -6,7 +6,6 @@ import org.mule.wsdl.parser.exception.WsdlParsingException
 import org.xml.sax.InputSource
 import java.io.IOException
 import java.io.InputStream
-import java.util.*
 import javax.wsdl.xml.WSDLLocator
 
 /**

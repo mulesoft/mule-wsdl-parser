@@ -2,7 +2,6 @@ package org.mule.wsdl.parser.model
 
 import org.mule.wsdl.parser.exception.OperationNotFoundException
 import org.mule.wsdl.parser.model.operation.OperationModel
-import java.net.URL
 
 class PortModel(override val name: String,
                 val operations: List<OperationModel>,
