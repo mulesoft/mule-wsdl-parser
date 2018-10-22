@@ -5,6 +5,7 @@ import org.mule.metadata.xml.api.XmlTypeLoader
 import org.mule.wsdl.parser.exception.WsdlParsingException
 import org.mule.wsdl.parser.locator.GlobalResourceLocator
 import org.mule.wsdl.parser.locator.ResourceLocator
+import org.mule.wsdl.parser.locator.WsdlLocator
 import org.mule.wsdl.parser.model.PortModel
 import org.mule.wsdl.parser.model.ServiceModel
 import org.mule.wsdl.parser.model.SoapBinding
@@ -14,6 +15,7 @@ import org.mule.wsdl.parser.model.WsdlStyle
 import org.mule.wsdl.parser.model.WsdlStyleFinder
 import org.mule.wsdl.parser.model.message.MessageDefinition
 import org.mule.wsdl.parser.model.operation.OperationModel
+import org.mule.wsdl.parser.operation.DefaultWsdlOperationParser
 import javax.wsdl.BindingInput
 import javax.wsdl.BindingOperation
 import javax.wsdl.Definition
@@ -33,18 +35,34 @@ import javax.wsdl.extensions.soap12.SOAP12Binding
 import javax.wsdl.extensions.soap12.SOAP12Operation
 import javax.wsdl.factory.WSDLFactory
 import javax.wsdl.xml.WSDLLocator
+import javax.wsdl.xml.WSDLReader
 import javax.xml.namespace.QName
 
 
-class WsdlParser private constructor(wsdlLocator: WSDLLocator, charset: String = "UTF-8") {
+open class WsdlParser internal constructor(wsdlLocator: WSDLLocator, charset: String = "UTF-8") {
 
   private val definition = parseWsdl(wsdlLocator)
   private val loader = XmlTypeLoader(WsdlSchemasCollector(definition, charset).collector())
-  private val style = findStyle()
+  internal val style = findStyle()
 
-  private val wsdl = WsdlModel(wsdlLocator.baseURI, parseServices(definition), style, parseMessages(definition))
+  internal val wsdl = WsdlModel(wsdlLocator.baseURI, parseServices(definition), style, parseMessages(definition))
 
-  private fun parseMessages(definition: Definition): Set<MessageDefinition> {
+  private fun parseWsdl(wsdlLocator: WSDLLocator): Definition {
+    try {
+      val factory = WSDLFactory.newInstance()
+      val registry = initExtensionRegistry(factory)
+      val wsdlReader = factory.newWSDLReader()
+      setFeatures(wsdlReader)
+      wsdlReader.extensionRegistry = registry
+      return wsdlReader.readWSDL(wsdlLocator)
+    } catch (e: WSDLException) {
+      // This replacement is made because the WSDLException outputs an ugly message, but we need a part of it.
+      val msg = e.message?.replace("WSDLException:", "")?.replace("faultCode=OTHER_ERROR:", "")?.trim() ?: "UNKNOWN"
+      throw WsdlParsingException("Error processing WSDL file [${wsdlLocator.baseURI}]: $msg", e)
+    }
+  }
+
+   private fun parseMessages(definition: Definition): Set<MessageDefinition> {
     return definition.messages.values.map { m -> MessageDefinition.fromMessage(m as Message) }.toSet()
   }
 
@@ -56,23 +74,12 @@ class WsdlParser private constructor(wsdlLocator: WSDLLocator, charset: String =
     .map { (_, v) -> v as Port }
     .map { p -> PortModel(p.name, parseOperations(p), findSoapAddress(p), findPortBinding(p)) }
 
-  private fun parseOperations(port: Port): List<OperationModel> = port.binding.bindingOperations
-    .map { bop -> WsdlOperationParser.parse(definition, style, loader, bop as BindingOperation) }
+  internal open fun parseOperations(port: Port): List<OperationModel> = port.binding.bindingOperations
+    .map { bop -> DefaultWsdlOperationParser.parse(definition, style, loader, bop as BindingOperation) }
 
-  private fun parseWsdl(wsdlLocator: WSDLLocator): Definition {
-    try {
-      val factory = WSDLFactory.newInstance()
-      val registry = initExtensionRegistry(factory)
-      val wsdlReader = factory.newWSDLReader()
-      wsdlReader.setFeature("javax.wsdl.verbose", false)
-      wsdlReader.setFeature("javax.wsdl.importDocuments", true)
-      wsdlReader.extensionRegistry = registry
-      return wsdlReader.readWSDL(wsdlLocator)
-    } catch (e: WSDLException) {
-      // This replacement is made because the WSDLException outputs an ugly message, but we need a part of it.
-      val msg = e.message?.replace("WSDLException:", "")?.replace("faultCode=OTHER_ERROR:", "")?.trim() ?: "UNKNOWN"
-      throw WsdlParsingException("Error processing WSDL file [${wsdlLocator.baseURI}]: $msg", e)
-    }
+  internal open fun setFeatures(wsdlReader: WSDLReader) {
+    wsdlReader.setFeature("javax.wsdl.verbose", false)
+    wsdlReader.setFeature("javax.wsdl.importDocuments", false)
   }
 
   private fun initExtensionRegistry(factory: WSDLFactory): ExtensionRegistry {

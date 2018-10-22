@@ -1,3 +1,5 @@
 package org.mule.wsdl.parser.exception
 
-class WsdlParsingException(override val message: String?, override val cause: Throwable?) : Exception()
+class WsdlParsingException(message: String?, cause: Throwable?) : Exception(message, cause) {
+  constructor(message: String?) : this(message, null)
+}

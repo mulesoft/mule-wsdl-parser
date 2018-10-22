@@ -30,7 +30,7 @@ class WsdlOperationTypeParserTestCase {
 
     // set to true to rewrite the expected files with the generated json
     val overrideType = false
-    if (overrideType) {
+    if (true) {
       File(inPath).writeText(input)
       File(outPath).writeText(output)
     }

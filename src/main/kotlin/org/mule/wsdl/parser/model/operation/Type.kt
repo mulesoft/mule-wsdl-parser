@@ -1,7 +1,7 @@
 package org.mule.wsdl.parser.model.operation
 
 import org.mule.metadata.api.model.MetadataType
-import org.mule.wsdl.parser.WsdlOperationTypeParser.Companion.NULL_TYPE
+import org.mule.wsdl.parser.operation.WsdlOperationTypeParser.Companion.NULL_TYPE
 
 class Type(val body: MetadataType,
            val headers: MetadataType,

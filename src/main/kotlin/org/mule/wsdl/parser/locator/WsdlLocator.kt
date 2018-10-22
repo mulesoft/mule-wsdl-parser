@@ -1,14 +1,11 @@
-package org.mule.wsdl.parser
+package org.mule.wsdl.parser.locator
 
 import org.apache.cxf.resource.URIResolver
 import org.apache.cxf.wsdl11.CatalogWSDLLocator
 import org.mule.wsdl.parser.exception.WsdlParsingException
-import org.mule.wsdl.parser.locator.GlobalResourceLocator
-import org.mule.wsdl.parser.locator.ResourceLocator
 import org.xml.sax.InputSource
 import java.io.IOException
 import java.io.InputStream
-import java.util.ArrayList
 import javax.wsdl.xml.WSDLLocator
 
 /**
@@ -20,17 +17,13 @@ import javax.wsdl.xml.WSDLLocator
  */
 internal class WsdlLocator(private val wsdlLocation: String, private val resourceLocator: ResourceLocator) : WSDLLocator {
 
-  private val delegateLocator: ResourceLocator
   private val streams = ArrayList<InputStream>()
+  private val fallbackLocator = GlobalResourceLocator()
 
   /**
    * Mutable field, gets updated each time a new import is found
    */
   private var latestImportUri: String = wsdlLocation
-
-  init {
-    this.delegateLocator = GlobalResourceLocator()
-  }
 
   /**
    * Returns an InputSource "pointed at" the base document.
@@ -50,7 +43,7 @@ internal class WsdlLocator(private val wsdlLocation: String, private val resourc
    * If the imported resource can be fetched by the [ResourceLocator] then it gets fetched, otherwise
    * the fetching is delegated to the [CatalogWSDLLocator].
    */
-  override fun getImportInputSource(parentLocation: String, importLocation: String): InputSource {
+  override fun getImportInputSource(parentLocation: String, importLocation: String): InputSource? {
     val resolved = URIResolver(parentLocation, importLocation).uri.toURL().toString()
     latestImportUri = resolved
     return getInputSource(resolved)
@@ -84,14 +77,14 @@ internal class WsdlLocator(private val wsdlLocation: String, private val resourc
     }
   }
 
-  private fun getInputSource(url: String): InputSource {
+  private fun getInputSource(url: String): InputSource? {
     try {
-      val handler = if (resourceLocator.handles(wsdlLocation)) resourceLocator else delegateLocator
-      val resultStream = handler.getResource(url)
-      streams.add(resultStream)
-      return InputSource(resultStream)
+      val locator = if (resourceLocator.handles(url)) resourceLocator else fallbackLocator
+      val resource = locator.getResource(url)
+      streams.add(resource)
+      return InputSource(resource)
     } catch (e: Exception) {
-      throw WsdlParsingException("Error fetching the resource [" + url + "]: " + e.message, e)
+      throw WsdlParsingException("Error fetching the resource [$url]: " + e.message, e)
     }
   }
 }

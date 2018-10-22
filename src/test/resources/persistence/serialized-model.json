@@ -10,7 +10,6 @@
       },
       "ports": [
         {
-          "address": "http://localhost:8082/simpleService",
           "name": "TestPort",
           "operations": [
             {
@@ -782,6 +781,7 @@
               "faults": []
             }
           ],
+          "address": "http://localhost:8082/simpleService",
           "binding": {
             "version": "V1_1",
             "style": "DOC_LITERAL",

@@ -1,4 +1,4 @@
-package org.mule.wsdl.parser
+package org.mule.wsdl.parser.operation
 
 import org.mule.metadata.api.TypeLoader
 import org.mule.metadata.api.builder.BaseTypeBuilder
