@@ -86,12 +86,13 @@ class WsdlOperationTypeParser private constructor(private val wsdl: Definition,
   private fun buildHeaders(): MetadataType {
     val headerParts = getHeaderParts(bindingType)
     if (headerParts.isEmpty()) {
-      return NULL_TYPE;
+      return NULL_TYPE
     }
     val typeBuilder = BaseTypeBuilder.create(XML)
-    val objectType = typeBuilder.objectType()
+    val headersXml = typeBuilder.objectType()
+    val headers = headersXml.addField().key("headers").value().objectType()
     for (header in headerParts) {
-      val field = objectType.addField()
+      val field = headers.addField()
       val headerPart = header.partName
       val part = message?.getPart(headerPart)
       if (part != null) {
@@ -101,7 +102,7 @@ class WsdlOperationTypeParser private constructor(private val wsdl: Definition,
         field.key(headerPart).value(buildPartMetadataType(headerMessage.getPart(headerPart)))
       }
     }
-    return objectType.build()
+    return headersXml.build()
   }
 
 
