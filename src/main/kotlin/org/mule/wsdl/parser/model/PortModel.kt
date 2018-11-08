@@ -9,7 +9,7 @@ class PortModel(override val name: String,
                 val binding: SoapBinding?) : NamedModel {
 
   fun getOperation(name: String): OperationModel {
-    return operations.find { ope -> ope.name == name } ?: throw OperationNotFoundException(name)
+    return operations.find { ope -> ope.name == name } ?: throw OperationNotFoundException("operation [$name] was not found in the current wsdl file.")
   }
 
   fun getOperationsMap(): Map<String, OperationModel> {

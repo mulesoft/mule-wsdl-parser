@@ -18,7 +18,7 @@ class WsdlModel(val location: String,
   fun getMessage(qname: QName) = messages.find { m -> qname.toString() == m.name }
 
   fun getOperation(name: String): OperationModel? {
-    val operations = services.flatMap { it.ports }.flatMap { it.operations }
+    val operations = services.flatMap { it.ports }.flatMap { it.operations }.filter { it.name == name }
     if (operations.size > 1) {
       throw OperationNotFoundException("Multiple operations [$name] found, the operation may be defined in multiple ports")
     }

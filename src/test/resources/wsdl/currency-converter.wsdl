@@ -1,0 +1,160 @@
+<wsdl:definitions xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://mozart-currency-convertor.com/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://mozart-currency-convertor.com/">
+    <wsdl:types>
+        <s:schema elementFormDefault="qualified" targetNamespace="http://mozart-currency-convertor.com/">
+            <s:element name="ConversionRate">
+                <s:complexType>
+                    <s:sequence>
+                        <s:element minOccurs="1" maxOccurs="1" name="FromCurrency" type="tns:Currency"/>
+                        <s:element minOccurs="1" maxOccurs="1" name="ToCurrency" type="tns:Currency"/>
+                    </s:sequence>
+                </s:complexType>
+            </s:element>
+            <s:simpleType name="Currency">
+                <s:restriction base="s:string">
+                    <s:enumeration value="AFA"/>
+                    <s:enumeration value="ALL"/>
+                    <s:enumeration value="DZD"/>
+                    <s:enumeration value="ARS"/>
+                    <s:enumeration value="AWG"/>
+                    <s:enumeration value="AUD"/>
+                    <s:enumeration value="BSD"/>
+                    <s:enumeration value="BHD"/>
+                    <s:enumeration value="BDT"/>
+                    <s:enumeration value="BBD"/>
+                    <s:enumeration value="BZD"/>
+                    <s:enumeration value="BMD"/>
+                    <s:enumeration value="BTN"/>
+                    <s:enumeration value="BOB"/>
+                    <s:enumeration value="BWP"/>
+                    <s:enumeration value="TZS"/>
+                    <s:enumeration value="THB"/>
+                    <s:enumeration value="TOP"/>
+                    <s:enumeration value="TTD"/>
+                    <s:enumeration value="TND"/>
+                    <s:enumeration value="TRL"/>
+                    <s:enumeration value="USD"/>
+                    <s:enumeration value="AED"/>
+                    <s:enumeration value="UGX"/>
+                    <s:enumeration value="UAH"/>
+                    <s:enumeration value="UYU"/>
+                    <s:enumeration value="VUV"/>
+                    <s:enumeration value="VEB"/>
+                    <s:enumeration value="VND"/>
+                    <s:enumeration value="YER"/>
+                    <s:enumeration value="YUM"/>
+                    <s:enumeration value="ZMK"/>
+                    <s:enumeration value="ZWD"/>
+                    <s:enumeration value="TRY"/>
+                </s:restriction>
+            </s:simpleType>
+            <s:element name="ConversionRateResponse">
+                <s:complexType>
+                    <s:sequence>
+                        <s:element minOccurs="1" maxOccurs="1" name="ConversionRateResult" type="s:double"/>
+                    </s:sequence>
+                </s:complexType>
+            </s:element>
+            <s:element name="double" type="s:double"/>
+        </s:schema>
+    </wsdl:types>
+    <wsdl:message name="ConversionRateSoapIn">
+        <wsdl:part name="parameters" element="tns:ConversionRate"/>
+    </wsdl:message>
+    <wsdl:message name="ConversionRateSoapOut">
+        <wsdl:part name="parameters" element="tns:ConversionRateResponse"/>
+    </wsdl:message>
+    <wsdl:message name="ConversionRateHttpGetIn">
+        <wsdl:part name="FromCurrency" type="s:string"/>
+        <wsdl:part name="ToCurrency" type="s:string"/>
+    </wsdl:message>
+    <wsdl:message name="ConversionRateHttpGetOut">
+        <wsdl:part name="Body" element="tns:double"/>
+    </wsdl:message>
+    <wsdl:message name="ConversionRateHttpPostIn">
+        <wsdl:part name="FromCurrency" type="s:string"/>
+        <wsdl:part name="ToCurrency" type="s:string"/>
+    </wsdl:message>
+    <wsdl:message name="ConversionRateHttpPostOut">
+        <wsdl:part name="Body" element="tns:double"/>
+    </wsdl:message>
+    <wsdl:portType name="CurrencyConvertorSoap">
+        <wsdl:operation name="ConversionRate">
+            <wsdl:input message="tns:ConversionRateSoapIn"/>
+            <wsdl:output message="tns:ConversionRateSoapOut"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:portType name="CurrencyConvertorHttpGet">
+        <wsdl:operation name="ConversionRate">
+            <wsdl:input message="tns:ConversionRateHttpGetIn"/>
+            <wsdl:output message="tns:ConversionRateHttpGetOut"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:portType name="CurrencyConvertorHttpPost">
+        <wsdl:operation name="ConversionRate">
+            <wsdl:input message="tns:ConversionRateHttpPostIn"/>
+            <wsdl:output message="tns:ConversionRateHttpPostOut"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="CurrencyConvertorSoap" type="tns:CurrencyConvertorSoap">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="ConversionRate">
+            <soap:operation soapAction="http://18.221.65.146/ConversionRate" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="CurrencyConvertorSoap12" type="tns:CurrencyConvertorSoap">
+        <soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="ConversionRate">
+            <soap12:operation soapAction="http://18.221.65.146/ConversionRate" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="CurrencyConvertorHttpGet" type="tns:CurrencyConvertorHttpGet">
+        <http:binding verb="GET"/>
+        <wsdl:operation name="ConversionRate">
+            <http:operation location="/ConversionRate"/>
+            <wsdl:input>
+                <http:urlEncoded/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:mimeXml part="Body"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="CurrencyConvertorHttpPost" type="tns:CurrencyConvertorHttpPost">
+        <http:binding verb="POST"/>
+        <wsdl:operation name="ConversionRate">
+            <http:operation location="/ConversionRate"/>
+            <wsdl:input>
+                <mime:content type="application/x-www-form-urlencoded"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:mimeXml part="Body"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="CurrencyConvertor">
+        <wsdl:port name="CurrencyConvertorSoap" binding="tns:CurrencyConvertorSoap">
+            <soap:address location="http://18.221.65.146/currencyConvertor?wsdl"/>
+        </wsdl:port>
+        <wsdl:port name="CurrencyConvertorSoap12" binding="tns:CurrencyConvertorSoap12">
+            <soap12:address location="http://18.221.65.146/currencyConvertor?wsdl"/>
+        </wsdl:port>
+        <wsdl:port name="CurrencyConvertorHttpGet" binding="tns:CurrencyConvertorHttpGet">
+            <http:address location="http://18.221.65.146/currencyConvertor?wsdl"/>
+        </wsdl:port>
+        <wsdl:port name="CurrencyConvertorHttpPost" binding="tns:CurrencyConvertorHttpPost">
+            <http:address location="http://18.221.65.146/currencyConvertor?wsdl"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
