@@ -1,5 +1,6 @@
 package org.mule.wsdl.parser.model
 
+import org.mule.wsdl.parser.exception.OperationNotFoundException
 import org.mule.wsdl.parser.model.message.MessageDefinition
 import org.mule.wsdl.parser.model.operation.OperationModel
 import java.io.Serializable
@@ -16,6 +17,12 @@ class WsdlModel(val location: String,
 
   fun getMessage(qname: QName) = messages.find { m -> qname.toString() == m.name }
 
-  fun getOperation(name: String): OperationModel? = services.flatMap { it.ports }.flatMap { it.operations }.firstOrNull { it.name == name }
+  fun getOperation(name: String): OperationModel? {
+    val operations = services.flatMap { it.ports }.flatMap { it.operations }.filter { it.name == name }
+    if (operations.size > 1) {
+      throw OperationNotFoundException("Multiple operations [$name] found, the operation may be defined in multiple ports")
+    }
+    return operations.firstOrNull()
+  }
 
 }

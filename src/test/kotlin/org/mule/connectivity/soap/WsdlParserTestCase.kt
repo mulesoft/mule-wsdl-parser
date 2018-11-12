@@ -10,6 +10,7 @@ import org.hamcrest.Matchers
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.hasItems
 import org.hamcrest.Matchers.hasSize
+import org.hamcrest.Matchers.notNullValue
 import org.junit.Test
 import org.mockserver.integration.ClientAndServer
 import org.mockserver.matchers.Times
@@ -19,6 +20,7 @@ import org.mockserver.model.HttpResponse
 import org.mockserver.model.HttpResponse.response
 import org.mockserver.socket.PortFactory
 import org.mule.wsdl.parser.WsdlParser
+import org.mule.wsdl.parser.exception.OperationNotFoundException
 import org.mule.wsdl.parser.exception.WsdlParsingException
 import org.mule.wsdl.parser.model.Version
 import org.mule.wsdl.parser.model.WsdlStyle
@@ -87,6 +89,21 @@ class WsdlParserTestCase {
     val ops = wsdl.services[0].ports[0].operations
     assertThat(ops, hasSize(6))
     assertThat(ops.map { it.name }, hasItems("echo", "noParams", "echoAccount", "echoWithHeaders", "noParamsWithHeader", "fail"))
+  }
+
+  @Test
+  fun findOperationFromWsdlRoot() {
+    val wsdl = WsdlParser.parse(TestUtils.getResourcePath("wsdl/simple-service.wsdl"))
+    val echo = wsdl.getOperation("echo")
+    assertThat(echo, `is`(notNullValue()))
+  }
+
+  @Test
+  fun multipleOperationsSameName() {
+    val wsdl = WsdlParser.parse(TestUtils.getResourcePath("wsdl/currency-converter.wsdl"))
+
+    val func = { val res = wsdl.getOperation("ConversionRate") }
+    func shouldThrowTheException OperationNotFoundException::class withMessage "Multiple operations [ConversionRate] found, the operation may be defined in multiple ports"
   }
 
   @Test
