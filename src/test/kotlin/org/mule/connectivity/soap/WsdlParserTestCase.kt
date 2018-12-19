@@ -84,6 +84,14 @@ class WsdlParserTestCase {
   }
 
   @Test
+  fun shouldHaveAnOperationWithBindingInImportedWsdl() {
+    val wsdl = WsdlParser.parse(TestUtils.getResourcePath("wsdl/recursive/main.wsdl"))
+    val ops = wsdl.services[0].ports[0].operations
+    assertThat(ops, hasSize(1))
+    assertThat(ops.map { it.name }, hasItems("Authenticate"))
+  }
+
+  @Test
   fun shouldHave6OperationsDefined() {
     val wsdl = WsdlParser.parse(TestUtils.getResourcePath("wsdl/simple-service.wsdl"))
     val ops = wsdl.services[0].ports[0].operations

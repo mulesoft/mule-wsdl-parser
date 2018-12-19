@@ -79,7 +79,7 @@ open class WsdlParser internal constructor(wsdlLocator: WSDLLocator, charset: St
 
   internal open fun setFeatures(wsdlReader: WSDLReader) {
     wsdlReader.setFeature("javax.wsdl.verbose", false)
-    wsdlReader.setFeature("javax.wsdl.importDocuments", false)
+    wsdlReader.setFeature("javax.wsdl.importDocuments", true)
   }
 
   private fun initExtensionRegistry(factory: WSDLFactory): ExtensionRegistry {
