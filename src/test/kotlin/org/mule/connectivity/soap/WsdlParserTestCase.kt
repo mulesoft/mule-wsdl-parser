@@ -20,14 +20,11 @@ import org.mockserver.model.HttpResponse
 import org.mockserver.model.HttpResponse.response
 import org.mockserver.socket.PortFactory
 import org.mule.wsdl.parser.WsdlParser
-import org.mule.wsdl.parser.WsdlSchemasCollector
 import org.mule.wsdl.parser.exception.OperationNotFoundException
 import org.mule.wsdl.parser.exception.WsdlParsingException
 import org.mule.wsdl.parser.model.Version
 import org.mule.wsdl.parser.model.WsdlStyle
 import java.io.FileInputStream
-import javax.wsdl.Definition
-import javax.wsdl.factory.WSDLFactory
 
 
 class WsdlParserTestCase {
