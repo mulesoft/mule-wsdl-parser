@@ -20,11 +20,14 @@ import org.mockserver.model.HttpResponse
 import org.mockserver.model.HttpResponse.response
 import org.mockserver.socket.PortFactory
 import org.mule.wsdl.parser.WsdlParser
+import org.mule.wsdl.parser.WsdlSchemasCollector
 import org.mule.wsdl.parser.exception.OperationNotFoundException
 import org.mule.wsdl.parser.exception.WsdlParsingException
 import org.mule.wsdl.parser.model.Version
 import org.mule.wsdl.parser.model.WsdlStyle
 import java.io.FileInputStream
+import javax.wsdl.Definition
+import javax.wsdl.factory.WSDLFactory
 
 
 class WsdlParserTestCase {
@@ -81,6 +84,14 @@ class WsdlParserTestCase {
     assertThat(wsdl.services[0].name, `is`("TestService"))
     assertThat(wsdl.services[0].ports, Matchers.hasSize(1))
     assertThat(wsdl.services[0].ports[0].name, `is`("TestPort"))
+  }
+
+  @Test
+  fun shouldHaveAnOperationWithBindingInImportedWsdl() {
+    val wsdl = WsdlParser.parse(TestUtils.getResourcePath("wsdl/recursive/main.wsdl"))
+    val ops = wsdl.services[0].ports[0].operations
+    assertThat(ops, hasSize(1))
+    assertThat(ops.map { it.name }, hasItems("Authenticate"))
   }
 
   @Test
