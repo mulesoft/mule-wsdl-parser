@@ -16,86 +16,80 @@
               "name": "echo",
               "inputType": {
                 "body": {
-                  "format": "xml",
-                  "type": "Object",
-                  "annotations": {
-                    "typeId": "{http://service.ws.extension.mule.org/}echo"
+                  "value": {
+                    "type": "@ref:{http://service.ws.extension.mule.org/}echo"
                   },
-                  "fields": [
-                    {
-                      "key": {
-                        "name": "{http://service.ws.extension.mule.org/}echo",
-                        "required": "true"
+                  "catalog": {
+                    "{http://service.ws.extension.mule.org/}echo": {
+                      "format": "xml",
+                      "type": "Object",
+                      "annotations": {
+                        "typeId": "{http://service.ws.extension.mule.org/}echo"
                       },
-                      "model": {
-                        "type": "Object",
-                        "annotations": {
-                          "typeId": "{http://service.ws.extension.mule.org/}echo"
-                        },
-                        "ordered": true,
-                        "fields": [
-                          {
-                            "key": {
-                              "name": "text"
-                            },
-                            "model": {
-                              "type": "String"
-                            }
+                      "fields": [
+                        {
+                          "key": {
+                            "name": "{http://service.ws.extension.mule.org/}echo",
+                            "required": "true"
+                          },
+                          "model": {
+                            "type": "@ref:{http://service.ws.extension.mule.org/}echo"
                           }
-                        ]
-                      }
+                        }
+                      ]
                     }
-                  ]
+                  }
                 },
                 "headers": {
-                  "format": "xml",
-                  "type": "Null"
+                  "value": {
+                    "format": "xml",
+                    "type": "Null"
+                  }
                 },
                 "attachments": {
-                  "format": "xml",
-                  "type": "Null"
+                  "value": {
+                    "format": "xml",
+                    "type": "Null"
+                  }
                 }
               },
               "outputType": {
                 "body": {
-                  "format": "xml",
-                  "type": "Object",
-                  "annotations": {
-                    "typeId": "{http://service.ws.extension.mule.org/}echoResponse"
+                  "value": {
+                    "type": "@ref:{http://service.ws.extension.mule.org/}echoResponse"
                   },
-                  "fields": [
-                    {
-                      "key": {
-                        "name": "{http://service.ws.extension.mule.org/}echoResponse",
-                        "required": "true"
+                  "catalog": {
+                    "{http://service.ws.extension.mule.org/}echoResponse": {
+                      "format": "xml",
+                      "type": "Object",
+                      "annotations": {
+                        "typeId": "{http://service.ws.extension.mule.org/}echoResponse"
                       },
-                      "model": {
-                        "type": "Object",
-                        "annotations": {
-                          "typeId": "{http://service.ws.extension.mule.org/}echoResponse"
-                        },
-                        "ordered": true,
-                        "fields": [
-                          {
-                            "key": {
-                              "name": "text"
-                            },
-                            "model": {
-                              "type": "String"
-                            }
+                      "fields": [
+                        {
+                          "key": {
+                            "name": "{http://service.ws.extension.mule.org/}echoResponse",
+                            "required": "true"
+                          },
+                          "model": {
+                            "type": "@ref:{http://service.ws.extension.mule.org/}echoResponse"
                           }
-                        ]
-                      }
+                        }
+                      ]
                     }
-                  ]
+                  }
                 },
                 "headers": {
-                  "format": "xml",
-                  "type": "Null"
+                  "value": {
+                    "format": "xml",
+                    "type": "Null"
+                  }
                 },
                 "attachments": {
-                  "format": "xml",
-                  "type": "Null"
+                  "value": {
+                    "format": "xml",
+                    "type": "Null"
+                  }
                 }
               },
               "type": "REQUEST_RESPONSE",
@@ -106,86 +100,80 @@
               "name": "fail",
               "inputType": {
                 "body": {
-                  "format": "xml",
-                  "type": "Object",
-                  "annotations": {
-                    "typeId": "{http://service.ws.extension.mule.org/}fail"
+                  "value": {
+                    "type": "@ref:{http://service.ws.extension.mule.org/}fail"
                   },
-                  "fields": [
-                    {
-                      "key": {
-                        "name": "{http://service.ws.extension.mule.org/}fail",
-                        "required": "true"
+                  "catalog": {
+                    "{http://service.ws.extension.mule.org/}fail": {
+                      "format": "xml",
+                      "type": "Object",
+                      "annotations": {
+                        "typeId": "{http://service.ws.extension.mule.org/}fail"
                       },
-                      "model": {
-                        "type": "Object",
-                        "annotations": {
-                          "typeId": "{http://service.ws.extension.mule.org/}fail"
-                        },
-                        "ordered": true,
-                        "fields": [
-                          {
-                            "key": {
-                              "name": "text"
-                            },
-                            "model": {
-                              "type": "String"
-                            }
+                      "fields": [
+                        {
+                          "key": {
+                            "name": "{http://service.ws.extension.mule.org/}fail",
+                            "required": "true"
+                          },
+                          "model": {
+                            "type": "@ref:{http://service.ws.extension.mule.org/}fail"
                           }
-                        ]
-                      }
+                        }
+                      ]
                     }
-                  ]
+                  }
                 },
                 "headers": {
-                  "format": "xml",
-                  "type": "Null"
+                  "value": {
+                    "format": "xml",
+                    "type": "Null"
+                  }
                 },
                 "attachments": {
-                  "format": "xml",
-                  "type": "Null"
+                  "value": {
+                    "format": "xml",
+                    "type": "Null"
+                  }
                 }
               },
               "outputType": {
                 "body": {
-                  "format": "xml",
-                  "type": "Object",
-                  "annotations": {
-                    "typeId": "{http://service.ws.extension.mule.org/}failResponse"
+                  "value": {
+                    "type": "@ref:{http://service.ws.extension.mule.org/}failResponse"
                   },
-                  "fields": [
-                    {
-                      "key": {
-                        "name": "{http://service.ws.extension.mule.org/}failResponse",
-                        "required": "true"
+                  "catalog": {
+                    "{http://service.ws.extension.mule.org/}failResponse": {
+                      "format": "xml",
+                      "type": "Object",
+                      "annotations": {
+                        "typeId": "{http://service.ws.extension.mule.org/}failResponse"
                       },
-                      "model": {
-                        "type": "Object",
-                        "annotations": {
-                          "typeId": "{http://service.ws.extension.mule.org/}failResponse"
-                        },
-                        "ordered": true,
-                        "fields": [
-                          {
-                            "key": {
-                              "name": "text"
-                            },
-                            "model": {
-                              "type": "String"
-                            }
+                      "fields": [
+                        {
+                          "key": {
+                            "name": "{http://service.ws.extension.mule.org/}failResponse",
+                            "required": "true"
+                          },
+                          "model": {
+                            "type": "@ref:{http://service.ws.extension.mule.org/}failResponse"
                           }
-                        ]
-                      }
+                        }
+                      ]
                     }
-                  ]
+                  }
                 },
                 "headers": {
-                  "format": "xml",
-                  "type": "Null"
+                  "value": {
+                    "format": "xml",
+                    "type": "Null"
+                  }
                 },
                 "attachments": {
-                  "format": "xml",
-                  "type": "Null"
+                  "value": {
+                    "format": "xml",
+                    "type": "Null"
+                  }
                 }
               },
               "type": "REQUEST_RESPONSE",
@@ -213,198 +201,212 @@
               "name": "echoWithHeaders",
               "inputType": {
                 "body": {
-                  "format": "xml",
-                  "type": "Object",
-                  "annotations": {
-                    "typeId": "{http://service.ws.extension.mule.org/}echoWithHeaders"
+                  "value": {
+                    "type": "@ref:{http://service.ws.extension.mule.org/}echoWithHeaders"
                   },
-                  "fields": [
-                    {
-                      "key": {
-                        "name": "{http://service.ws.extension.mule.org/}echoWithHeaders",
-                        "required": "true"
+                  "catalog": {
+                    "{http://service.ws.extension.mule.org/}echoWithHeaders": {
+                      "format": "xml",
+                      "type": "Object",
+                      "annotations": {
+                        "typeId": "{http://service.ws.extension.mule.org/}echoWithHeaders"
                       },
-                      "model": {
-                        "type": "Object",
-                        "annotations": {
-                          "typeId": "{http://service.ws.extension.mule.org/}echoWithHeaders"
-                        },
-                        "ordered": true,
-                        "fields": [
-                          {
-                            "key": {
-                              "name": "text"
-                            },
-                            "model": {
-                              "type": "String"
-                            }
+                      "fields": [
+                        {
+                          "key": {
+                            "name": "{http://service.ws.extension.mule.org/}echoWithHeaders",
+                            "required": "true"
+                          },
+                          "model": {
+                            "type": "@ref:{http://service.ws.extension.mule.org/}echoWithHeaders"
                           }
-                        ]
-                      }
+                        }
+                      ]
                     }
-                  ]
+                  }
                 },
                 "headers": {
-                  "format": "xml",
-                  "type": "Object",
-                  "fields": [
-                    {
-                      "key": {
-                        "name": "headers"
-                      },
-                      "model": {
-                        "type": "Object",
-                        "fields": [
-                          {
-                            "key": {
-                              "name": "headerIn"
-                            },
-                            "model": {
-                              "type": "Object",
-                              "annotations": {
-                                "typeId": "{http://service.ws.extension.mule.org/}headerIn"
+                  "value": {
+                    "format": "xml",
+                    "type": "Object",
+                    "fields": [
+                      {
+                        "key": {
+                          "name": "headers"
+                        },
+                        "model": {
+                          "type": "Object",
+                          "fields": [
+                            {
+                              "key": {
+                                "name": "headerIn"
                               },
-                              "fields": [
-                                {
-                                  "key": {
-                                    "name": "{http://service.ws.extension.mule.org/}headerIn",
-                                    "required": "true"
-                                  },
-                                  "model": {
-                                    "type": "String"
-                                  }
-                                }
-                              ]
-                            }
-                          },
-                          {
-                            "key": {
-                              "name": "headerInOut"
+                              "model": {
+                                "type": "@ref:{http://service.ws.extension.mule.org/}headerIn"
+                              }
                             },
-                            "model": {
-                              "type": "Object",
-                              "annotations": {
-                                "typeId": "{http://service.ws.extension.mule.org/}headerInOut"
+                            {
+                              "key": {
+                                "name": "headerInOut"
                               },
-                              "fields": [
-                                {
-                                  "key": {
-                                    "name": "{http://service.ws.extension.mule.org/}headerInOut",
-                                    "required": "true"
-                                  },
-                                  "model": {
-                                    "type": "String"
-                                  }
-                                }
-                              ]
+                              "model": {
+                                "type": "@ref:{http://service.ws.extension.mule.org/}headerInOut"
+                              }
                             }
-                          }
-                        ]
+                          ]
+                        }
                       }
+                    ]
+                  },
+                  "catalog": {
+                    "{http://service.ws.extension.mule.org/}headerInOut": {
+                      "format": "xml",
+                      "type": "Object",
+                      "annotations": {
+                        "typeId": "{http://service.ws.extension.mule.org/}headerInOut"
+                      },
+                      "fields": [
+                        {
+                          "key": {
+                            "name": "{http://service.ws.extension.mule.org/}headerInOut",
+                            "required": "true"
+                          },
+                          "model": {
+                            "type": "String"
+                          }
+                        }
+                      ]
+                    },
+                    "{http://service.ws.extension.mule.org/}headerIn": {
+                      "format": "xml",
+                      "type": "Object",
+                      "annotations": {
+                        "typeId": "{http://service.ws.extension.mule.org/}headerIn"
+                      },
+                      "fields": [
+                        {
+                          "key": {
+                            "name": "{http://service.ws.extension.mule.org/}headerIn",
+                            "required": "true"
+                          },
+                          "model": {
+                            "type": "String"
+                          }
+                        }
+                      ]
                     }
-                  ]
+                  }
                 },
                 "attachments": {
-                  "format": "xml",
-                  "type": "Null"
+                  "value": {
+                    "format": "xml",
+                    "type": "Null"
+                  }
                 }
               },
               "outputType": {
                 "body": {
-                  "format": "xml",
-                  "type": "Object",
-                  "annotations": {
-                    "typeId": "{http://service.ws.extension.mule.org/}echoWithHeadersResponse"
+                  "value": {
+                    "type": "@ref:{http://service.ws.extension.mule.org/}echoWithHeadersResponse"
                   },
-                  "fields": [
-                    {
-                      "key": {
-                        "name": "{http://service.ws.extension.mule.org/}echoWithHeadersResponse",
-                        "required": "true"
+                  "catalog": {
+                    "{http://service.ws.extension.mule.org/}echoWithHeadersResponse": {
+                      "format": "xml",
+                      "type": "Object",
+                      "annotations": {
+                        "typeId": "{http://service.ws.extension.mule.org/}echoWithHeadersResponse"
                       },
-                      "model": {
-                        "type": "Object",
-                        "annotations": {
-                          "typeId": "{http://service.ws.extension.mule.org/}echoWithHeadersResponse"
-                        },
-                        "ordered": true,
-                        "fields": [
-                          {
-                            "key": {
-                              "name": "text"
-                            },
-                            "model": {
-                              "type": "String"
-                            }
+                      "fields": [
+                        {
+                          "key": {
+                            "name": "{http://service.ws.extension.mule.org/}echoWithHeadersResponse",
+                            "required": "true"
+                          },
+                          "model": {
+                            "type": "@ref:{http://service.ws.extension.mule.org/}echoWithHeadersResponse"
                           }
-                        ]
-                      }
+                        }
+                      ]
                     }
-                  ]
+                  }
                 },
                 "headers": {
-                  "format": "xml",
-                  "type": "Object",
-                  "fields": [
-                    {
-                      "key": {
-                        "name": "headers"
-                      },
-                      "model": {
-                        "type": "Object",
-                        "fields": [
-                          {
-                            "key": {
-                              "name": "headerOut"
-                            },
-                            "model": {
-                              "type": "Object",
-                              "annotations": {
-                                "typeId": "{http://service.ws.extension.mule.org/}headerOut"
+                  "value": {
+                    "format": "xml",
+                    "type": "Object",
+                    "fields": [
+                      {
+                        "key": {
+                          "name": "headers"
+                        },
+                        "model": {
+                          "type": "Object",
+                          "fields": [
+                            {
+                              "key": {
+                                "name": "headerOut"
                               },
-                              "fields": [
-                                {
-                                  "key": {
-                                    "name": "{http://service.ws.extension.mule.org/}headerOut",
-                                    "required": "true"
-                                  },
-                                  "model": {
-                                    "type": "String"
-                                  }
-                                }
-                              ]
-                            }
-                          },
-                          {
-                            "key": {
-                              "name": "headerInOut"
+                              "model": {
+                                "type": "@ref:{http://service.ws.extension.mule.org/}headerOut"
+                              }
                             },
-                            "model": {
-                              "type": "Object",
-                              "annotations": {
-                                "typeId": "{http://service.ws.extension.mule.org/}headerInOut"
+                            {
+                              "key": {
+                                "name": "headerInOut"
                               },
-                              "fields": [
-                                {
-                                  "key": {
-                                    "name": "{http://service.ws.extension.mule.org/}headerInOut",
-                                    "required": "true"
-                                  },
-                                  "model": {
-                                    "type": "String"
-                                  }
-                                }
-                              ]
+                              "model": {
+                                "type": "@ref:{http://service.ws.extension.mule.org/}headerInOut"
+                              }
                             }
-                          }
-                        ]
+                          ]
+                        }
                       }
+                    ]
+                  },
+                  "catalog": {
+                    "{http://service.ws.extension.mule.org/}headerInOut": {
+                      "format": "xml",
+                      "type": "Object",
+                      "annotations": {
+                        "typeId": "{http://service.ws.extension.mule.org/}headerInOut"
+                      },
+                      "fields": [
+                        {
+                          "key": {
+                            "name": "{http://service.ws.extension.mule.org/}headerInOut",
+                            "required": "true"
+                          },
+                          "model": {
+                            "type": "String"
+                          }
+                        }
+                      ]
+                    },
+                    "{http://service.ws.extension.mule.org/}headerOut": {
+                      "format": "xml",
+                      "type": "Object",
+                      "annotations": {
+                        "typeId": "{http://service.ws.extension.mule.org/}headerOut"
+                      },
+                      "fields": [
+                        {
+                          "key": {
+                            "name": "{http://service.ws.extension.mule.org/}headerOut",
+                            "required": "true"
+                          },
+                          "model": {
+                            "type": "String"
+                          }
+                        }
+                      ]
                     }
-                  ]
+                  }
                 },
                 "attachments": {
-                  "format": "xml",
-                  "type": "Null"
+                  "value": {
+                    "format": "xml",
+                    "type": "Null"
+                  }
                 }
               },
               "type": "REQUEST_RESPONSE",
@@ -432,76 +434,80 @@
               "name": "noParams",
               "inputType": {
                 "body": {
-                  "format": "xml",
-                  "type": "Object",
-                  "annotations": {
-                    "typeId": "{http://service.ws.extension.mule.org/}noParams"
+                  "value": {
+                    "type": "@ref:{http://service.ws.extension.mule.org/}noParams"
                   },
-                  "fields": [
-                    {
-                      "key": {
-                        "name": "{http://service.ws.extension.mule.org/}noParams",
-                        "required": "true"
+                  "catalog": {
+                    "{http://service.ws.extension.mule.org/}noParams": {
+                      "format": "xml",
+                      "type": "Object",
+                      "annotations": {
+                        "typeId": "{http://service.ws.extension.mule.org/}noParams"
                       },
-                      "model": {
-                        "type": "Object",
-                        "annotations": {
-                          "typeId": "{http://service.ws.extension.mule.org/}noParams"
-                        },
-                        "fields": []
-                      }
+                      "fields": [
+                        {
+                          "key": {
+                            "name": "{http://service.ws.extension.mule.org/}noParams",
+                            "required": "true"
+                          },
+                          "model": {
+                            "type": "@ref:{http://service.ws.extension.mule.org/}noParams"
+                          }
+                        }
+                      ]
                     }
-                  ]
+                  }
                 },
                 "headers": {
-                  "format": "xml",
-                  "type": "Null"
+                  "value": {
+                    "format": "xml",
+                    "type": "Null"
+                  }
                 },
                 "attachments": {
-                  "format": "xml",
-                  "type": "Null"
+                  "value": {
+                    "format": "xml",
+                    "type": "Null"
+                  }
                 }
               },
               "outputType": {
                 "body": {
-                  "format": "xml",
-                  "type": "Object",
-                  "annotations": {
-                    "typeId": "{http://service.ws.extension.mule.org/}noParamsResponse"
+                  "value": {
+                    "type": "@ref:{http://service.ws.extension.mule.org/}noParamsResponse"
                   },
-                  "fields": [
-                    {
-                      "key": {
-                        "name": "{http://service.ws.extension.mule.org/}noParamsResponse",
-                        "required": "true"
+                  "catalog": {
+                    "{http://service.ws.extension.mule.org/}noParamsResponse": {
+                      "format": "xml",
+                      "type": "Object",
+                      "annotations": {
+                        "typeId": "{http://service.ws.extension.mule.org/}noParamsResponse"
                       },
-                      "model": {
-                        "type": "Object",
-                        "annotations": {
-                          "typeId": "{http://service.ws.extension.mule.org/}noParamsResponse"
-                        },
-                        "ordered": true,
-                        "fields": [
-                          {
-                            "key": {
-                              "name": "text"
-                            },
-                            "model": {
-                              "type": "String"
-                            }
+                      "fields": [
+                        {
+                          "key": {
+                            "name": "{http://service.ws.extension.mule.org/}noParamsResponse",
+                            "required": "true"
+                          },
+                          "model": {
+                            "type": "@ref:{http://service.ws.extension.mule.org/}noParamsResponse"
                           }
-                        ]
-                      }
+                        }
+                      ]
                     }
-                  ]
+                  }
                 },
                 "headers": {
-                  "format": "xml",
-                  "type": "Null"
+                  "value": {
+                    "format": "xml",
+                    "type": "Null"
+                  }
                 },
                 "attachments": {
-                  "format": "xml",
-                  "type": "Null"
+                  "value": {
+                    "format": "xml",
+                    "type": "Null"
+                  }
                 }
               },
               "type": "REQUEST_RESPONSE",
@@ -512,110 +518,120 @@
               "name": "noParamsWithHeader",
               "inputType": {
                 "body": {
-                  "format": "xml",
-                  "type": "Object",
-                  "annotations": {
-                    "typeId": "{http://service.ws.extension.mule.org/}noParamsWithHeader"
+                  "value": {
+                    "type": "@ref:{http://service.ws.extension.mule.org/}noParamsWithHeader"
                   },
-                  "fields": [
-                    {
-                      "key": {
-                        "name": "{http://service.ws.extension.mule.org/}noParamsWithHeader",
-                        "required": "true"
+                  "catalog": {
+                    "{http://service.ws.extension.mule.org/}noParamsWithHeader": {
+                      "format": "xml",
+                      "type": "Object",
+                      "annotations": {
+                        "typeId": "{http://service.ws.extension.mule.org/}noParamsWithHeader"
                       },
-                      "model": {
-                        "type": "Object",
-                        "annotations": {
-                          "typeId": "{http://service.ws.extension.mule.org/}noParamsWithHeader"
-                        },
-                        "fields": []
-                      }
+                      "fields": [
+                        {
+                          "key": {
+                            "name": "{http://service.ws.extension.mule.org/}noParamsWithHeader",
+                            "required": "true"
+                          },
+                          "model": {
+                            "type": "@ref:{http://service.ws.extension.mule.org/}noParamsWithHeader"
+                          }
+                        }
+                      ]
                     }
-                  ]
+                  }
                 },
                 "headers": {
-                  "format": "xml",
-                  "type": "Object",
-                  "fields": [
-                    {
-                      "key": {
-                        "name": "headers"
-                      },
-                      "model": {
-                        "type": "Object",
-                        "fields": [
-                          {
-                            "key": {
-                              "name": "headerIn"
-                            },
-                            "model": {
-                              "type": "Object",
-                              "annotations": {
-                                "typeId": "{http://service.ws.extension.mule.org/}headerIn"
+                  "value": {
+                    "format": "xml",
+                    "type": "Object",
+                    "fields": [
+                      {
+                        "key": {
+                          "name": "headers"
+                        },
+                        "model": {
+                          "type": "Object",
+                          "fields": [
+                            {
+                              "key": {
+                                "name": "headerIn"
                               },
-                              "fields": [
-                                {
-                                  "key": {
-                                    "name": "{http://service.ws.extension.mule.org/}headerIn",
-                                    "required": "true"
-                                  },
-                                  "model": {
-                                    "type": "String"
-                                  }
-                                }
-                              ]
+                              "model": {
+                                "type": "@ref:{http://service.ws.extension.mule.org/}headerIn"
+                              }
                             }
-                          }
-                        ]
+                          ]
+                        }
                       }
+                    ]
+                  },
+                  "catalog": {
+                    "{http://service.ws.extension.mule.org/}headerIn": {
+                      "format": "xml",
+                      "type": "Object",
+                      "annotations": {
+                        "typeId": "{http://service.ws.extension.mule.org/}headerIn"
+                      },
+                      "fields": [
+                        {
+                          "key": {
+                            "name": "{http://service.ws.extension.mule.org/}headerIn",
+                            "required": "true"
+                          },
+                          "model": {
+                            "type": "String"
+                          }
+                        }
+                      ]
                     }
-                  ]
+                  }
                 },
                 "attachments": {
-                  "format": "xml",
-                  "type": "Null"
+                  "value": {
+                    "format": "xml",
+                    "type": "Null"
+                  }
                 }
               },
               "outputType": {
                 "body": {
-                  "format": "xml",
-                  "type": "Object",
-                  "annotations": {
-                    "typeId": "{http://service.ws.extension.mule.org/}noParamsWithHeaderResponse"
+                  "value": {
+                    "type": "@ref:{http://service.ws.extension.mule.org/}noParamsWithHeaderResponse"
                   },
-                  "fields": [
-                    {
-                      "key": {
-                        "name": "{http://service.ws.extension.mule.org/}noParamsWithHeaderResponse",
-                        "required": "true"
+                  "catalog": {
+                    "{http://service.ws.extension.mule.org/}noParamsWithHeaderResponse": {
+                      "format": "xml",
+                      "type": "Object",
+                      "annotations": {
+                        "typeId": "{http://service.ws.extension.mule.org/}noParamsWithHeaderResponse"
                       },
-                      "model": {
-                        "type": "Object",
-                        "annotations": {
-                          "typeId": "{http://service.ws.extension.mule.org/}noParamsWithHeaderResponse"
-                        },
-                        "ordered": true,
-                        "fields": [
-                          {
-                            "key": {
-                              "name": "text"
-                            },
-                            "model": {
-                              "type": "String"
-                            }
+                      "fields": [
+                        {
+                          "key": {
+                            "name": "{http://service.ws.extension.mule.org/}noParamsWithHeaderResponse",
+                            "required": "true"
+                          },
+                          "model": {
+                            "type": "@ref:{http://service.ws.extension.mule.org/}noParamsWithHeaderResponse"
                           }
-                        ]
-                      }
+                        }
+                      ]
                     }
-                  ]
+                  }
                 },
                 "headers": {
-                  "format": "xml",
-                  "type": "Null"
+                  "value": {
+                    "format": "xml",
+                    "type": "Null"
+                  }
                 },
                 "attachments": {
-                  "format": "xml",
-                  "type": "Null"
+                  "value": {
+                    "format": "xml",
+                    "type": "Null"
+                  }
                 }
               },
               "type": "REQUEST_RESPONSE",
@@ -626,184 +642,80 @@
               "name": "echoAccount",
               "inputType": {
                 "body": {
-                  "format": "xml",
-                  "type": "Object",
-                  "annotations": {
-                    "typeId": "{http://service.ws.extension.mule.org/}echoAccount"
+                  "value": {
+                    "type": "@ref:{http://service.ws.extension.mule.org/}echoAccount"
                   },
-                  "fields": [
-                    {
-                      "key": {
-                        "name": "{http://service.ws.extension.mule.org/}echoAccount",
-                        "required": "true"
+                  "catalog": {
+                    "{http://service.ws.extension.mule.org/}echoAccount": {
+                      "format": "xml",
+                      "type": "Object",
+                      "annotations": {
+                        "typeId": "{http://service.ws.extension.mule.org/}echoAccount"
                       },
-                      "model": {
-                        "type": "Object",
-                        "annotations": {
-                          "typeId": "{http://service.ws.extension.mule.org/}echoAccount"
-                        },
-                        "ordered": true,
-                        "fields": [
-                          {
-                            "key": {
-                              "name": "account"
-                            },
-                            "model": {
-                              "type": "Object",
-                              "annotations": {
-                                "typeId": "{http://service.ws.extension.mule.org/}account"
-                              },
-                              "ordered": true,
-                              "fields": [
-                                {
-                                  "key": {
-                                    "name": "clientName"
-                                  },
-                                  "model": {
-                                    "type": "String"
-                                  }
-                                },
-                                {
-                                  "key": {
-                                    "name": "id"
-                                  },
-                                  "model": {
-                                    "type": "Number",
-                                    "annotations": {
-                                      "range": {
-                                        "from": -9.223372036854776E18,
-                                        "to": 9.223372036854776E18
-                                      }
-                                    }
-                                  }
-                                },
-                                {
-                                  "key": {
-                                    "name": "items",
-                                    "repeated": "true"
-                                  },
-                                  "model": {
-                                    "type": "String"
-                                  }
-                                },
-                                {
-                                  "key": {
-                                    "name": "startingDate"
-                                  },
-                                  "model": {
-                                    "type": "DateTime"
-                                  }
-                                }
-                              ]
-                            }
+                      "fields": [
+                        {
+                          "key": {
+                            "name": "{http://service.ws.extension.mule.org/}echoAccount",
+                            "required": "true"
                           },
-                          {
-                            "key": {
-                              "name": "name"
-                            },
-                            "model": {
-                              "type": "String"
-                            }
+                          "model": {
+                            "type": "@ref:{http://service.ws.extension.mule.org/}echoAccount"
                           }
-                        ]
-                      }
+                        }
+                      ]
                     }
-                  ]
+                  }
                 },
                 "headers": {
-                  "format": "xml",
-                  "type": "Null"
+                  "value": {
+                    "format": "xml",
+                    "type": "Null"
+                  }
                 },
                 "attachments": {
-                  "format": "xml",
-                  "type": "Null"
+                  "value": {
+                    "format": "xml",
+                    "type": "Null"
+                  }
                 }
               },
               "outputType": {
                 "body": {
-                  "format": "xml",
-                  "type": "Object",
-                  "annotations": {
-                    "typeId": "{http://service.ws.extension.mule.org/}echoAccountResponse"
+                  "value": {
+                    "type": "@ref:{http://service.ws.extension.mule.org/}echoAccountResponse"
                   },
-                  "fields": [
-                    {
-                      "key": {
-                        "name": "{http://service.ws.extension.mule.org/}echoAccountResponse",
-                        "required": "true"
+                  "catalog": {
+                    "{http://service.ws.extension.mule.org/}echoAccountResponse": {
+                      "format": "xml",
+                      "type": "Object",
+                      "annotations": {
+                        "typeId": "{http://service.ws.extension.mule.org/}echoAccountResponse"
                       },
-                      "model": {
-                        "type": "Object",
-                        "annotations": {
-                          "typeId": "{http://service.ws.extension.mule.org/}echoAccountResponse"
-                        },
-                        "ordered": true,
-                        "fields": [
-                          {
-                            "key": {
-                              "name": "account"
-                            },
-                            "model": {
-                              "type": "Object",
-                              "annotations": {
-                                "typeId": "{http://service.ws.extension.mule.org/}account"
-                              },
-                              "ordered": true,
-                              "fields": [
-                                {
-                                  "key": {
-                                    "name": "clientName"
-                                  },
-                                  "model": {
-                                    "type": "String"
-                                  }
-                                },
-                                {
-                                  "key": {
-                                    "name": "id"
-                                  },
-                                  "model": {
-                                    "type": "Number",
-                                    "annotations": {
-                                      "range": {
-                                        "from": -9.223372036854776E18,
-                                        "to": 9.223372036854776E18
-                                      }
-                                    }
-                                  }
-                                },
-                                {
-                                  "key": {
-                                    "name": "items",
-                                    "repeated": "true"
-                                  },
-                                  "model": {
-                                    "type": "String"
-                                  }
-                                },
-                                {
-                                  "key": {
-                                    "name": "startingDate"
-                                  },
-                                  "model": {
-                                    "type": "DateTime"
-                                  }
-                                }
-                              ]
-                            }
+                      "fields": [
+                        {
+                          "key": {
+                            "name": "{http://service.ws.extension.mule.org/}echoAccountResponse",
+                            "required": "true"
+                          },
+                          "model": {
+                            "type": "@ref:{http://service.ws.extension.mule.org/}echoAccountResponse"
                           }
-                        ]
-                      }
+                        }
+                      ]
                     }
-                  ]
+                  }
                 },
                 "headers": {
-                  "format": "xml",
-                  "type": "Null"
+                  "value": {
+                    "format": "xml",
+                    "type": "Null"
+                  }
                 },
                 "attachments": {
-                  "format": "xml",
-                  "type": "Null"
+                  "value": {
+                    "format": "xml",
+                    "type": "Null"
+                  }
                 }
               },
               "type": "REQUEST_RESPONSE",
