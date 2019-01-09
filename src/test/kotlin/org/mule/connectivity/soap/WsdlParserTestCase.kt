@@ -87,7 +87,7 @@ class WsdlParserTestCase {
   }
 
   @Test
-  fun choice() {
+  fun wsdlWithUnionTypeOutput() {
     val wsdl = WsdlParser.parse(TestUtils.getResourcePath("wsdl/with-choice-types.wsdl"))
     val outputBody = wsdl.services[0].ports[0].operations[0].outputType.body as ObjectType
     assertThat(outputBody.fields.iterator().next().value, `is`(instanceOf(UnionType::class.java)))
