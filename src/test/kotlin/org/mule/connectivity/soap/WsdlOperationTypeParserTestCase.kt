@@ -3,11 +3,15 @@ package org.mule.connectivity.soap
 import com.google.gson.GsonBuilder
 import org.apache.commons.io.IOUtils
 import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.Matchers
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.hasSize
 import org.hamcrest.core.StringContains.containsString
 import org.junit.Test
 import org.mule.metadata.api.model.MetadataType
+import org.mule.metadata.api.model.ObjectType
+import org.mule.metadata.api.model.StringType
+import org.mule.metadata.api.model.UnionType
 import org.mule.metadata.api.model.impl.DefaultObjectFieldType
 import org.mule.metadata.api.model.impl.DefaultObjectType
 import org.mule.metadata.persistence.MetadataTypeGsonTypeAdapter
@@ -54,6 +58,20 @@ class WsdlOperationTypeParserTestCase {
   fun resolveOperationTypesCorrectly() {
     val model = WsdlParser.parse(TestUtils.getResourcePath("wsdl/simple-service.wsdl"))
     model.services[0].ports[0].operations.forEach { o -> assertOperationTypes(o) }
+  }
+
+  @Test
+  fun resolveOperationWithChoiceOutput() {
+    val wsdl = WsdlParser.parse(TestUtils.getResourcePath("wsdl/with-choice-types.wsdl"))
+    val outputBody = wsdl.services[0].ports[0].operations[0].outputType.body as ObjectType
+    assertThat(outputBody.fields.iterator().next().value, `is`(Matchers.instanceOf(UnionType::class.java)))
+  }
+
+  @Test
+  fun resolveOperationWithSimpleTypes() {
+    val wsdl = WsdlParser.parse(TestUtils.getResourcePath("wsdl/with-simple-type-body.wsdl"))
+    val outputBody = wsdl.services[0].ports[0].operations[0].outputType.body as ObjectType
+    assertThat(outputBody.fields.iterator().next().value, `is`(Matchers.instanceOf(StringType::class.java)))
   }
 
   @Test
