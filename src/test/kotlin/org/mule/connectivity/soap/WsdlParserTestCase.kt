@@ -10,6 +10,7 @@ import org.hamcrest.Matchers
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.hasItems
 import org.hamcrest.Matchers.hasSize
+import org.hamcrest.Matchers.instanceOf
 import org.hamcrest.Matchers.notNullValue
 import org.junit.Test
 import org.mockserver.integration.ClientAndServer
@@ -19,6 +20,8 @@ import org.mockserver.model.HttpRequest.request
 import org.mockserver.model.HttpResponse
 import org.mockserver.model.HttpResponse.response
 import org.mockserver.socket.PortFactory
+import org.mule.metadata.api.model.ObjectType
+import org.mule.metadata.api.model.UnionType
 import org.mule.wsdl.parser.WsdlParser
 import org.mule.wsdl.parser.exception.OperationNotFoundException
 import org.mule.wsdl.parser.exception.WsdlParsingException
@@ -81,6 +84,13 @@ class WsdlParserTestCase {
     assertThat(wsdl.services[0].name, `is`("TestService"))
     assertThat(wsdl.services[0].ports, Matchers.hasSize(1))
     assertThat(wsdl.services[0].ports[0].name, `is`("TestPort"))
+  }
+
+  @Test
+  fun choice() {
+    val wsdl = WsdlParser.parse(TestUtils.getResourcePath("wsdl/with-choice-types.wsdl"))
+    val outputBody = wsdl.services[0].ports[0].operations[0].outputType.body as ObjectType
+    assertThat(outputBody.fields.iterator().next().value, `is`(instanceOf(UnionType::class.java)))
   }
 
   @Test

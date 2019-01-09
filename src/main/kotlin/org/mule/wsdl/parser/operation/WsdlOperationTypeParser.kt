@@ -75,9 +75,11 @@ class WsdlOperationTypeParser private constructor(private val wsdl: Definition,
   private fun filterAttachmentsFromBodyType(bodyType: MetadataType, attachments: List<ObjectFieldType>): MetadataType {
     if (!attachments.isEmpty() && bodyType is ObjectType) {
       val operationType = getOperationType(bodyType)
-      attachments.forEach { a -> operationType.fields.removeIf { f -> getLocalPart(f) == getLocalPart(a) } }
-      if (operationType.fields.isEmpty()) {
-        return NULL_TYPE
+      if (operationType is ObjectType) {
+        attachments.forEach { a -> operationType.fields.removeIf { f -> getLocalPart(f) == getLocalPart(a) } }
+        if (operationType.fields.isEmpty()) {
+          return NULL_TYPE
+        }
       }
     }
     return bodyType
@@ -167,22 +169,26 @@ class WsdlOperationTypeParser private constructor(private val wsdl: Definition,
     return emptyList()
   }
 
-  private fun getAttachmentFields(bodyType: MetadataType): List<ObjectFieldType> {
-    return getOperationType(bodyType).fields.filter { field -> field.value is BinaryType }
+  private fun getAttachmentFields(containerType: MetadataType): List<ObjectFieldType> {
+    val bodyType = getOperationType(containerType)
+    if (bodyType is ObjectType) {
+      return bodyType.fields.filter { field -> field.value is BinaryType }
+    }
+    return emptyList()
   }
 
-  fun getOperationType(bodyType: MetadataType): ObjectType {
-    if (isObjectType(bodyType)) {
-      val bodyFields = (bodyType as ObjectType).fields
+  private fun getOperationType(bodyTypeContainer: MetadataType): MetadataType {
+    if (bodyTypeContainer is ObjectType) {
+      val bodyFields = bodyTypeContainer.fields
       if (bodyFields.size == 1) {
         // Contains only one field which represents de operation
-        return bodyFields.iterator().next().value as ObjectType
+        return bodyFields.iterator().next().value
       }
     }
-    throw IllegalArgumentException("Could not find soap operation element in the provided body MetadataType")
+    throw IllegalStateException("Could not find soap operation element in the provided body MetadataType")
   }
 
-  fun buildAttachments(): MetadataType {
+  private fun buildAttachments(): MetadataType {
     val bodyPart = getBodyPart()
     if (bodyPart != null) {
       val bodyType = buildPartMetadataType(bodyPart)
