@@ -10,7 +10,6 @@ import org.hamcrest.Matchers
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.hasItems
 import org.hamcrest.Matchers.hasSize
-import org.hamcrest.Matchers.instanceOf
 import org.hamcrest.Matchers.notNullValue
 import org.junit.Test
 import org.mockserver.integration.ClientAndServer
@@ -20,8 +19,6 @@ import org.mockserver.model.HttpRequest.request
 import org.mockserver.model.HttpResponse
 import org.mockserver.model.HttpResponse.response
 import org.mockserver.socket.PortFactory
-import org.mule.metadata.api.model.ObjectType
-import org.mule.metadata.api.model.UnionType
 import org.mule.wsdl.parser.WsdlParser
 import org.mule.wsdl.parser.exception.OperationNotFoundException
 import org.mule.wsdl.parser.exception.WsdlParsingException
