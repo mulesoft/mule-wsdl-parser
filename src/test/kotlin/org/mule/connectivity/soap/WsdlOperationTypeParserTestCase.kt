@@ -6,6 +6,7 @@ import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.hasSize
+import org.hamcrest.Matchers.instanceOf
 import org.hamcrest.core.StringContains.containsString
 import org.junit.Test
 import org.mule.metadata.api.model.MetadataType
@@ -80,6 +81,17 @@ class WsdlOperationTypeParserTestCase {
     val operation = wsdl.services[0].ports[0].getOperation("retrieveDocument")
     assertThat(operation.inputType.body.toString(), containsString("{urn:docmgmt2_1.util.schema.bcbsm.com}RetrieveDocumentRequest"))
     assertThat(operation.outputType.body.toString(), containsString("{urn:docmgmt2_1.util.schema.bcbsm.com}RetrieveDocumentResponse"))
+  }
+
+  @Test
+  fun resolveTypeFromWsdlWithLocalImports() {
+    val wsdl = WsdlParser.parse(TestUtils.getResourcePath("wsdl/local-imports/main.wsdl"))
+    val operation = wsdl.services[0].ports[0].getOperation("PingBulk")
+    val input = (operation.inputType.body as ObjectType).fields.iterator().next().value as ObjectType
+    assertThat(input.fields.size, `is`(1))
+    val onlyField = input.fields.iterator().next()
+    assertThat(onlyField.key.name.toString(), `is`("{urn:types.nmvs.eu:v2.0}Input"))
+    assertThat(onlyField.value, `is`(instanceOf(StringType::class.java)))
   }
 }
 

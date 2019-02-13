@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions 
+    name="BulkServices"
+    targetNamespace="urn:services.nmvs.eu:v2.0"
+    xmlns:ns="urn:services.nmvs.eu:v2.0"    
+    xmlns:env="urn:wsdltypes.nmvs.eu:v2.0" 
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+	xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+    xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" >
+        
+	<wsdl:types>
+		<xs:schema xmlns:types="urn:types.nmvs.eu:v2.0" targetNamespace="urn:wsdltypes.nmvs.eu:v2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+			<xs:import namespace="urn:types.nmvs.eu:v2.0" schemaLocation="types.xsd" />
+			<xs:element name="BulkPingRequest">
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="types:PingRequest" />
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="BulkPingResponse">
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="types:PingResponse" />
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:schema>
+	</wsdl:types>
+    
+	<wsdl:message name="PingRequestMessage">
+		<wsdl:part name="messageParameters" element="env:BulkPingRequest" />
+	</wsdl:message>
+	<wsdl:message name="PingResponseMessage">
+		<wsdl:part name="messageParameters" element="env:BulkPingResponse" />
+	</wsdl:message>
+
+    <wsdl:portType name="IBulkServices">
+        <wsdl:operation name="PingBulk">
+            <wsdl:input message="ns:PingRequestMessage" wsaw:Action="ns:PingRequestMessage" />
+            <wsdl:output message="ns:PingResponseMessage" wsaw:Action="ns:PingResponseMessage" />
+        </wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="WSHttpBinding_IBulkServices" type="ns:IBulkServices">
+		<soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="PingBulk">
+			<soap12:operation soapAction="urn:PingBulk" style="document" />
+			<wsdl:input>
+				<soap12:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="BulkServices">
+		<wsdl:port name="Port_BulkServices" binding="ns:WSHttpBinding_IBulkServices">
+			<soap12:address location="http://localhost:8080/WS_BULK_TRANSACTIONS_V1/BulkServiceV10" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

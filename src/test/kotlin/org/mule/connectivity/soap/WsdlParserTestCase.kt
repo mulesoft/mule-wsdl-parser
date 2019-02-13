@@ -109,7 +109,6 @@ class WsdlParserTestCase {
   @Test
   fun multipleOperationsSameName() {
     val wsdl = WsdlParser.parse(TestUtils.getResourcePath("wsdl/currency-converter.wsdl"))
-
     val func = { val res = wsdl.getOperation("ConversionRate") }
     func shouldThrowTheException OperationNotFoundException::class withMessage "Multiple operations [ConversionRate] found, the operation may be defined in multiple ports"
   }

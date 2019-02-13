@@ -71,7 +71,7 @@ class WsdlSchemasCollector(private val definition: Definition, private val chars
     types?.extensibilityElements?.forEach { element ->
       if (element is Schema) {
         // using hashcode since there is no way to distinct this schemas.
-        addSchema(element.hashCode().toString(), element)
+        addSchema(element.documentBaseURI + element.hashCode().toString(), element)
       }
     }
   }
