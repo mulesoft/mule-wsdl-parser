@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" attributeFormDefault="qualified"
+		elementFormDefault="qualified" targetNamespace="urn:types.nmvs.eu:v2.0">
+
+    <complexType name="PingRequest">
+        <sequence>
+            <element name="Input" type="string"/>
+        </sequence>
+    </complexType>
+    
+   <complexType name="PingResponse">
+        <sequence>
+            <element name="Output" type="string"/>
+        </sequence>
+    </complexType>
+</schema>
