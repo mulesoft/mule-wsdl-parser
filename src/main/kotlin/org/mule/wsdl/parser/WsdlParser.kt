@@ -44,9 +44,18 @@ open class WsdlParser internal constructor(private val wsdlLocator: WSDLLocator,
   private val definition = parseWsdl()
   private val loader = XmlTypeLoader(WsdlSchemasCollector(definition, charset).collector())
   internal val style = findStyle()
-  internal val wsdl = WsdlModel(wsdlLocator.baseURI, parseServices(definition), style, parseMessages(definition))
 
-  private fun collectSchemas(): Map<String, String> = WsdlSchemasCollector(parseWsdl(), charset).toInMemorySchemaMap()
+  /**
+   * The parsed WsdlModel
+   */
+  val wsdl = WsdlModel(wsdlLocator.baseURI, parseServices(definition), style, parseMessages(definition))
+
+  /**
+   * Collects all the schemas associated to the provided wsdl file.
+   *
+   * @return a map with the name of the schema as key and the content of the schema as value.
+   */
+  fun collectSchemas(): Map<String, String> = WsdlSchemasCollector(definition, charset).toInMemorySchemaMap()
 
   private fun parseWsdl(): Definition {
     try {
@@ -145,11 +154,16 @@ open class WsdlParser internal constructor(private val wsdlLocator: WSDLLocator,
   }
 
   companion object {
+
+    @Deprecated("this method is deprecated, use another one that receives a charset")
     fun parse(wsdlLocation: String): WsdlModel = WsdlParser(WsdlLocator(wsdlLocation, GlobalResourceLocator())).wsdl
-    fun parse(wsdlLocation: String, charset: String): WsdlModel = WsdlParser(WsdlLocator(wsdlLocation, GlobalResourceLocator()), charset).wsdl
+    @Deprecated("this method is deprecated, use another one that receives a charset")
     fun parse(wsdlLocation: String, locator: ResourceLocator): WsdlModel = WsdlParser(WsdlLocator(wsdlLocation, locator)).wsdl
+
+    fun parse(wsdlLocation: String, charset: String): WsdlModel = WsdlParser(WsdlLocator(wsdlLocation, GlobalResourceLocator()), charset).wsdl
     fun parse(wsdlLocation: String, locator: ResourceLocator, charset: String): WsdlModel = WsdlParser(WsdlLocator(wsdlLocation, locator), charset).wsdl
-    fun getSchemas(wsdlLocation: String): Map<String, String> = WsdlParser(WsdlLocator(wsdlLocation, GlobalResourceLocator())).collectSchemas()
-    fun getSchemas(wsdlLocation: String, locator: ResourceLocator, charset: String): Map<String, String> = WsdlParser(WsdlLocator(wsdlLocation, locator), charset).collectSchemas()
+
+    fun instance(wsdlLocation: String, charset: String): WsdlParser = WsdlParser(WsdlLocator(wsdlLocation, GlobalResourceLocator()), charset)
+    fun instance(wsdlLocation: String, locator: ResourceLocator, charset: String): WsdlParser = WsdlParser(WsdlLocator(wsdlLocation, locator), charset)
   }
 }

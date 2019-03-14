@@ -1,5 +1,6 @@
 package org.mule.wsdl.parser.model.version
 
+import org.mule.wsdl.parser.model.Constants
 import org.mule.wsdl.parser.model.Constants.SOAP11_ENVELOPE_NS
 import org.mule.wsdl.parser.model.Constants.SOAP12_ENCODING_NS
 import org.mule.wsdl.parser.model.Constants.SOAP12_ENVELOPE_NS
@@ -24,6 +25,8 @@ enum class SoapVersion {
 
     override fun getEncodingNamespace(): String = SOAP11_ENCODING_NS
 
+    override fun getFaultDetailNamespace(): String = ""
+
     override fun getContentType(): String = "text/xml"
   },
 
@@ -43,6 +46,8 @@ enum class SoapVersion {
 
     override fun getEncodingNamespace(): String = SOAP12_ENCODING_NS
 
+    override fun getFaultDetailNamespace(): String = getEnvelopeNamespace()
+
     override fun getContentType(): String = "application/soap+xml"
   };
 
@@ -57,4 +62,6 @@ enum class SoapVersion {
   abstract fun getEncodingNamespace(): String
 
   abstract fun getContentType(): String
+
+  abstract fun getFaultDetailNamespace(): String
 }

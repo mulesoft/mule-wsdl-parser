@@ -2,8 +2,6 @@ package org.mule.wsdl.parser.model
 
 object Constants {
 
-  val XSD_NS = "http://www.w3.org/2001/XMLSchema"
-  val XML_NS = "http://www.w3.org/2000/xmlns/"
   val WSDL11_NS = "http://schemas.xmlsoap.org/wsdl/"
   val SOAP11_ENCODING_NS = "http://schemas.xmlsoap.org/soap/encoding/"
   val SOAP12_ENCODING_NS = "http://www.w3.org/2003/05/soap-encoding"
