@@ -9,6 +9,7 @@ import org.mule.wsdl.parser.model.operation.OperationType
 import org.mule.wsdl.parser.model.operation.OperationType.ONE_WAY
 import org.mule.wsdl.parser.model.operation.Type
 import org.mule.wsdl.parser.model.operation.Type.Companion.NULL_OPERATION_TYPE
+import org.mule.wsdl.parser.model.version.SoapVersion
 import org.mule.wsdl.parser.operation.WsdlOperationTypeParser.Companion.parseInput
 import org.mule.wsdl.parser.operation.WsdlOperationTypeParser.Companion.parseOutput
 import javax.wsdl.BindingOperation
@@ -18,17 +19,18 @@ import javax.wsdl.extensions.soap.SOAPOperation
 import javax.wsdl.extensions.soap12.SOAP12Operation
 
 abstract class BaseWsdlOperationParser internal constructor(protected val wsdlStyle: WsdlStyle,
-                                                            protected val bop: BindingOperation) {
+                                                            protected val bop: BindingOperation,
+                                                            protected val version: SoapVersion?) {
 
   protected fun parseOperation(): OperationModel {
 
     val type = findType()
 
     if (wsdlStyle == WsdlStyle.RPC) {
-      return OperationModel(bop.name, NULL_OPERATION_TYPE, NULL_OPERATION_TYPE, type, findAction(), findFaults())
+      return OperationModel(bop.name, NULL_OPERATION_TYPE, NULL_OPERATION_TYPE, type, findAction(), findFaults(), version)
     }
 
-    return OperationModel(bop.name, getInputType(), getOutputType(), type, findAction(), findFaults())
+    return OperationModel(bop.name, getInputType(), getOutputType(), type, findAction(), findFaults(), version)
   }
 
   abstract fun getInputType(): Type
@@ -36,7 +38,7 @@ abstract class BaseWsdlOperationParser internal constructor(protected val wsdlSt
   abstract fun getOutputType(): Type
 
   fun findFaults(): List<FaultModel> = bop.operation.faults
-    .map { (_, f) -> f as Fault }.map { f -> FaultModel(f.name, MessageDefinition.fromMessage(f.message)) }
+    .map { (_, f) -> f as Fault }.map { f -> FaultModel(f.name, MessageDefinition.fromMessage(f.message, null)) }
 
   internal fun findType(): OperationType {
     return when (bop.operation.style) {
@@ -56,7 +58,7 @@ abstract class BaseWsdlOperationParser internal constructor(protected val wsdlSt
   }
 }
 
-class WsdlTypelessOperationParser private constructor(style: WsdlStyle, bop: BindingOperation) : BaseWsdlOperationParser(style, bop) {
+class WsdlTypelessOperationParser private constructor(style: WsdlStyle, bop: BindingOperation) : BaseWsdlOperationParser(style, bop, SoapVersion.SOAP11) {
 
   override fun getInputType(): Type = Type.NULL_OPERATION_TYPE
 
@@ -70,13 +72,14 @@ class WsdlTypelessOperationParser private constructor(style: WsdlStyle, bop: Bin
 class DefaultWsdlOperationParser private constructor(private val wsdl: Definition,
                                                      private val loader: TypeLoader,
                                                      wsdlStyle: WsdlStyle,
-                                                     bop: BindingOperation): BaseWsdlOperationParser(wsdlStyle, bop)  {
+                                                     bop: BindingOperation,
+                                                     version: SoapVersion?): BaseWsdlOperationParser(wsdlStyle, bop, version)  {
 
   override fun getInputType(): Type = parseInput(wsdl, loader, bop)
 
   override fun getOutputType(): Type = if (findType() != ONE_WAY) parseOutput(wsdl, loader, bop) else NULL_OPERATION_TYPE
 
   companion object {
-    fun parse(wsdl: Definition, wsdlStyle: WsdlStyle, loader: TypeLoader, bop: BindingOperation) = DefaultWsdlOperationParser(wsdl, loader, wsdlStyle, bop).parseOperation()
+    fun parse(wsdl: Definition, wsdlStyle: WsdlStyle, loader: TypeLoader, bop: BindingOperation, version: SoapVersion?) = DefaultWsdlOperationParser(wsdl, loader, wsdlStyle, bop, version).parseOperation()
   }
 }

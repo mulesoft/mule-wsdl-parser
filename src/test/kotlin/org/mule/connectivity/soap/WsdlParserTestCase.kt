@@ -22,8 +22,8 @@ import org.mockserver.socket.PortFactory
 import org.mule.wsdl.parser.WsdlParser
 import org.mule.wsdl.parser.exception.OperationNotFoundException
 import org.mule.wsdl.parser.exception.WsdlParsingException
-import org.mule.wsdl.parser.model.Version
 import org.mule.wsdl.parser.model.WsdlStyle
+import org.mule.wsdl.parser.model.version.SoapVersion
 import java.io.FileInputStream
 
 
@@ -50,13 +50,13 @@ class WsdlParserTestCase {
   @Test
   fun shouldBeVersion11() {
     val wsdl = WsdlParser.parse(TestUtils.getResourcePath("wsdl/simple-service.wsdl"))
-    wsdl.services[0].ports[0].binding!!.version shouldBe Version.V1_1
+    wsdl.services[0].ports[0].binding!!.version shouldBe SoapVersion.SOAP11
   }
 
   @Test
   fun shouldBeVersion12() {
     val wsdl = WsdlParser.parse(TestUtils.getResourcePath("wsdl/hello-world-soap12.wsdl"))
-    wsdl.services[0].ports[0].binding!!.version shouldBe Version.V1_2
+    wsdl.services[0].ports[0].binding!!.version shouldBe SoapVersion.SOAP12
   }
 
   @Test
