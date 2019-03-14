@@ -88,7 +88,7 @@ open class WsdlParser internal constructor(private val wsdlLocator: WSDLLocator,
     }
 
   internal open fun parseOperations(port: Port, binding: SoapBinding?): List<OperationModel> = port.binding.bindingOperations
-    .map { bop -> DefaultWsdlOperationParser.parse(definition, style, loader, bop as BindingOperation, binding?.version) }
+    .map { bop -> DefaultWsdlOperationParser.parse(definition, style, loader, bop as BindingOperation) }
 
   internal open fun setFeatures(wsdlReader: WSDLReader) {
     wsdlReader.setFeature("javax.wsdl.verbose", false)
