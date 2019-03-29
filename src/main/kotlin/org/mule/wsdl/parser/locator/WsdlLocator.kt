@@ -6,6 +6,7 @@ import org.mule.wsdl.parser.exception.WsdlParsingException
 import org.xml.sax.InputSource
 import java.io.IOException
 import java.io.InputStream
+import java.net.URI
 import javax.wsdl.xml.WSDLLocator
 
 /**
@@ -44,7 +45,14 @@ internal class WsdlLocator(private val wsdlLocation: String, private val resourc
    * the fetching is delegated to the [CatalogWSDLLocator].
    */
   override fun getImportInputSource(parentLocation: String, importLocation: String): InputSource? {
-    val resolved = URIResolver(parentLocation, importLocation).uri.toURL().toString()
+    //TODO: remove this try-catch and use ony the URIResolver. Be aware that the SSL configuration used by the CXF will
+    // different from the one used by the connector.
+    val resolved : String = try {
+       URIResolver(parentLocation, importLocation).uri.toURL().toString()
+     } catch (e: Exception) {
+       URI(parentLocation).resolve(importLocation).toString()
+     }
+
     latestImportUri = resolved
     return getInputSource(resolved)
   }
