@@ -10,7 +10,7 @@ import org.mule.metadata.api.model.NullType
 import org.mule.metadata.api.model.ObjectFieldType
 import org.mule.metadata.api.model.ObjectType
 import org.mule.metadata.api.utils.MetadataTypeUtils.getLocalPart
-import org.mule.metadata.api.utils.MetadataTypeUtils.isObjectType
+import org.mule.wsdl.parser.model.message.MessageDefinition
 import org.mule.wsdl.parser.model.operation.SoapHeader
 import org.mule.wsdl.parser.model.operation.Type
 import org.slf4j.LoggerFactory
@@ -30,7 +30,7 @@ class WsdlOperationTypeParser private constructor(private val wsdl: Definition,
                                                   private val loader: TypeLoader,
                                                   private val name: String,
                                                   private val bindingType: ElementExtensible,
-                                                  private val message: Message?) {
+                                                  private val message: Message) {
 
   companion object {
     private val LOGGER = LoggerFactory.getLogger(WsdlOperationTypeParser.javaClass)
@@ -46,7 +46,7 @@ class WsdlOperationTypeParser private constructor(private val wsdl: Definition,
   }
 
   private fun parse(): Type {
-    return Type(buildOrGetDefaultType(this::buildBody), buildOrGetDefaultType(this::buildHeaders), buildOrGetDefaultType(this::buildAttachments))
+    return Type(buildOrGetDefaultType(this::buildBody), buildOrGetDefaultType(this::buildHeaders), buildOrGetDefaultType(this::buildAttachments), MessageDefinition.fromMessage(message, bindingType))
   }
 
   private fun buildBody(): MetadataType {

@@ -9,12 +9,12 @@ import org.mule.wsdl.parser.locator.WsdlLocator
 import org.mule.wsdl.parser.model.PortModel
 import org.mule.wsdl.parser.model.ServiceModel
 import org.mule.wsdl.parser.model.SoapBinding
-import org.mule.wsdl.parser.model.Version
 import org.mule.wsdl.parser.model.WsdlModel
 import org.mule.wsdl.parser.model.WsdlStyle
 import org.mule.wsdl.parser.model.WsdlStyleFinder
 import org.mule.wsdl.parser.model.message.MessageDefinition
 import org.mule.wsdl.parser.model.operation.OperationModel
+import org.mule.wsdl.parser.model.version.SoapVersion
 import org.mule.wsdl.parser.operation.DefaultWsdlOperationParser
 import javax.wsdl.BindingInput
 import javax.wsdl.BindingOperation
@@ -39,15 +39,25 @@ import javax.wsdl.xml.WSDLReader
 import javax.xml.namespace.QName
 
 
-open class WsdlParser internal constructor(wsdlLocator: WSDLLocator, charset: String = "UTF-8") {
+open class WsdlParser internal constructor(private val wsdlLocator: WSDLLocator, private val charset: String = "UTF-8") {
 
-  private val definition = parseWsdl(wsdlLocator)
+  private val definition = parseWsdl()
   private val loader = XmlTypeLoader(WsdlSchemasCollector(definition, charset).collector())
   internal val style = findStyle()
 
-  internal val wsdl = WsdlModel(wsdlLocator.baseURI, parseServices(definition), style, parseMessages(definition))
+  /**
+   * The parsed WsdlModel
+   */
+  val wsdl = WsdlModel(wsdlLocator.baseURI, parseServices(definition), style, parseMessages(definition))
 
-  private fun parseWsdl(wsdlLocator: WSDLLocator): Definition {
+  /**
+   * Collects all the schemas associated to the provided wsdl file.
+   *
+   * @return a map with the name of the schema as key and the content of the schema as value.
+   */
+  fun collectSchemas(): Map<String, String> = WsdlSchemasCollector(definition, charset).toInMemorySchemaMap()
+
+  private fun parseWsdl(): Definition {
     try {
       val factory = WSDLFactory.newInstance()
       val registry = initExtensionRegistry(factory)
@@ -63,7 +73,7 @@ open class WsdlParser internal constructor(wsdlLocator: WSDLLocator, charset: St
   }
 
    private fun parseMessages(definition: Definition): Set<MessageDefinition> {
-    return definition.messages.values.map { m -> MessageDefinition.fromMessage(m as Message) }.toSet()
+    return definition.messages.values.map { m -> MessageDefinition.fromMessage(m as Message, null) }.toSet()
   }
 
   private fun parseServices(definition: Definition) = definition.services
@@ -72,9 +82,12 @@ open class WsdlParser internal constructor(wsdlLocator: WSDLLocator, charset: St
 
   private fun parsePorts(service: Service): List<PortModel> = service.ports
     .map { (_, v) -> v as Port }
-    .map { p -> PortModel(p.name, parseOperations(p), findSoapAddress(p), findPortBinding(p)) }
+    .map { p ->
+      val binding = findPortBinding(p)
+      PortModel(p.name, parseOperations(p, binding), findSoapAddress(p), binding)
+    }
 
-  internal open fun parseOperations(port: Port): List<OperationModel> = port.binding.bindingOperations
+  internal open fun parseOperations(port: Port, binding: SoapBinding?): List<OperationModel> = port.binding.bindingOperations
     .map { bop -> DefaultWsdlOperationParser.parse(definition, style, loader, bop as BindingOperation) }
 
   internal open fun setFeatures(wsdlReader: WSDLReader) {
@@ -112,10 +125,10 @@ open class WsdlParser internal constructor(wsdlLocator: WSDLLocator, charset: St
       .map { e ->
         if (e is SOAP12Binding) {
           val style = e.style
-          if (style != null) SoapBinding(Version.V1_2, WsdlStyleFinder.find(style), e.transportURI) else null
+          if (style != null) SoapBinding(SoapVersion.SOAP12, WsdlStyleFinder.find(style), e.transportURI) else null
         } else {
           val style = (e as SOAPBinding).style
-          if (style != null) SoapBinding(Version.V1_1, WsdlStyleFinder.find(style), e.transportURI) else null
+          if (style != null) SoapBinding(SoapVersion.SOAP11, WsdlStyleFinder.find(style), e.transportURI) else null
         }
       }
       .firstOrNull()
@@ -141,9 +154,16 @@ open class WsdlParser internal constructor(wsdlLocator: WSDLLocator, charset: St
   }
 
   companion object {
+
+    @Deprecated("this method is deprecated, use another one that receives a charset")
     fun parse(wsdlLocation: String): WsdlModel = WsdlParser(WsdlLocator(wsdlLocation, GlobalResourceLocator())).wsdl
-    fun parse(wsdlLocation: String, charset: String): WsdlModel = WsdlParser(WsdlLocator(wsdlLocation, GlobalResourceLocator()), charset).wsdl
+    @Deprecated("this method is deprecated, use another one that receives a charset")
     fun parse(wsdlLocation: String, locator: ResourceLocator): WsdlModel = WsdlParser(WsdlLocator(wsdlLocation, locator)).wsdl
+
+    fun parse(wsdlLocation: String, charset: String): WsdlModel = WsdlParser(WsdlLocator(wsdlLocation, GlobalResourceLocator()), charset).wsdl
     fun parse(wsdlLocation: String, locator: ResourceLocator, charset: String): WsdlModel = WsdlParser(WsdlLocator(wsdlLocation, locator), charset).wsdl
+
+    fun instance(wsdlLocation: String, charset: String): WsdlParser = WsdlParser(WsdlLocator(wsdlLocation, GlobalResourceLocator()), charset)
+    fun instance(wsdlLocation: String, locator: ResourceLocator, charset: String): WsdlParser = WsdlParser(WsdlLocator(wsdlLocation, locator), charset)
   }
 }

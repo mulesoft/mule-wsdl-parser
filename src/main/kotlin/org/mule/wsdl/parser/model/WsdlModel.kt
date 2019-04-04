@@ -1,5 +1,7 @@
 package org.mule.wsdl.parser.model
 
+import com.google.common.collect.ImmutableMap.copyOf
+import net.sf.saxon.ma.trie.ImmutableMap
 import org.mule.wsdl.parser.exception.OperationNotFoundException
 import org.mule.wsdl.parser.model.message.MessageDefinition
 import org.mule.wsdl.parser.model.operation.OperationModel
@@ -25,4 +27,5 @@ class WsdlModel(val location: String,
     return operations.firstOrNull()
   }
 
+  fun getOperationList(): List<OperationModel> = services.flatMap { it.ports }.flatMap { it.operations }
 }

@@ -122,6 +122,7 @@
         <mockServerVersion>3.11</mockServerVersion>
         <xmlUnitVersion>1.6</xmlUnitVersion>
         <commonsIOVersion>2.5</commonsIOVersion>
+        <apacheXmlBeansVersion>2.6.0</apacheXmlBeansVersion>
     </properties>
 
     <dependencies>
@@ -157,10 +158,9 @@
             <version>${cxfRtWsdlVersion}</version>
         </dependency>
         <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-test-junit</artifactId>
-            <version>${kotlin.version}</version>
-            <scope>test</scope>
+            <groupId>org.apache.xmlbeans</groupId>
+            <artifactId>xmlbeans</artifactId>
+            <version>${apacheXmlBeansVersion}</version>
         </dependency>
 
         <!-- Runtime -->
@@ -171,6 +171,12 @@
         </dependency>
 
         <!-- Test Dependencies -->
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-test-junit</artifactId>
+            <version>${kotlin.version}</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-launcher</artifactId>

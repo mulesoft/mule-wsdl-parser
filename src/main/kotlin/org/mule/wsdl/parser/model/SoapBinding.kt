@@ -1,3 +1,5 @@
 package org.mule.wsdl.parser.model
 
-class SoapBinding(val version: Version, val style: WsdlStyle, val transportUri: String)
+import org.mule.wsdl.parser.model.version.SoapVersion
+
+class SoapBinding(val version: SoapVersion, val style: WsdlStyle, val transportUri: String)

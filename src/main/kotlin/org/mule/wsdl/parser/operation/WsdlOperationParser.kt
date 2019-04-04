@@ -9,6 +9,8 @@ import org.mule.wsdl.parser.model.operation.OperationType
 import org.mule.wsdl.parser.model.operation.OperationType.ONE_WAY
 import org.mule.wsdl.parser.model.operation.Type
 import org.mule.wsdl.parser.model.operation.Type.Companion.NULL_OPERATION_TYPE
+import org.mule.wsdl.parser.model.version.SoapVersion
+import org.mule.wsdl.parser.model.version.SoapVersion.*
 import org.mule.wsdl.parser.operation.WsdlOperationTypeParser.Companion.parseInput
 import org.mule.wsdl.parser.operation.WsdlOperationTypeParser.Companion.parseOutput
 import javax.wsdl.BindingOperation
@@ -25,10 +27,10 @@ abstract class BaseWsdlOperationParser internal constructor(protected val wsdlSt
     val type = findType()
 
     if (wsdlStyle == WsdlStyle.RPC) {
-      return OperationModel(bop.name, NULL_OPERATION_TYPE, NULL_OPERATION_TYPE, type, findAction(), findFaults())
+      return OperationModel(bop.name, NULL_OPERATION_TYPE, NULL_OPERATION_TYPE, type, findAction(), findFaults(), findVersion())
     }
 
-    return OperationModel(bop.name, getInputType(), getOutputType(), type, findAction(), findFaults())
+    return OperationModel(bop.name, getInputType(), getOutputType(), type, findAction(), findFaults(), findVersion())
   }
 
   abstract fun getInputType(): Type
@@ -36,7 +38,7 @@ abstract class BaseWsdlOperationParser internal constructor(protected val wsdlSt
   abstract fun getOutputType(): Type
 
   fun findFaults(): List<FaultModel> = bop.operation.faults
-    .map { (_, f) -> f as Fault }.map { f -> FaultModel(f.name, MessageDefinition.fromMessage(f.message)) }
+    .map { (_, f) -> f as Fault }.map { f -> FaultModel(f.name, MessageDefinition.fromMessage(f.message, null)) }
 
   internal fun findType(): OperationType {
     return when (bop.operation.style) {
@@ -51,6 +53,14 @@ abstract class BaseWsdlOperationParser internal constructor(protected val wsdlSt
     return bop.extensibilityElements
       .filter { e -> e is SOAP12Operation || e is SOAPOperation }
       .map { e -> if (e is SOAPOperation) e.soapActionURI else (e as SOAP12Operation).soapActionURI }
+      .filter { it != null }
+      .firstOrNull()
+  }
+
+  private fun findVersion(): SoapVersion? {
+    return bop.extensibilityElements
+      .filter { e -> e is SOAP12Operation || e is SOAPOperation }
+      .map { e -> if (e is SOAPOperation) SOAP11 else SOAP12 }
       .filter { it != null }
       .firstOrNull()
   }

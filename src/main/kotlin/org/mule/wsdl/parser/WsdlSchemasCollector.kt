@@ -31,7 +31,6 @@ class WsdlSchemasCollector(private val definition: Definition, private val chars
   private val foundImports = ArrayList<String>()
 
   fun collector(): SchemaCollector {
-
     val collector: SchemaCollector = try {
       SchemaCollector.getInstance(charset)
     } catch (e: NoSuchMethodError) {
@@ -119,5 +118,10 @@ class WsdlSchemasCollector(private val definition: Definition, private val chars
     } catch (e: Exception) {
       throw RuntimeException("Error transforming node to String", e)
     }
+  }
+
+  fun toInMemorySchemaMap(): Map<String, String> {
+    collectSchemas(definition)
+    return schemas.mapValues { entry ->  nodeToString(entry.value.element)}
   }
 }
