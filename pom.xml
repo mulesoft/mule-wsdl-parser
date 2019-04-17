@@ -103,13 +103,13 @@
     </developers>
 
     <properties>
-        <kotlin.version>1.1.3-2</kotlin.version>
+        <kotlin.version>1.3.30</kotlin.version>
         <junit.version>4.12</junit.version>
         <wsdl4j.version>1.6.3</wsdl4j.version>
         <slf4j.version>1.7.25</slf4j.version>
-        <apache.version>3.6</apache.version>
-        <cxfRtWsdlVersion>3.0.13</cxfRtWsdlVersion>
-        <hamcrest.version>1.3</hamcrest.version>
+        <apache.commons.lang3.version>3.8.1</apache.commons.lang3.version>
+        <cxfRtWsdlVersion>3.3.1</cxfRtWsdlVersion>
+        <hamcrest.version>2.1</hamcrest.version>
         <mule.metadata.version>1.3.0-SNAPSHOT</mule.metadata.version>
         <kluentVersion>1.4</kluentVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -119,10 +119,11 @@
         <junitJupiterEngineVersion>5.0.0-M4</junitJupiterEngineVersion>
         <junitSurfireProviderVersion>1.0.0-M4</junitSurfireProviderVersion>
         <httpClientVersion>0.89</httpClientVersion>
-        <mockServerVersion>3.11</mockServerVersion>
-        <xmlUnitVersion>1.6</xmlUnitVersion>
-        <commonsIOVersion>2.5</commonsIOVersion>
-        <apacheXmlBeansVersion>2.6.0</apacheXmlBeansVersion>
+        <mockServerVersion>5.5.1</mockServerVersion>
+        <gsonVersion>2.8.5</gsonVersion>
+        <xmlUnitVersion>2.6.2</xmlUnitVersion>
+        <commonsIOVersion>2.6</commonsIOVersion>
+        <apacheXmlBeansVersion>3.1.0</apacheXmlBeansVersion>
     </properties>
 
     <dependencies>
@@ -150,7 +151,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>${apache.version}</version>
+            <version>${apache.commons.lang3.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
@@ -162,11 +163,26 @@
             <artifactId>xmlbeans</artifactId>
             <version>${apacheXmlBeansVersion}</version>
         </dependency>
+        <dependency>
+            <groupId>net.sf.saxon</groupId>
+            <artifactId>Saxon-HE</artifactId>
+            <version>${saxonHeVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>${gsonVersion}</version>
+        </dependency>
 
         <!-- Runtime -->
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib</artifactId>
+            <version>${kotlin.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-reflect</artifactId>
             <version>${kotlin.version}</version>
         </dependency>
 
@@ -196,8 +212,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>xmlunit</groupId>
-            <artifactId>xmlunit</artifactId>
+            <groupId>org.xmlunit</groupId>
+            <artifactId>xmlunit-legacy</artifactId>
             <version>${xmlUnitVersion}</version>
             <scope>test</scope>
         </dependency>
@@ -218,6 +234,16 @@
             <artifactId>http-client-java</artifactId>
             <version>${httpClientVersion}</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-databind</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.junit.platform</groupId>
@@ -230,16 +256,6 @@
             <artifactId>junit-jupiter-engine</artifactId>
             <version>${junitJupiterEngineVersion}</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.sf.saxon</groupId>
-            <artifactId>Saxon-HE</artifactId>
-            <version>${saxonHeVersion}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.8.5</version>
         </dependency>
 
     </dependencies>
@@ -283,7 +299,6 @@
                 <executions>
                     <execution>
                         <id>compile</id>
-                        <phase>process-sources</phase>
                         <goals>
                             <goal>compile</goal>
                         </goals>
@@ -296,7 +311,6 @@
                     </execution>
                     <execution>
                         <id>test-compile</id>
-                        <phase>process-test-sources</phase>
                         <goals>
                             <goal>test-compile</goal>
                         </goals>
