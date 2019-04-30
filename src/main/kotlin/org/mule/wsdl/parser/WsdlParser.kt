@@ -124,11 +124,11 @@ open class WsdlParser internal constructor(private val wsdlLocator: WSDLLocator,
       .filter { e -> e is SOAP12Binding || e is SOAPBinding }
       .map { e ->
         if (e is SOAP12Binding) {
-          val style = e.style
-          if (style != null) SoapBinding(SoapVersion.SOAP12, WsdlStyleFinder.find(style), e.transportURI) else null
+          val style = e.style ?: "document"
+          SoapBinding(SoapVersion.SOAP12, WsdlStyleFinder.find(style), e.transportURI)
         } else {
-          val style = (e as SOAPBinding).style
-          if (style != null) SoapBinding(SoapVersion.SOAP11, WsdlStyleFinder.find(style), e.transportURI) else null
+          val style = (e as SOAPBinding).style ?: "document"
+          SoapBinding(SoapVersion.SOAP11, WsdlStyleFinder.find(style), e.transportURI)
         }
       }
       .firstOrNull()
