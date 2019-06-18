@@ -144,18 +144,18 @@
             <artifactId>mule-metadata-model-persistence</artifactId>
             <version>${mule.metadata.version}</version>
             <exclusions>
-            	<exclusion>
-		            <groupId>org.mule.runtime</groupId>
-					<artifactId>mule-metadata-model-xml</artifactId>
-        		</exclusion>
-        		<exclusion>
-		            <groupId>org.mule.runtime</groupId>
-					<artifactId>mule-metadata-model-java</artifactId>
-        		</exclusion>
-        		<exclusion>
-		            <groupId>org.mule.runtime</groupId>
-					<artifactId>mule-metadata-model-json</artifactId>
-        		</exclusion>
+		<exclusion>
+		    <groupId>org.mule.runtime</groupId>
+		    <artifactId>mule-metadata-model-xml</artifactId>
+        	</exclusion>
+        	<exclusion>
+		    <groupId>org.mule.runtime</groupId>
+		    <artifactId>mule-metadata-model-java</artifactId>
+        	</exclusion>
+        	<exclusion>
+	            <groupId>org.mule.runtime</groupId>
+		    <artifactId>mule-metadata-model-json</artifactId>
+       		</exclusion>
             </exclusions>
         </dependency>
         <dependency>
