@@ -138,10 +138,25 @@
             <version>${mule.metadata.version}</version>
             <scope>provided</scope>
         </dependency>
+        <!-- this cannot be added as provided because MULE 4.1.x doesn't ship this dependency, setting this to provided will break MULE 4.1.x compatibility -->
         <dependency>
             <groupId>org.mule.runtime</groupId>
             <artifactId>mule-metadata-model-persistence</artifactId>
             <version>${mule.metadata.version}</version>
+            <exclusions>
+            	<exclusion>
+		            <groupId>org.mule.runtime</groupId>
+					<artifactId>mule-metadata-model-xml</artifactId>
+        		</exclusion>
+        		<exclusion>
+		            <groupId>org.mule.runtime</groupId>
+					<artifactId>mule-metadata-model-java</artifactId>
+        		</exclusion>
+        		<exclusion>
+		            <groupId>org.mule.runtime</groupId>
+					<artifactId>mule-metadata-model-json</artifactId>
+        		</exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
