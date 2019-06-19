@@ -159,6 +159,18 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>org.mule.runtime</groupId>
+            <artifactId>mule-metadata-model-java</artifactId>
+            <version>${mule.metadata.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mule.runtime</groupId>
+            <artifactId>mule-metadata-model-java</artifactId>
+            <version>${mule.metadata.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j.version}</version>
@@ -272,7 +284,6 @@
             <version>${junitJupiterEngineVersion}</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 
     <distributionManagement>
