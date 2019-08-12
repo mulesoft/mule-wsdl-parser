@@ -160,6 +160,14 @@ class WsdlParserTestCase {
     val func = { val res = WsdlParser.parse("invalid/location") }
     func shouldThrowTheException WsdlParsingException::class withMessage msg
   }
+
+  @Test
+  fun shouldParseWSDLWithMissingOutputBinding() {
+    val wsdl = WsdlParser.parse(TestUtils.getResourcePath("wsdl/binding-missing-output.wsdl"))
+    val ops = wsdl.services[0].ports[0].operations
+    assertThat(ops, hasSize(1))
+    assertThat(ops.map { it.name }, hasItems("echo"))
+  }
 }
 
 
