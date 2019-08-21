@@ -8,7 +8,9 @@ import org.mule.wsdl.parser.model.operation.OperationModel
 import java.io.Serializable
 import javax.xml.namespace.QName
 
-class WsdlModel(val location: String,
+class WsdlModel(val hash: String,
+                val location: String,
+                val targetNamespace: String,
                 val services: List<ServiceModel>,
                 val style: WsdlStyle,
                 val messages: Set<MessageDefinition>) : Serializable {

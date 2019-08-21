@@ -1,5 +1,7 @@
 {
+  "hash": "47dffffffdc4a5dfffffff6106c31ffffff966affffffbd912ffffffdf5e30ffffff9fffffffdeeffffffa413ffffff9865556337ffffffc53242ffffffceffffffd7",
   "location": "http://localhost:##PORT##/test?wsdl",
+  "targetNamespace": "http://service.ws.extension.mule.org/",
   "services": [
     {
       "name": "TestService",

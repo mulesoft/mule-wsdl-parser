@@ -124,7 +124,7 @@ class WsdlParserTestCase {
 
   fun mockServer(response: HttpResponse, freePort: Int): ClientAndServer {
     val server = ClientAndServer.startClientAndServer(freePort)
-    server.`when`(request().withMethod("GET").withPath("/test").withQueryStringParameter("wsdl"), Times.once()).respond(response)
+    server.`when`(request().withMethod("GET").withPath("/test").withQueryStringParameter("wsdl"), Times.unlimited()).respond(response)
     return server
   }
 
@@ -148,7 +148,10 @@ class WsdlParserTestCase {
   fun shouldParseProtectedWsdl() {
     val freePort = PortFactory.findFreePort()
     val wsdlContent = IOUtils.toString(FileInputStream(TestUtils.getResourcePath("wsdl/document.wsdl")))
-    val server = mockServer(response().withStatusCode(200).withHeaders(Header("Content-Type", "text/xml; charset=utf-8")).withBody(wsdlContent), freePort)
+    val server = mockServer(response()
+      .withStatusCode(200)
+      .withHeaders(Header("Content-Type", "text/xml; charset=utf-8"))
+      .withBody(wsdlContent), freePort)
     val func = { val wsdl = WsdlParser.parse("http://localhost:$freePort/test?wsdl", TestUtils.TestResourceLocator()) }
     func.invoke()
     server.stop()

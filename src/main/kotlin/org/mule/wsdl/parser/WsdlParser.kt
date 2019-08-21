@@ -16,6 +16,7 @@ import org.mule.wsdl.parser.model.message.MessageDefinition
 import org.mule.wsdl.parser.model.operation.OperationModel
 import org.mule.wsdl.parser.model.version.SoapVersion
 import org.mule.wsdl.parser.operation.DefaultWsdlOperationParser
+import java.security.MessageDigest
 import javax.wsdl.BindingInput
 import javax.wsdl.BindingOperation
 import javax.wsdl.Definition
@@ -42,13 +43,13 @@ import javax.xml.namespace.QName
 open class WsdlParser internal constructor(private val wsdlLocator: WSDLLocator, private val charset: String = "UTF-8") {
 
   private val definition = parseWsdl()
+
   private val loader = XmlTypeLoader(WsdlSchemasCollector(definition, charset).collector())
   internal val style = findStyle()
-
   /**
    * The parsed WsdlModel
    */
-  val wsdl = WsdlModel(wsdlLocator.baseURI, parseServices(definition), style, parseMessages(definition))
+  val wsdl = WsdlModel(wsdlHashString(), wsdlLocator.baseURI, definition.targetNamespace, parseServices(definition), style, parseMessages(definition))
 
   /**
    * Collects all the schemas associated to the provided wsdl file.
@@ -72,7 +73,15 @@ open class WsdlParser internal constructor(private val wsdlLocator: WSDLLocator,
     }
   }
 
-   private fun parseMessages(definition: Definition): Set<MessageDefinition> {
+  private fun wsdlHashString(): String {
+    return MessageDigest
+      .getInstance("SHA-256")
+      .digest(wsdlLocator.baseInputSource.byteStream.readBytes())
+      .map { Integer.toHexString(it.toInt()) }
+      .joinToString(separator = "")
+  }
+
+  private fun parseMessages(definition: Definition): Set<MessageDefinition> {
     return definition.messages.values.map { m -> MessageDefinition.fromMessage(m as Message, null) }.toSet()
   }
 
@@ -157,6 +166,7 @@ open class WsdlParser internal constructor(private val wsdlLocator: WSDLLocator,
 
     @Deprecated("this method is deprecated, use another one that receives a charset")
     fun parse(wsdlLocation: String): WsdlModel = WsdlParser(WsdlLocator(wsdlLocation, GlobalResourceLocator())).wsdl
+
     @Deprecated("this method is deprecated, use another one that receives a charset")
     fun parse(wsdlLocation: String, locator: ResourceLocator): WsdlModel = WsdlParser(WsdlLocator(wsdlLocation, locator)).wsdl
 

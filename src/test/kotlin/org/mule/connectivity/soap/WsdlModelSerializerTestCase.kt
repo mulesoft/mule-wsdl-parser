@@ -20,7 +20,8 @@ class WsdlModelSerializerTestCase {
 
   fun mockServer(response: HttpResponse, freePort: Int): ClientAndServer {
     val server = ClientAndServer.startClientAndServer(freePort)
-    server.`when`(HttpRequest.request().withMethod("GET").withPath("/test").withQueryStringParameter("wsdl"), Times.once()).respond(response)
+    val request = HttpRequest.request().withMethod("GET").withPath("/test").withQueryStringParameter("wsdl")
+    server.`when`(request, Times.unlimited()).respond(response)
     return server
   }
 
