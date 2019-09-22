@@ -10,6 +10,7 @@ import org.hamcrest.Matchers
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.hasItems
 import org.hamcrest.Matchers.hasSize
+import org.hamcrest.Matchers.not
 import org.hamcrest.Matchers.notNullValue
 import org.junit.Test
 import org.mockserver.integration.ClientAndServer
@@ -167,6 +168,14 @@ class WsdlParserTestCase {
     val ops = wsdl.services[0].ports[0].operations
     assertThat(ops, hasSize(1))
     assertThat(ops.map { it.name }, hasItems("echo"))
+  }
+
+  @Test
+  fun ignoreHTTPBindings() {
+    val wsdl = WsdlParser.parse(TestUtils.getResourcePath("wsdl/http-binding.wsdl"))
+    val ports = wsdl.services[0].ports
+    assertThat(ports, hasSize(2))
+    assertThat(ports.map { it.name }, not(hasItems("TestWebServiceHttpGet")))
   }
 }
 
