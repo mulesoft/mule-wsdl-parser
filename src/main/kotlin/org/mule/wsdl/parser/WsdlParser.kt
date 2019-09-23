@@ -84,8 +84,9 @@ open class WsdlParser internal constructor(private val wsdlLocator: WSDLLocator,
     .map { (_, v) -> v as Port }
     .map { p ->
       val binding = findPortBinding(p)
-      PortModel(p.name, parseOperations(p, binding), findSoapAddress(p), binding)
+      if (binding != null) PortModel(p.name, parseOperations(p, binding) , findSoapAddress(p), binding) else null
     }
+    .filterNotNull()
 
   internal open fun parseOperations(port: Port, binding: SoapBinding?): List<OperationModel> = port.binding.bindingOperations
     .map { bop -> DefaultWsdlOperationParser.parse(definition, style, loader, bop as BindingOperation) }
