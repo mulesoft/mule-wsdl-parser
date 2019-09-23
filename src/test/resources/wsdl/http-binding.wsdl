@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://org.mule.test/WS" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:tns="http://org.mule.test/WS" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+    <wsdl:types>
+        <s:schema elementFormDefault="qualified" targetNamespace="http://org.mule.test/WS">
+            <s:complexType name="Status">
+                <s:attribute name="Status" type="tns:StatusType" use="required"/>
+                <s:attribute name="Message" type="s:string"/>
+            </s:complexType>
+            <s:simpleType name="StatusType">
+                <s:restriction base="s:string">
+                    <s:enumeration value="Ok"/>
+                    <s:enumeration value="Error"/>
+                </s:restriction>
+            </s:simpleType>
+            <s:element name="TestOperation">
+                <s:complexType>
+                    <s:sequence>
+                        <s:element maxOccurs="1" minOccurs="0" name="valueA" type="s:string"/>
+                        <s:element maxOccurs="1" minOccurs="0" name="valueB" type="s:string"/>
+                    </s:sequence>
+                </s:complexType>
+            </s:element>
+            <s:element name="TestOperationResponse">
+                <s:complexType>
+                    <s:sequence>
+                        <s:element maxOccurs="1" minOccurs="0" name="TestOperationResult" type="tns:Status"/>
+                    </s:sequence>
+                </s:complexType>
+            </s:element>
+            <s:element name="Status" nillable="true" type="tns:Status"/>
+        </s:schema>
+    </wsdl:types>
+    <wsdl:message name="TestOperationSoapOut">
+        <wsdl:part element="tns:TestOperationResponse" name="parameters"/>
+    </wsdl:message>
+    <wsdl:message name="TestOperationHttpPostOut">
+        <wsdl:part element="tns:Status" name="Body"/>
+    </wsdl:message>
+    <wsdl:message name="TestOperationHttpGetOut">
+        <wsdl:part element="tns:Status" name="Body"/>
+    </wsdl:message>
+    <wsdl:message name="TestOperationSoapIn">
+        <wsdl:part element="tns:TestOperation" name="parameters"/>
+    </wsdl:message>
+    <wsdl:message name="TestOperationHttpPostIn">
+        <wsdl:part name="valueA" type="s:string"/>
+        <wsdl:part name="valueB" type="s:string"/>
+    </wsdl:message>
+    <wsdl:message name="TestOperationHttpGetIn">
+        <wsdl:part name="valueA" type="s:string"/>
+        <wsdl:part name="valueB" type="s:string"/>
+    </wsdl:message>
+    <wsdl:portType name="TestWebServiceSoap">
+        <wsdl:operation name="TestOperation">
+            <wsdl:input message="tns:TestOperationSoapIn"/>
+            <wsdl:output message="tns:TestOperationSoapOut"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:portType name="TestWebServiceHttpGet">
+        <wsdl:operation name="TestOperation">
+            <wsdl:input message="tns:TestOperationHttpGetIn"/>
+            <wsdl:output message="tns:TestOperationHttpGetOut"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:portType name="TestWebServiceHttpPost">
+        <wsdl:operation name="TestOperation">
+            <wsdl:input message="tns:TestOperationHttpPostIn"/>
+            <wsdl:output message="tns:TestOperationHttpPostOut"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="TestWebServiceSoap" type="tns:TestWebServiceSoap">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="TestOperation">
+            <soap:operation soapAction="http://org.mule.test/WS/TestOperation" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="TestWebServiceHttpGet" type="tns:TestWebServiceHttpGet">
+        <http:binding verb="GET"/>
+        <wsdl:operation name="TestOperation">
+            <http:operation location="/TestOperation"/>
+            <wsdl:input>
+                <http:urlEncoded/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:mimeXml part="Body"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="TestWebServiceHttpPost" type="tns:TestWebServiceHttpPost">
+        <http:binding verb="POST"/>
+        <wsdl:operation name="TestOperation">
+            <http:operation location="/TestOperation"/>
+            <wsdl:input>
+                <mime:content type="application/x-www-form-urlencoded"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:mimeXml part="Body"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="TestWebServiceSoap12" type="tns:TestWebServiceSoap">
+        <soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="TestOperation">
+            <soap12:operation soapAction="http://org.mule.test/WS/TestOperation" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="TestWebService">
+        <wsdl:port binding="tns:TestWebServiceSoap" name="TestWebServiceSoap">
+            <soap:address location="http://localhost:8080/"/>
+        </wsdl:port>
+        <wsdl:port binding="tns:TestWebServiceSoap12" name="TestWebServiceSoap12">
+            <soap12:address location="http://localhost:8080/"/>
+        </wsdl:port>
+        <wsdl:port binding="tns:TestWebServiceHttpGet" name="TestWebServiceHttpGet">
+            <http:address location="http://localhost:8080/"/>
+        </wsdl:port>
+        <wsdl:port binding="tns:TestWebServiceHttpPost" name="TestWebServiceHttpPost">
+            <http:address location="http://localhost:8080/"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
