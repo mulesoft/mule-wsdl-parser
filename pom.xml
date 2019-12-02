@@ -124,6 +124,7 @@
         <xmlUnitVersion>2.6.2</xmlUnitVersion>
         <commonsIOVersion>2.6</commonsIOVersion>
         <apacheXmlBeansVersion>3.1.0</apacheXmlBeansVersion>
+        <caffeine.version>2.8.0</caffeine.version>
     </properties>
 
     <dependencies>
@@ -199,6 +200,11 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>${gsonVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+            <version>${caffeine.version}</version>
         </dependency>
 
         <!-- Runtime -->
