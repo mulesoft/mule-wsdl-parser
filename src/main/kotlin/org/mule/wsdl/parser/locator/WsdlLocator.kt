@@ -45,13 +45,12 @@ internal class WsdlLocator(private val wsdlLocation: String, private val resourc
    * the fetching is delegated to the [CatalogWSDLLocator].
    */
   override fun getImportInputSource(parentLocation: String, importLocation: String): InputSource? {
-    //TODO: remove this try-catch and use ony the URIResolver. Be aware that the SSL configuration used by the CXF will
-    // different from the one used by the connector.
-    val resolved : String = try {
-       URIResolver(parentLocation, importLocation).uri.toURL().toString()
-     } catch (e: Exception) {
-       URI(parentLocation).resolve(importLocation).toString()
-     }
+    val resolved: String?
+    if (parentLocation.startsWith("http://") || parentLocation.startsWith("https://")) {
+      resolved = URI(parentLocation).resolve(importLocation).toString()
+    } else {
+      resolved = URIResolver(parentLocation, importLocation).uri.toURL().toString()
+    }
 
     latestImportUri = resolved
     return getInputSource(resolved)
