@@ -20,13 +20,14 @@ import org.mockserver.model.HttpRequest.request
 import org.mockserver.model.HttpResponse
 import org.mockserver.model.HttpResponse.response
 import org.mockserver.socket.PortFactory
+import org.mule.connectivity.soap.TestUtils.getResourcePath
 import org.mule.wsdl.parser.WsdlParser
 import org.mule.wsdl.parser.exception.OperationNotFoundException
 import org.mule.wsdl.parser.exception.WsdlParsingException
 import org.mule.wsdl.parser.model.WsdlStyle
 import org.mule.wsdl.parser.model.version.SoapVersion
+import java.io.File
 import java.io.FileInputStream
-
 
 class WsdlParserTestCase {
 
@@ -123,12 +124,6 @@ class WsdlParserTestCase {
     assertThat(failOp.getFault("EchoException").get().name, `is`("EchoException"))
   }
 
-  fun mockServer(response: HttpResponse, freePort: Int): ClientAndServer {
-    val server = ClientAndServer.startClientAndServer(freePort)
-    server.`when`(request().withMethod("GET").withPath("/test").withQueryStringParameter("wsdl"), Times.once()).respond(response)
-    return server
-  }
-
   @Test
   fun shouldFailWhenFetchingProtectedWsdl() {
     val freePort = PortFactory.findFreePort()
@@ -177,6 +172,34 @@ class WsdlParserTestCase {
     assertThat(ports, hasSize(2))
     assertThat(ports.map { it.name }, not(hasItems("TestWebServiceHttpGet")))
   }
+
+  @Test
+  fun shouldParserWSDLGivenHTTPLocation() {
+    val freePort = PortFactory.findFreePort()
+
+    val wsdlPath = getResourcePath("wsdl/local-imports/main.wsdl")
+    val importPath = getResourcePath("wsdl/local-imports/types.xsd")
+    val wsdlString = File(wsdlPath).readText(Charsets.UTF_8)
+    val importString =  File(importPath).readText(Charsets.UTF_8).replace("types.xsd", "http://localhost:$freePort/types.xsd")
+
+    val server = mockServer(response().withBody(wsdlString), freePort)
+    server.`when`(request().withMethod("GET").withPath("/types.xsd"), Times.once()).respond(response().withBody(importString))
+
+    try {
+      val wsdl = WsdlParser.parse("http://localhost:$freePort/test?wsdl")
+      val echo = wsdl.getOperation("PingBulk")
+      assertThat(echo, `is`(notNullValue()))
+    } finally {
+      server.stop(true)
+    }
+  }
+
+  fun mockServer(response: HttpResponse, freePort: Int): ClientAndServer {
+    val server = ClientAndServer.startClientAndServer(freePort)
+    server.`when`(request().withMethod("GET").withPath("/test").withQueryStringParameter("wsdl"), Times.once()).respond(response)
+    return server
+  }
+
 }
 
 
