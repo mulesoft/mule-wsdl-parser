@@ -115,7 +115,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.enforcer.plugin.version>1.4.1</maven.enforcer.plugin.version>
 
-        <saxonHeVersion>9.9.1-1</saxonHeVersion>
+        <saxonHeVersion>9.9.1-5</saxonHeVersion>
         <junitJupiterEngineVersion>5.5.2</junitJupiterEngineVersion>
         <junitSurfireProviderVersion>1.0.0-M4</junitSurfireProviderVersion>
         <httpClientVersion>0.89</httpClientVersion>
