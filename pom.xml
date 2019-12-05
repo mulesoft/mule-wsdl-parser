@@ -121,7 +121,7 @@
         <httpClientVersion>0.89</httpClientVersion>
         <mockServerVersion>5.5.1</mockServerVersion>
         <gsonVersion>2.8.6</gsonVersion>
-        <xmlUnitVersion>2.6.2</xmlUnitVersion>
+        <xmlUnitVersion>2.6.3</xmlUnitVersion>
         <commonsIOVersion>2.6</commonsIOVersion>
         <apacheXmlBeansVersion>3.1.0</apacheXmlBeansVersion>
     </properties>
