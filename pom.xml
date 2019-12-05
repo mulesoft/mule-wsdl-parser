@@ -119,7 +119,7 @@
         <junitJupiterEngineVersion>5.5.2</junitJupiterEngineVersion>
         <junitSurfireProviderVersion>1.0.0-M4</junitSurfireProviderVersion>
         <httpClientVersion>0.89</httpClientVersion>
-        <mockServerVersion>5.5.1</mockServerVersion>
+        <mockServerVersion>5.8.0</mockServerVersion>
         <gsonVersion>2.8.6</gsonVersion>
         <xmlUnitVersion>2.6.2</xmlUnitVersion>
         <commonsIOVersion>2.6</commonsIOVersion>
