@@ -107,7 +107,7 @@
         <junit.version>4.12</junit.version>
         <wsdl4j.version>1.6.3</wsdl4j.version>
         <slf4j.version>1.7.26</slf4j.version>
-        <apache.commons.lang3.version>3.8.1</apache.commons.lang3.version>
+        <apache.commons.lang3.version>3.9</apache.commons.lang3.version>
         <cxfRtWsdlVersion>3.3.1</cxfRtWsdlVersion>
         <hamcrest.version>2.1</hamcrest.version>
         <mule.metadata.version>1.3.0-SNAPSHOT</mule.metadata.version>
@@ -115,7 +115,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.enforcer.plugin.version>1.4.1</maven.enforcer.plugin.version>
 
-        <saxonHeVersion>9.9.1-1</saxonHeVersion>
+        <saxonHeVersion>9.9.1-5</saxonHeVersion>
         <junitJupiterEngineVersion>5.5.2</junitJupiterEngineVersion>
         <junitSurfireProviderVersion>1.0.0-M4</junitSurfireProviderVersion>
         <httpClientVersion>0.89</httpClientVersion>
@@ -352,7 +352,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.1</version>
+                <version>3.8.1</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
