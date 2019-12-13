@@ -8,6 +8,7 @@ import javax.wsdl.extensions.mime.MIMEContent
 import javax.wsdl.extensions.mime.MIMEMultipartRelated
 import javax.wsdl.extensions.mime.MIMEPart
 import javax.wsdl.extensions.soap.SOAPHeader
+import javax.wsdl.extensions.soap12.SOAP12Header
 
 class MessageDefinition(val name: String, val parts: List<MessagePart>) {
 
@@ -55,19 +56,9 @@ class MessageDefinition(val name: String, val parts: List<MessagePart>) {
         return false
       }
 
-      val headers = bindingType.extensibilityElements.filter { it is SOAPHeader } as List<SOAPHeader>
-
-      if (headers.isEmpty()) {
-        return false
-      }
-
-      for (header in headers) {
-        if (message.qName == header.message && part.name == header.part) {
-          return true
-        }
-      }
-
-      return false
+      return !bindingType.extensibilityElements.filter {
+        (it is SOAPHeader && message.qName == it.message && part.name == it.part) ||
+                (it is SOAP12Header && message.qName == it.message && part.name == it.part) }.isEmpty()
     }
   }
 }
