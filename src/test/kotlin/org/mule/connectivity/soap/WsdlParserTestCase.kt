@@ -86,6 +86,22 @@ class WsdlParserTestCase {
   }
 
   @Test
+  fun findSOAP12Headers() {
+    val wsdl = WsdlParser.parse(TestUtils.getResourcePath("wsdl/simple-soap12-service.wsdl"))
+    val messagePart = wsdl.services[0].ports[0].getOperationsMap().get("echoWithHeaders")?.inputType?.message?.parts?.findLast { m -> m.name == "headerIn" }
+
+    assertThat(messagePart?.isHeader, `is`(true))
+  }
+
+  @Test
+  fun findSOAP11Headers() {
+    val wsdl = WsdlParser.parse(TestUtils.getResourcePath("wsdl/simple-service.wsdl"))
+    val messagePart = wsdl.services[0].ports[0].getOperationsMap().get("echoWithHeaders")?.inputType?.message?.parts?.findLast { m -> m.name == "headerIn" }
+
+    assertThat(messagePart?.isHeader, `is`(true))
+  }
+
+  @Test
   fun shouldHaveAnOperationWithBindingInImportedWsdl() {
     val wsdl = WsdlParser.parse(TestUtils.getResourcePath("wsdl/recursive/main.wsdl"))
     val ops = wsdl.services[0].ports[0].operations
