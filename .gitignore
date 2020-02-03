@@ -1,3 +1,9 @@
+# Eclipse files
+.classpath
+.project
+.settings
+/workspace/
+
 *.idea/
 *.gradle/
 *iml
