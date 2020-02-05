@@ -16,7 +16,7 @@ class MessageDefinition(val name: String, val parts: List<MessagePart>) {
 
   companion object {
     fun fromMessage(m: Message, bindingType: ElementExtensible?): MessageDefinition {
-      return MessageDefinition(m.qName.toString(), m.parts.map { (_, p) -> p as Part }
+      return MessageDefinition(m.qName?.toString() ?: "", m.parts.map { (_, p) -> p as Part }
         .map { part ->
           MessagePart(part.name, part.elementName, part.typeName,
             isAttachmentPart(part, bindingType), isHeaderPart(part, bindingType, m))

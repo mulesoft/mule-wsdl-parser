@@ -182,6 +182,14 @@ class WsdlParserTestCase {
   }
 
   @Test
+  fun shouldParseWSDLWithMissingInputBindingAndInputMessage() {
+    val wsdl = WsdlParser.parse(TestUtils.getResourcePath("wsdl/binding-missing-input.wsdl"))
+    val ops = wsdl.services[0].ports[0].operations
+    assertThat(ops, hasSize(1))
+    assertThat(ops.map { it.name }, hasItems("echo"))
+  }
+
+  @Test
   fun ignoreHTTPBindings() {
     val wsdl = WsdlParser.parse(TestUtils.getResourcePath("wsdl/http-binding.wsdl"))
     val ports = wsdl.services[0].ports
