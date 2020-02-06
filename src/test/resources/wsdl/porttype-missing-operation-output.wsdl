@@ -1,0 +1,38 @@
+<definitions
+        xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+        xmlns:tns="http://service.ws.extension.mule.org/"
+        xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://service.ws.extension.mule.org/" name="TestService">
+   <types>
+      <xs:schema xmlns:tns="http://service.ws.extension.mule.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0"
+                 targetNamespace="http://service.ws.extension.mule.org/">
+         <xs:element name="echo" type="tns:echo"/>
+         <xs:element name="echoResponse" type="tns:echoResponse"/>
+      </xs:schema>s
+   </types>
+   <message name="echo">
+      <part name="parameters" element="tns:echo"/>
+   </message>
+   <message name="echoResponse">
+      <part name="parameters" element="tns:echoResponse"/>
+   </message>
+   <portType name="TestService">
+      <operation name="echo">
+         <input wsam:Action="echoOperation" message="tns:echo"/>
+         <output wsam:Action="http://service.ws.extension.mule.org/TestService/echoResponse" message="tns:echoResponse"/>
+      </operation>
+   </portType>
+   <binding name="TestPortBinding" type="tns:TestService">
+      <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+      <operation name="echo">
+         <soap:operation soapAction="echoOperation"/>
+         <output>
+            <soap:body use="literal"/>
+         </output>
+      </operation>
+   </binding>
+   <service name="TestService">
+      <port name="TestPort" binding="tns:TestPortBinding">
+         <soap:address location="http://localhost:8082/simpleService"/>
+      </port>
+   </service>
+</definitions>
