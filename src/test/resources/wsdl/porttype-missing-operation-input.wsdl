@@ -17,7 +17,6 @@
    </message>
    <portType name="TestService">
       <operation name="echo">
-         <input wsam:Action="echoOperation" message="tns:echo"/>
          <output wsam:Action="http://service.ws.extension.mule.org/TestService/echoResponse" message="tns:echoResponse"/>
       </operation>
    </portType>

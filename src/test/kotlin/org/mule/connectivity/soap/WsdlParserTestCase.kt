@@ -182,8 +182,24 @@ class WsdlParserTestCase {
   }
 
   @Test
-  fun shouldParseWSDLWithMissingInputBindingAndInputMessage() {
+  fun shouldParseWSDLWithMissingInputBinding() {
     val wsdl = WsdlParser.parse(TestUtils.getResourcePath("wsdl/binding-missing-input.wsdl"))
+    val ops = wsdl.services[0].ports[0].operations
+    assertThat(ops, hasSize(1))
+    assertThat(ops.map { it.name }, hasItems("echo"))
+  }
+
+  @Test
+  fun shouldParseWSDLWithPortTypeMissingOperationInput() {
+    val wsdl = WsdlParser.parse(TestUtils.getResourcePath("wsdl/porttype-missing-operation-input.wsdl"))
+    val ops = wsdl.services[0].ports[0].operations
+    assertThat(ops, hasSize(1))
+    assertThat(ops.map { it.name }, hasItems("echo"))
+  }
+
+  @Test
+  fun shouldParseWSDLWithPortTypeMissingOperationOutput() {
+    val wsdl = WsdlParser.parse(TestUtils.getResourcePath("wsdl/porttype-missing-operation-output.wsdl"))
     val ops = wsdl.services[0].ports[0].operations
     assertThat(ops, hasSize(1))
     assertThat(ops.map { it.name }, hasItems("echo"))
