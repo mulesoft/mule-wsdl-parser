@@ -19,7 +19,7 @@
                   "format": "xml",
                   "type": "Object",
                   "annotations": {
-                    "typeId": "{http://service.ws.extension.mule.org/}echo"
+                    "typeId": "#root:{http://service.ws.extension.mule.org/}echo"
                   },
                   "fields": [
                     {
@@ -61,7 +61,7 @@
                   "format": "xml",
                   "type": "Object",
                   "annotations": {
-                    "typeId": "{http://service.ws.extension.mule.org/}echoResponse"
+                    "typeId": "#root:{http://service.ws.extension.mule.org/}echoResponse"
                   },
                   "fields": [
                     {
@@ -109,7 +109,7 @@
                   "format": "xml",
                   "type": "Object",
                   "annotations": {
-                    "typeId": "{http://service.ws.extension.mule.org/}fail"
+                    "typeId": "#root:{http://service.ws.extension.mule.org/}fail"
                   },
                   "fields": [
                     {
@@ -151,7 +151,7 @@
                   "format": "xml",
                   "type": "Object",
                   "annotations": {
-                    "typeId": "{http://service.ws.extension.mule.org/}failResponse"
+                    "typeId": "#root:{http://service.ws.extension.mule.org/}failResponse"
                   },
                   "fields": [
                     {
@@ -216,7 +216,7 @@
                   "format": "xml",
                   "type": "Object",
                   "annotations": {
-                    "typeId": "{http://service.ws.extension.mule.org/}echoWithHeaders"
+                    "typeId": "#root:{http://service.ws.extension.mule.org/}echoWithHeaders"
                   },
                   "fields": [
                     {
@@ -262,7 +262,7 @@
                             "model": {
                               "type": "Object",
                               "annotations": {
-                                "typeId": "{http://service.ws.extension.mule.org/}headerIn"
+                                "typeId": "#root:{http://service.ws.extension.mule.org/}headerIn"
                               },
                               "fields": [
                                 {
@@ -284,7 +284,7 @@
                             "model": {
                               "type": "Object",
                               "annotations": {
-                                "typeId": "{http://service.ws.extension.mule.org/}headerInOut"
+                                "typeId": "#root:{http://service.ws.extension.mule.org/}headerInOut"
                               },
                               "fields": [
                                 {
@@ -314,7 +314,7 @@
                   "format": "xml",
                   "type": "Object",
                   "annotations": {
-                    "typeId": "{http://service.ws.extension.mule.org/}echoWithHeadersResponse"
+                    "typeId": "#root:{http://service.ws.extension.mule.org/}echoWithHeadersResponse"
                   },
                   "fields": [
                     {
@@ -360,7 +360,7 @@
                             "model": {
                               "type": "Object",
                               "annotations": {
-                                "typeId": "{http://service.ws.extension.mule.org/}headerOut"
+                                "typeId": "#root:{http://service.ws.extension.mule.org/}headerOut"
                               },
                               "fields": [
                                 {
@@ -382,7 +382,7 @@
                             "model": {
                               "type": "Object",
                               "annotations": {
-                                "typeId": "{http://service.ws.extension.mule.org/}headerInOut"
+                                "typeId": "#root:{http://service.ws.extension.mule.org/}headerInOut"
                               },
                               "fields": [
                                 {
@@ -435,7 +435,7 @@
                   "format": "xml",
                   "type": "Object",
                   "annotations": {
-                    "typeId": "{http://service.ws.extension.mule.org/}noParams"
+                    "typeId": "#root:{http://service.ws.extension.mule.org/}noParams"
                   },
                   "fields": [
                     {
@@ -467,7 +467,7 @@
                   "format": "xml",
                   "type": "Object",
                   "annotations": {
-                    "typeId": "{http://service.ws.extension.mule.org/}noParamsResponse"
+                    "typeId": "#root:{http://service.ws.extension.mule.org/}noParamsResponse"
                   },
                   "fields": [
                     {
@@ -515,7 +515,7 @@
                   "format": "xml",
                   "type": "Object",
                   "annotations": {
-                    "typeId": "{http://service.ws.extension.mule.org/}noParamsWithHeader"
+                    "typeId": "#root:{http://service.ws.extension.mule.org/}noParamsWithHeader"
                   },
                   "fields": [
                     {
@@ -551,7 +551,7 @@
                             "model": {
                               "type": "Object",
                               "annotations": {
-                                "typeId": "{http://service.ws.extension.mule.org/}headerIn"
+                                "typeId": "#root:{http://service.ws.extension.mule.org/}headerIn"
                               },
                               "fields": [
                                 {
@@ -581,7 +581,7 @@
                   "format": "xml",
                   "type": "Object",
                   "annotations": {
-                    "typeId": "{http://service.ws.extension.mule.org/}noParamsWithHeaderResponse"
+                    "typeId": "#root:{http://service.ws.extension.mule.org/}noParamsWithHeaderResponse"
                   },
                   "fields": [
                     {
@@ -629,7 +629,7 @@
                   "format": "xml",
                   "type": "Object",
                   "annotations": {
-                    "typeId": "{http://service.ws.extension.mule.org/}echoAccount"
+                    "typeId": "#root:{http://service.ws.extension.mule.org/}echoAccount"
                   },
                   "fields": [
                     {
@@ -724,7 +724,7 @@
                   "format": "xml",
                   "type": "Object",
                   "annotations": {
-                    "typeId": "{http://service.ws.extension.mule.org/}echoAccountResponse"
+                    "typeId": "#root:{http://service.ws.extension.mule.org/}echoAccountResponse"
                   },
                   "fields": [
                     {
