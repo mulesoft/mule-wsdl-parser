@@ -23,6 +23,7 @@ import org.mockserver.socket.PortFactory
 import org.mule.connectivity.soap.TestUtils.getResourcePath
 import org.mule.wsdl.parser.WsdlParser
 import org.mule.wsdl.parser.exception.OperationNotFoundException
+import org.mule.wsdl.parser.exception.WsdlGettingException
 import org.mule.wsdl.parser.exception.WsdlParsingException
 import org.mule.wsdl.parser.model.WsdlStyle
 import org.mule.wsdl.parser.model.version.SoapVersion
@@ -152,8 +153,8 @@ class WsdlParserTestCase {
       }
     }
     val resource = "http://localhost:$freePort/test?wsdl"
-    val msg = "Error fetching the resource [$resource]: Server returned HTTP response code: 401 for URL: $resource"
-    func shouldThrowTheException WsdlParsingException::class withMessage msg
+    val msg = "Error Getting the resource [$resource]: Server returned HTTP response code: 401 for URL: $resource"
+    func shouldThrowTheException WsdlGettingException::class withMessage msg
   }
 
   @Test
