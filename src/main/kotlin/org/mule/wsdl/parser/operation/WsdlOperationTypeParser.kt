@@ -2,14 +2,13 @@ package org.mule.wsdl.parser.operation
 
 import com.ibm.wsdl.BindingInputImpl
 import com.ibm.wsdl.BindingOutputImpl
-import com.ibm.wsdl.OperationImpl
+import com.ibm.wsdl.MessageImpl
 import org.mule.metadata.api.TypeLoader
 import org.mule.metadata.api.builder.BaseTypeBuilder
 import org.mule.metadata.api.model.BinaryType
 import org.mule.metadata.api.model.MetadataFormat.JAVA
 import org.mule.metadata.api.model.MetadataFormat.XML
 import org.mule.metadata.api.model.MetadataType
-import org.mule.metadata.api.model.NullType
 import org.mule.metadata.api.model.ObjectFieldType
 import org.mule.metadata.api.model.ObjectType
 import org.mule.metadata.api.utils.MetadataTypeUtils.getLocalPart
@@ -17,8 +16,11 @@ import org.mule.wsdl.parser.model.message.MessageDefinition
 import org.mule.wsdl.parser.model.operation.SoapHeader
 import org.mule.wsdl.parser.model.operation.Type
 import org.slf4j.LoggerFactory
-import java.util.*
-import javax.wsdl.*
+import java.util.Optional
+import javax.wsdl.BindingOperation
+import javax.wsdl.Definition
+import javax.wsdl.Message
+import javax.wsdl.Part
 import javax.wsdl.extensions.ElementExtensible
 import javax.wsdl.extensions.mime.MIMEMultipartRelated
 import javax.wsdl.extensions.soap.SOAPBody
@@ -36,10 +38,10 @@ class WsdlOperationTypeParser private constructor(private val wsdl: Definition,
     private val LOGGER = LoggerFactory.getLogger(WsdlOperationTypeParser.javaClass)
 
     fun parseInput(wsdl: Definition, loader: TypeLoader, bop: BindingOperation): Type =
-      WsdlOperationTypeParser(wsdl, loader, bop.name, bop.bindingInput ?: BindingInputImpl(), bop.operation.input.message).parse()
+      WsdlOperationTypeParser(wsdl, loader, bop.name, bop.bindingInput ?: BindingInputImpl(), bop.operation.input?.message ?: MessageImpl()).parse()
 
     fun parseOutput(wsdl: Definition, loader: TypeLoader, bop: BindingOperation): Type =
-      WsdlOperationTypeParser(wsdl, loader, bop.name, bop.bindingOutput ?: BindingOutputImpl(), bop.operation.output.message).parse()
+      WsdlOperationTypeParser(wsdl, loader, bop.name, bop.bindingOutput ?: BindingOutputImpl(), bop.operation.output?.message ?: MessageImpl()).parse()
 
     val NULL_TYPE = BaseTypeBuilder.create(XML).nullType().build()
     val ANY_TYPE = BaseTypeBuilder.create(JAVA).anyType().build()
