@@ -2,6 +2,7 @@ package org.mule.wsdl.parser.locator
 
 import org.apache.cxf.resource.URIResolver
 import org.apache.cxf.wsdl11.CatalogWSDLLocator
+import org.mule.wsdl.parser.exception.WsdlGettingException
 import org.mule.wsdl.parser.exception.WsdlParsingException
 import org.xml.sax.InputSource
 import java.io.IOException
@@ -91,6 +92,8 @@ internal class WsdlLocator(private val wsdlLocation: String, private val resourc
       val source = InputSource(resource)
       sources[url] = source
       return source
+    } catch (e: IOException) {
+      throw WsdlGettingException("Error Getting the resource [$url]: " + e.message, e)
     } catch (e: Exception) {
       throw WsdlParsingException("Error fetching the resource [$url]: " + e.message, e)
     }
