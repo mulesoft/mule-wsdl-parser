@@ -108,7 +108,7 @@
         <wsdl4j.version>1.6.3</wsdl4j.version>
         <slf4j.version>1.7.25</slf4j.version>
         <apache.commons.lang3.version>3.8.1</apache.commons.lang3.version>
-        <cxfRtWsdlVersion>3.3.1</cxfRtWsdlVersion>
+        <cxfRtWsdlVersion>3.3.5</cxfRtWsdlVersion>
         <hamcrest.version>2.1</hamcrest.version>
         <mule.metadata.version>1.2.4</mule.metadata.version>
         <kluentVersion>1.4</kluentVersion>
@@ -121,6 +121,7 @@
         <httpClientVersion>0.89</httpClientVersion>
         <mockServerVersion>5.5.1</mockServerVersion>
         <gsonVersion>2.8.5</gsonVersion>
+        <woodstoxCoreVersion>5.3.0</woodstoxCoreVersion>
         <xmlUnitVersion>2.6.2</xmlUnitVersion>
         <commonsIOVersion>2.6</commonsIOVersion>
         <apacheXmlBeansVersion>3.1.0</apacheXmlBeansVersion>
@@ -178,6 +179,12 @@
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-wsdl</artifactId>
             <version>${cxfRtWsdlVersion}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.fasterxml.woodstox</groupId>
+                    <artifactId>woodstox-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.xmlbeans</groupId>
@@ -193,6 +200,11 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>${gsonVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.woodstox</groupId>
+            <artifactId>woodstox-core</artifactId>
+            <version>${woodstoxCoreVersion}</version>
         </dependency>
 
         <!-- Runtime -->
