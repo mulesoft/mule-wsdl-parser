@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema elementFormDefault="unqualified" attributeFormDefault="unqualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:element name="GL_DAILY_RATES_REQUEST">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="PARTNER_CODE" type="xsd:string" nillable="false" maxOccurs="1"/>
+        <xsd:element name="REQUEST_DATE" type="xsd:date" nillable="true" maxOccurs="1"/>
+        <xsd:element name="FROM_CURRENCY_CODE" maxOccurs="1" minOccurs="0" nillable="true" type="xsd:string"/>
+        <xsd:element name="TO_CURRENCY_CODE" maxOccurs="1" minOccurs="0" nillable="true" type="xsd:string"/>
+        <xsd:element name="EXCHANGE_RATE_TYPE" maxOccurs="1" minOccurs="0" nillable="true" type="xsd:string"/>
+        <xsd:element name="EXCHANGE_RATE_DATE" maxOccurs="1" minOccurs="0" nillable="true" type="xsd:date"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>
