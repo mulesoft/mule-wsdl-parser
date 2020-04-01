@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified" targetNamespace="http://xmlns.irco.com/EnterpriseObjects/Core/Common/V1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://xmlns.irco.com/EnterpriseObjects/Core/Common/V1">
+  <xs:complexType name="EnterpriseHeaderType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="HeaderMessageID" type="xs:string"/>
+      <xs:element minOccurs="0" name="HeaderMessageSource" type="xs:string"/>
+      <xs:element minOccurs="0" name="HeaderCreatedDateTime" type="xs:string"/>
+      <xs:element name="HeaderDetails">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="BusinessInterfaceName" type="xs:string"/>
+            <xs:element minOccurs="0" name="BusinessTrackingID" type="xs:string"/>
+            <xs:element minOccurs="0" name="DocumentType" type="xs:string"/>
+            <xs:element minOccurs="0" name="EnterpriseContextID" type="xs:string"/>
+            <xs:element minOccurs="0" name="CompositeName" type="xs:string"/>
+            <xs:element minOccurs="0" name="CompositeRevisionID" type="xs:string"/>
+            <xs:element minOccurs="0" name="CompositeInstanceID" type="xs:string"/>
+            <xs:element minOccurs="0" name="CompositeCreatedDateTime" type="xs:string"/>
+            <xs:element minOccurs="0" name="ComponentName" type="xs:string"/>
+            <xs:element minOccurs="0" name="ComponentInstanceID" type="xs:string"/>
+            <xs:element minOccurs="0" name="ComponentType" type="xs:string"/>
+            <xs:element minOccurs="0" name="ComponentCategory" type="xs:string"/>
+            <xs:element minOccurs="0" name="ComponentTemplate" type="xs:string"/>
+            <xs:element minOccurs="0" name="PartitionName" type="xs:string"/>
+            <xs:element minOccurs="0" name="HostName" type="xs:string"/>
+            <xs:element minOccurs="0" name="SenderApplication" type="xs:string"/>
+            <xs:element minOccurs="0" name="DestinationApplication" type="xs:string"/>
+            <xs:element name="BusinessKeys">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element maxOccurs="unbounded" ref="Key" minOccurs="0"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element minOccurs="0" name="BusinessCriticality" type="xs:string"/>
+            <xs:element minOccurs="0" name="ComponentEndPointURI" type="xs:string"/>
+            <xs:element minOccurs="0" name="InboundDocumentPayload" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="EnterpriseFaultType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="FaultMessageID" type="xs:string"/>
+      <xs:element minOccurs="0" name="FaultMessageSource" type="xs:string"/>
+      <xs:element minOccurs="0" name="FaultReportedDateTime" type="xs:string"/>
+      <xs:element minOccurs="0" name="FaultContext" type="EnterpriseHeaderType"/>
+      <xs:element minOccurs="0" name="FaultFacts" type="FaultFactsType"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="FaultFactsType">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Category" type="xs:string"/>
+      <xs:element minOccurs="0" name="Type" type="xs:string"/>
+      <xs:element minOccurs="0" name="ErrorID" type="xs:string"/>
+      <xs:element minOccurs="0" name="Severity" type="xs:string"/>
+      <xs:element minOccurs="0" name="ShortDescription" type="xs:string"/>
+      <xs:element minOccurs="0" name="LongDescription" type="xs:string"/>
+      <xs:element minOccurs="0" name="Code" type="xs:string"/>
+      <xs:element minOccurs="0" name="Summary" type="xs:string"/>
+      <xs:element minOccurs="0" name="Trace" type="xs:string"/>
+      <xs:element minOccurs="0" name="Note" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="Key">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Name" type="xs:string"/>
+        <xs:element minOccurs="0" name="Value" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="IRHeader" type="EnterpriseHeaderType"/>
+  <xs:element name="IRFault" type="EnterpriseFaultType"/>
+</xs:schema>

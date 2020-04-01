@@ -63,7 +63,7 @@ class WsdlSchemasCollectorTestCase {
 
   @Test
   fun shouldCollectSchemasWithoutID() {
-    val schemas = WsdlSchemasCollector(testDefinition("wsdl/multiple-schemas-in-types-without-key")).collector().collect()
+    val schemas = WsdlSchemasCollector(testDefinition("wsdl/multiple-schemas-in-types-without-key/GLDailyRatesOutProvABCSImpl_PSWithLocalXSD.wsdl")).collector().collect()
     assertThat(schemas.values, hasSize(10))
   }
 }
