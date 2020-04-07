@@ -215,6 +215,14 @@ class WsdlParserTestCase {
   }
 
   @Test
+  fun parseCircularDependent() {
+    val wsdl = WsdlParser.parse(TestUtils.getResourcePath("wsdl/circular/service-11-A.wsdl"))
+    val services = wsdl.services
+    assertThat(services, hasSize(1))
+    assertThat(services.map { it.name }, hasItems("TestService"))
+  }
+
+  @Test
   fun shouldParserWSDLGivenHTTPLocation() {
     val freePort = PortFactory.findFreePort()
 
