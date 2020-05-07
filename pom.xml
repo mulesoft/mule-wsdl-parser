@@ -108,7 +108,7 @@
         <muleWsdl4j.version>1.6.4</muleWsdl4j.version>
         <slf4j.version>1.7.29</slf4j.version>
         <apache.commons.lang3.version>3.10</apache.commons.lang3.version>
-        <cxfRtWsdlVersion>3.3.6</cxfRtWsdlVersion>
+        <cxfRtWsdlVersion>2.7.19-MULE-006</cxfRtWsdlVersion>
         <hamcrest.version>2.2</hamcrest.version>
         <mule.metadata.version>1.4.0-SNAPSHOT</mule.metadata.version>
         <kluentVersion>1.4</kluentVersion>
@@ -145,18 +145,18 @@
             <artifactId>mule-metadata-model-persistence</artifactId>
             <version>${mule.metadata.version}</version>
             <exclusions>
-		<exclusion>
-		    <groupId>org.mule.runtime</groupId>
-		    <artifactId>mule-metadata-model-xml</artifactId>
-        	</exclusion>
-        	<exclusion>
-		    <groupId>org.mule.runtime</groupId>
-		    <artifactId>mule-metadata-model-java</artifactId>
-        	</exclusion>
-        	<exclusion>
-	            <groupId>org.mule.runtime</groupId>
-		    <artifactId>mule-metadata-model-json</artifactId>
-       		</exclusion>
+                <exclusion>
+                    <groupId>org.mule.runtime</groupId>
+                    <artifactId>mule-metadata-model-xml</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.mule.runtime</groupId>
+                    <artifactId>mule-metadata-model-java</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.mule.runtime</groupId>
+                    <artifactId>mule-metadata-model-json</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -165,50 +165,28 @@
             <version>${mule.metadata.version}</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
+
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>${apache.commons.lang3.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-wsdl</artifactId>
+            <groupId>org.mule.apache.cxf</groupId>
+            <artifactId>cxf-api</artifactId>
             <version>${cxfRtWsdlVersion}</version>
             <exclusions>
                 <exclusion>
-                    <groupId>com.fasterxml.woodstox</groupId>
-                    <artifactId>woodstox-core</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>wsdl4j</groupId>
-                    <artifactId>wsdl4j</artifactId>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
-        <dependency>
-            <groupId>org.apache.xmlbeans</groupId>
-            <artifactId>xmlbeans</artifactId>
-            <version>${apacheXmlBeansVersion}</version>
-        </dependency>
+
         <dependency>
             <groupId>net.sf.saxon</groupId>
             <artifactId>Saxon-HE</artifactId>
             <version>${saxonHeVersion}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>${gsonVersion}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.woodstox</groupId>
-            <artifactId>woodstox-core</artifactId>
-            <version>${woodstoxCoreVersion}</version>
         </dependency>
 
         <!-- Runtime -->

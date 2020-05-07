@@ -1,7 +1,6 @@
 package org.mule.wsdl.parser.locator
 
 import org.apache.cxf.resource.URIResolver
-import org.apache.cxf.wsdl11.CatalogWSDLLocator
 import org.mule.wsdl.parser.exception.WsdlGettingException
 import org.mule.wsdl.parser.exception.WsdlParsingException
 import org.xml.sax.InputSource
