@@ -1,7 +1,5 @@
 package org.mule.wsdl.parser.model
 
-import com.google.common.collect.ImmutableMap.copyOf
-import net.sf.saxon.ma.trie.ImmutableMap
 import org.mule.wsdl.parser.exception.OperationNotFoundException
 import org.mule.wsdl.parser.model.message.MessageDefinition
 import org.mule.wsdl.parser.model.operation.OperationModel
