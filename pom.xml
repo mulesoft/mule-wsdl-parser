@@ -108,7 +108,7 @@
         <muleWsdl4j.version>1.6.4</muleWsdl4j.version>
         <slf4j.version>1.7.29</slf4j.version>
         <apache.commons.lang3.version>3.10</apache.commons.lang3.version>
-        <cxfRtWsdlVersion>2.7.19-MULE-006</cxfRtWsdlVersion>
+        <cxfRtWsdlVersion>3.3.6</cxfRtWsdlVersion>
         <hamcrest.version>2.2</hamcrest.version>
         <mule.metadata.version>1.4.0-SNAPSHOT</mule.metadata.version>
         <kluentVersion>1.4</kluentVersion>
@@ -172,8 +172,8 @@
             <version>${apache.commons.lang3.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.mule.apache.cxf</groupId>
-            <artifactId>cxf-api</artifactId>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-core</artifactId>
             <version>${cxfRtWsdlVersion}</version>
             <exclusions>
                 <exclusion>
