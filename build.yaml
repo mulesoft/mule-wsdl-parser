@@ -1,0 +1,3 @@
+upstreamProjects:
+  Mule-runtime/metadata-model-api/master
+projectType: "runtime"
