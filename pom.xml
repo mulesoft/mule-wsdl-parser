@@ -122,7 +122,7 @@
         <mockServerVersion>5.5.1</mockServerVersion>
         <gsonVersion>2.8.6</gsonVersion>
         <woodstoxCoreVersion>6.2.0</woodstoxCoreVersion>
-        <xmlUnitVersion>2.8.0</xmlUnitVersion>
+        <xmlUnitVersion>2.8.1</xmlUnitVersion>
         <commonsIOVersion>2.8.0</commonsIOVersion>
         <apacheXmlBeansVersion>3.1.0</apacheXmlBeansVersion>
     </properties>
