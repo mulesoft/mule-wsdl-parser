@@ -119,7 +119,7 @@
         <junitJupiterEngineVersion>5.7.0</junitJupiterEngineVersion>
         <junitSurfireProviderVersion>1.3.2</junitSurfireProviderVersion>
         <httpClientVersion>0.89</httpClientVersion>
-        <mockServerVersion>5.5.1</mockServerVersion>
+        <mockServerVersion>5.11.2</mockServerVersion>
         <gsonVersion>2.8.6</gsonVersion>
         <woodstoxCoreVersion>6.2.0</woodstoxCoreVersion>
         <xmlUnitVersion>2.8.2</xmlUnitVersion>
