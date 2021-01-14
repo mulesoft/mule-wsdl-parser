@@ -117,7 +117,7 @@
 
         <saxonHeVersion>10.3</saxonHeVersion>
         <junitJupiterEngineVersion>5.7.0</junitJupiterEngineVersion>
-        <junitSurfireProviderVersion>1.3.2</junitSurfireProviderVersion>
+        <junitSurfireProviderVersion>1.7.0</junitSurfireProviderVersion>
         <httpClientVersion>0.89</httpClientVersion>
         <mockServerVersion>5.5.1</mockServerVersion>
         <gsonVersion>2.8.6</gsonVersion>
