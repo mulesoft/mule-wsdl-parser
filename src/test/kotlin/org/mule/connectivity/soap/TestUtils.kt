@@ -75,7 +75,7 @@ object TestUtils {
       val httpClient = BasicHttpClient(url)
       httpClient.addHeader("Auth", "yay")
       httpClient.setConnectionTimeout(2000)
-      return httpClient.get("", httpClient.newParams()).bodyAsString.byteInputStream()
+      return httpClient.get("", null).bodyAsString.byteInputStream()
     }
   }
 }
