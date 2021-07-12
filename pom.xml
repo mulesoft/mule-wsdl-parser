@@ -111,7 +111,7 @@
         <cxfRtWsdlVersion>3.4.4</cxfRtWsdlVersion>
         <hamcrest.version>2.2</hamcrest.version>
         <mule.metadata.version>1.4.0-SNAPSHOT</mule.metadata.version>
-        <kluentVersion>1.67</kluentVersion>
+        <kluentVersion>1.68</kluentVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.enforcer.plugin.version>1.4.1</maven.enforcer.plugin.version>
 
