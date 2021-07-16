@@ -123,7 +123,7 @@
         <gsonVersion>2.8.6</gsonVersion>
         <woodstoxCoreVersion>6.1.1</woodstoxCoreVersion>
         <xmlUnitVersion>2.6.4</xmlUnitVersion>
-        <commonsIOVersion>2.6</commonsIOVersion>
+        <commonsIOVersion>2.11.0</commonsIOVersion>
         <apacheXmlBeansVersion>3.1.0</apacheXmlBeansVersion>
     </properties>
 
