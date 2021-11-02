@@ -108,7 +108,7 @@
         <muleWsdl4j.version>1.6.4</muleWsdl4j.version>
         <slf4j.version>1.7.29</slf4j.version>
         <apache.commons.lang3.version>3.12.0</apache.commons.lang3.version>
-        <cxfRtWsdlVersion>3.4.4</cxfRtWsdlVersion>
+        <cxfRtWsdlVersion>3.4.5</cxfRtWsdlVersion>
         <hamcrest.version>2.2</hamcrest.version>
         <mule.metadata.version>1.5.0-SNAPSHOT</mule.metadata.version>
         <kluentVersion>1.68</kluentVersion>
