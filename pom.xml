@@ -121,7 +121,7 @@
         <junitPlatformSurefireProviderVersion>1.3.2</junitPlatformSurefireProviderVersion>
         <httpClientVersion>0.89</httpClientVersion>
         <mockServerVersion>5.13.2</mockServerVersion>
-        <gsonVersion>2.8.6</gsonVersion>
+        <gsonVersion>2.8.9</gsonVersion>
         <woodstoxCoreVersion>6.2.0</woodstoxCoreVersion>
         <xmlUnitVersion>2.9.0</xmlUnitVersion>
         <commonsIOVersion>2.11.0</commonsIOVersion>
