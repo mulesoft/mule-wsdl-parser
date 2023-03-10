@@ -108,7 +108,7 @@
         <muleWsdl4j.version>1.6.4</muleWsdl4j.version>
         <slf4j.version>1.7.29</slf4j.version>
         <apache.commons.lang3.version>3.12.0</apache.commons.lang3.version>
-        <cxfRtWsdlVersion>3.5.3</cxfRtWsdlVersion>
+        <cxfRtWsdlVersion>3.5.5</cxfRtWsdlVersion>
         <hamcrest.version>2.2</hamcrest.version>
         <mule.metadata.version>1.5.0-SNAPSHOT</mule.metadata.version>
         <kluentVersion>1.68</kluentVersion>
@@ -123,7 +123,7 @@
         <gsonVersion>2.9.1</gsonVersion>
         <mockServerVersion>5.14.0</mockServerVersion>
         <woodstoxCoreVersion>6.2.0</woodstoxCoreVersion>
-        <xmlUnitVersion>2.9.0</xmlUnitVersion>
+        <xmlUnitVersion>2.9.1</xmlUnitVersion>
         <commonsIOVersion>2.11.0</commonsIOVersion>
         <apacheXmlBeansVersion>3.1.0</apacheXmlBeansVersion>
     </properties>
