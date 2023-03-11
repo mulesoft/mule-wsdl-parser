@@ -6,7 +6,7 @@
 
     <groupId>org.mule.wsdl</groupId>
     <artifactId>mule-wsdl-parser</artifactId>
-    <version>1.4.8-SNAPSHOT</version>
+    <version>1.4.8</version>
 
     <name>WSDL Parser</name>
     <description>A tool that provides functionality to introspect a WSDL</description>
