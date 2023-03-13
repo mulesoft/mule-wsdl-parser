@@ -120,7 +120,7 @@
         <junitSurfireProviderVersion>1.9.1</junitSurfireProviderVersion>
         <junitPlatformSurefireProviderVersion>1.3.2</junitPlatformSurefireProviderVersion>
         <httpClientVersion>0.89</httpClientVersion>
-        <gsonVersion>2.9.1</gsonVersion>
+        <gsonVersion>2.10.1</gsonVersion>
         <mockServerVersion>5.14.0</mockServerVersion>
         <woodstoxCoreVersion>6.2.0</woodstoxCoreVersion>
         <xmlUnitVersion>2.9.1</xmlUnitVersion>
