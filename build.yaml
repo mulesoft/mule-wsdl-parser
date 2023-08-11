@@ -5,4 +5,3 @@ additionalTestConfigs:
     testJdkTool: OPEN-JDK8
   jdk17:
     testJdkTool: OPEN-JDK17
-    mavenAdditionalArgs: -Djava.net.preferIPv4Stack=true -T1C
