@@ -1,3 +1,7 @@
 upstreamProjects:
   Mule-runtime/metadata-model-api/master
 projectType: runtime
+jdkTool: OPEN-JDK11
+additionalTestConfigs:
+  jdk8:
+    testJdkTool: OPEN-JDK8
