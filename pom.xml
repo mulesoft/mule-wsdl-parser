@@ -114,6 +114,7 @@
         <kluentVersion>1.4</kluentVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.enforcer.plugin.version>1.4.1</maven.enforcer.plugin.version>
+        <maven.source.plugin.version>3.3.0</maven.source.plugin.version>
 
         <saxonHeVersion>9.7.0-15</saxonHeVersion>
         <junitJupiterEngineVersion>5.0.0-M4</junitJupiterEngineVersion>
@@ -389,12 +390,13 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
+                        <version>${maven.source.plugin.version}</version>
                         <executions>
                             <execution>
                                 <id>attach-sources</id>
                                 <goals>
-                                    <goal>jar</goal>
-                                    <goal>test-jar</goal>
+                                    <goal>jar-no-fork</goal>
+                                    <goal>test-jar-no-fork</goal>
                                 </goals>
                             </execution>
                         </executions>
@@ -434,7 +436,6 @@
                                         <requirePluginVersions>
                                             <message>Best Practice is to always define plugin versions!</message>
                                             <unCheckedPluginList>
-                                                org.apache.maven.plugins:maven-source-plugin,
                                                 org.apache.maven.plugins:maven-site-plugin,
                                                 org.apache.maven.plugins:maven-javadoc-plugin,
                                                 org.apache.maven.plugins:maven-resources-plugin,
