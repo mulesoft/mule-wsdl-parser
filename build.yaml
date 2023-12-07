@@ -1,1 +1,5 @@
 projectType: runtime
+jdkTool: OPEN-JDK11
+additionalTestConfigs:
+  jdk8:
+    testJdkTool: OPEN-JDK8
