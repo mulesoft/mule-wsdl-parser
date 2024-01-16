@@ -450,8 +450,16 @@
                                 <id>attach-sources</id>
                                 <goals>
                                     <goal>jar</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>attach-test-sources</id>
+                                <goals>
                                     <goal>test-jar</goal>
                                 </goals>
+                                <configuration>
+                                    <classifier>tests</classifier>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
