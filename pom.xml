@@ -6,7 +6,7 @@
 
     <groupId>org.mule.wsdl</groupId>
     <artifactId>mule-wsdl-parser</artifactId>
-    <version>1.4.8-SNAPSHOT</version>
+    <version>1.4.8</version>
 
     <name>WSDL Parser</name>
     <description>A tool that provides functionality to introspect a WSDL</description>
@@ -447,11 +447,22 @@
                         <artifactId>maven-source-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>attach-sources</id>
+                                <id>attach-sources-main</id>
                                 <goals>
                                     <goal>jar</goal>
+                                </goals>
+                                <configuration>
+                                    <classifier>main</classifier>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>attach-sources-test</id>
+                                <goals>
                                     <goal>test-jar</goal>
                                 </goals>
+                                <configuration>
+                                    <classifier>test</classifier>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
