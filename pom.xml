@@ -447,13 +447,10 @@
                         <artifactId>maven-source-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>attach-sources</id>
+                                <id>attach-sources-main</id>
                                 <goals>
                                     <goal>jar</goal>
                                 </goals>
-                                <configuration>
-                                    <classifier>main</classifier>
-                                </configuration>
                             </execution>
                             <execution>
                                 <id>attach-sources-test</id>
