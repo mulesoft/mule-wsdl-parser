@@ -451,6 +451,9 @@
                                 <goals>
                                     <goal>jar</goal>
                                 </goals>
+                                <configuration>
+                                    <classifier>main</classifier>
+                                </configuration>
                             </execution>
                             <execution>
                                 <id>attach-sources-test</id>
