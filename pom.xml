@@ -6,7 +6,7 @@
 
     <groupId>org.mule.wsdl</groupId>
     <artifactId>mule-wsdl-parser</artifactId>
-    <version>1.4.9-SNAPSHOT</version>
+    <version>1.4.9</version>
 
     <name>WSDL Parser</name>
     <description>A tool that provides functionality to introspect a WSDL</description>
@@ -105,26 +105,27 @@
     <properties>
         <kotlin.version>1.8.10</kotlin.version>
         <junit.version>4.12</junit.version>
-        <muleWsdl4j.version>1.6.4</muleWsdl4j.version>
+        <muleWsdl4j.version>1.6.5</muleWsdl4j.version>
         <slf4j.version>1.7.29</slf4j.version>
         <apache.commons.lang3.version>3.12.0</apache.commons.lang3.version>
-        <cxfRtWsdlVersion>3.5.5</cxfRtWsdlVersion>
+        <cxfRtWsdlVersion>3.5.8</cxfRtWsdlVersion>
         <hamcrest.version>2.2</hamcrest.version>
         <mule.metadata.version>1.6.0</mule.metadata.version>
         <kluentVersion>1.73</kluentVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.enforcer.plugin.version>3.2.1</maven.enforcer.plugin.version>
+        <maven.enforcer.plugin.version>3.4.1</maven.enforcer.plugin.version>
+        <maven.source.plugin.version>3.3.0</maven.source.plugin.version>
 
         <saxonHeVersion>10.9</saxonHeVersion>
-        <junitJupiterEngineVersion>5.9.2</junitJupiterEngineVersion>
-        <junitSurfireProviderVersion>1.9.2</junitSurfireProviderVersion>
+        <junitJupiterEngineVersion>5.10.1</junitJupiterEngineVersion>
+        <junitSurfireProviderVersion>1.10.1</junitSurfireProviderVersion>
         <junitPlatformSurefireProviderVersion>1.3.2</junitPlatformSurefireProviderVersion>
         <httpClientVersion>0.89</httpClientVersion>
         <gsonVersion>2.10.1</gsonVersion>
         <mockServerVersion>5.15.0</mockServerVersion>
         <woodstoxCoreVersion>6.2.0</woodstoxCoreVersion>
-        <xmlUnitVersion>2.9.1</xmlUnitVersion>
-        <commonsIOVersion>2.11.0</commonsIOVersion>
+        <xmlUnitVersion>2.10.0</xmlUnitVersion>
+        <commonsIOVersion>2.15.0</commonsIOVersion>
         <apacheXmlBeansVersion>3.1.0</apacheXmlBeansVersion>
     </properties>
 
@@ -380,7 +381,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>3.6.0</version>
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>
@@ -431,7 +432,7 @@
                     <plugin>
                         <groupId>org.jetbrains.dokka</groupId>
                         <artifactId>dokka-maven-plugin</artifactId>
-                        <version>1.8.10</version>
+                        <version>1.9.10</version>
                         <executions>
                             <execution>
                                 <id>attach-javadocs</id>
@@ -445,6 +446,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
+                        <version>${maven.source.plugin.version}</version>
                         <executions>
                             <execution>
                                 <id>attach-sources-main</id>
@@ -469,7 +471,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>3.0.1</version>
+                        <version>3.2.4</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
