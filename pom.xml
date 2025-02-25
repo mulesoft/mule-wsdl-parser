@@ -346,7 +346,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version>
+                <version>3.14.0</version>
                 <!-- This is the java compiler plugin, only java file here is the module-info. The rest of the sources are kotlin -->
                 <configuration>
                     <source>11</source>
